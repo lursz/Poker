@@ -1,0 +1,9 @@
+
+m
+java:S2095"KUse try-with-resources or close this "SocketChannel" in a "finally" clause.(ÔøÊ©üÿÿÿÿ8âÂÀ®Ç0
+™
+java:S1130	"wRemove the declaration of thrown exception 'java.lang.InterruptedException', as it cannot be thrown from method's body.(àÒşüøÿÿÿÿ8ëÂÀ®Ç0
+U	java:S106"9Replace this use of System.out or System.err by a logger.(à¥…ù8óÂÀ®Ç0
+=
+java:S2129" Remove this "String" constructor(§éåÿ8ıÂÀ®Ç0
+Z	java:S106"9Replace this use of System.out or System.err by a logger.(Ä²ƒğûÿÿÿÿ8ÃÀ®Ç0
