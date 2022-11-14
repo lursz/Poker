@@ -1,9 +1,0 @@
-
-{
-java:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(ú£Ú’˘ˇˇˇˇ8â¢ëØ«0
-d	java:S116"PRename this field "name_" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(à≈ 
-j	java:S116"PRename this field "hand_" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(õ‘˛®˛ˇˇˇˇ
-n	java:S116"YRename this field "numberOfCards_" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àÅ‚∂
-S	java:S106 "9Replace this use of System.out or System.err by a logger.(¥ãπˆ˛ˇˇˇˇ
->
-java:S1068")Remove this unused "name_" private field.(à≈ 
