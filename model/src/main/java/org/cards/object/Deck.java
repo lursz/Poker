@@ -29,7 +29,7 @@ public class Deck {
     }
 
     // Methods
-    public Deck fabryki(Deck tempDeck) {
+    public Deck reset(Deck tempDeck) {
         tempDeck.deck_.clear();
         for (Card.suits iSuit : Card.suits.values()) {
             for (Card.ranks iRank : Card.ranks.values()) {
