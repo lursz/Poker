@@ -35,16 +35,21 @@ public class Hand {
     /* -------------------------------------------------------------------------- */
     /*                                   Methods                                  */
     /* -------------------------------------------------------------------------- */
-    /* ------------------------------ Evaluate Hand ----------------------------- */
-    public void evaluateHand() {
-        // Sort hand
+    public void sort() {
         hand_.sort(new Comparator<Card>() {
             @Override
+            public int compare(Card o1, Card o2) {
+                return o1.getRankValue().compareTo(o2.getRankValue());
+            }
             public int compare(Card o1, Card o2) {
                 return o1.getRank().compareTo(o2.getRank());
             }
         });
+    }
 
+    /* ------------------------------ Evaluate Hand ----------------------------- */
+    public void evaluateHand() {
+        // Sort hand
 
 
     }
@@ -52,6 +57,10 @@ public class Hand {
     /* ------------------------------ Hand rankings ----------------------------- */
 
     public boolean royalFlush() {
+        for (Card i : hand_) {
+            if (hand_.get(0).getSuit() != i.getSuit())
+                return false;
+        }
         return hand_.get(0).getRank() == Card.ranks._10 && hand_.get(1).getRank() == Card.ranks.JACK
                 && hand_.get(2).getRank() == Card.ranks.QUEEN && hand_.get(3).getRank() == Card.ranks.KING
                 && hand_.get(4).getRank() == Card.ranks.ACE;
@@ -60,6 +69,14 @@ public class Hand {
 
     // checks for a straight flush
     public boolean straightFlush() {
+
+
+        for (Card i : hand_) {
+            if (hand_.get(0).getSuit() != i.getSuit())
+                return false;
+        }
+
+
         for (int i = 0; i < 4; i++) {
             if (hand_.get(0).getRank() != hand_.get(i).getRank()) {
                 return false;

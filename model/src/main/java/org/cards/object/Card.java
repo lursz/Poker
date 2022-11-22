@@ -1,5 +1,5 @@
 package org.cards.object;
-
+import java.lang.*;
 /*
  * Class describing a card
  * @param suit - suit of the card
@@ -13,8 +13,16 @@ public class Card {
     }
 
     enum ranks {
-        ACE, KING, QUEEN, JACK, _10, _9, _8, _7, _6, _5, _4, _3, _2
+        ACE(14), KING(13), QUEEN(12), JACK(11), _10(10), _9(9), _8(8), _7(7), _6(6), _5(5), _4(4), _3(3), _2(2);
+        private int rankValue;
+        ranks(int i) {
+            this.rankValue = i;
+        }
+        public int getRankValue() {
+            return rankValue;
+        }
     }
+
 
     // Variables
     private final suits suit;

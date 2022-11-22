@@ -10,7 +10,9 @@ import java.util.ArrayList;
  * @param numberOfCards - size of player's hand
  */
 public class Player {
-    private String name_;
+    final private String name_;
+    private int balance_;
+    private int bet_;
     private Hand hand_;
 
     // Constructor
