@@ -7,12 +7,12 @@ import java.lang.*;
  * @param value - value of the card
  */
 public class Card {
-    // Enum template
-    enum suits {
+     /* ------------------------------ Enum template ----------------------------- */
+    private enum suits {
         CLUBS, HEARTS, SPADES, DIAMONDS
     }
 
-    enum ranks {
+    private enum ranks {
         ACE(14), KING(13), QUEEN(12), JACK(11), _10(10), _9(9), _8(8), _7(7), _6(6), _5(5), _4(4), _3(3), _2(2);
         private int rankValue;
         ranks(int i) {
@@ -24,29 +24,40 @@ public class Card {
     }
 
 
-    // Variables
+    /* -------------------------------------------------------------------------- */
+    /*                                 Arguements                                 */
+    /* -------------------------------------------------------------------------- */
     private final suits suit;
     private final ranks rank;
     private int value;
 
-    // Constructors
+     /* -------------------------------------------------------------------------- */
+     /*                                Constructors                                */
+     /* -------------------------------------------------------------------------- */
     public Card(Card.suits suit, Card.ranks rank) {
         this.suit = suit;
         this.rank = rank;
     }
 
-    // Getters
+    /* -------------------------------------------------------------------------- */
+    /*                                   Getters                                  */
+    /* -------------------------------------------------------------------------- */
     public suits getSuit() {
         return suit;
     }
     public ranks getRank() {
         return rank;
     }
+    public int getRankValue() {
+        return rank.getRankValue();
+    }
     public int getValue() {
         return value;
     }
 
-    // Methods
+    /* -------------------------------------------------------------------------- */
+    /*                               OverriddenMethods                            */
+    /* -------------------------------------------------------------------------- */
     @Override
     public String toString() {
         return rank + " of " + suit;

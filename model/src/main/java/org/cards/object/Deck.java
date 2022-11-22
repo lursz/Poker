@@ -11,11 +11,16 @@ import java.util.Collections;
  * @param size_ - size of the deck
  */
 public class Deck {
+    /* -------------------------------------------------------------------------- */
+    /*                                 Arguements                                 */
+    /* -------------------------------------------------------------------------- */
     private ArrayList<Card> deck_;
     private int size_;
     private int cardsLeft_;
 
-    // Constructor
+    /* -------------------------------------------------------------------------- */
+    /*                                 Constructor                                */
+    /* -------------------------------------------------------------------------- */
     public Deck() {
         deck_ = new ArrayList<Card>();
         this.size_ = 52;
@@ -28,7 +33,20 @@ public class Deck {
 
     }
 
-    // Methods
+    /* -------------------------------------------------------------------------- */
+    /*                                   Getters                                  */
+    /* -------------------------------------------------------------------------- */
+    public int getSize_() {
+        return size_;
+    }
+
+    public int getCardsLeft_() {
+        return cardsLeft_;
+    }
+
+   /* -------------------------------------------------------------------------- */
+   /*                                   Methods                                  */
+   /* -------------------------------------------------------------------------- */
     public Deck reset(Deck tempDeck) {
         tempDeck.deck_.clear();
         for (Card.suits iSuit : Card.suits.values()) {
@@ -61,12 +79,5 @@ public class Deck {
         }
     }
 
-    public int getSize_() {
-        return size_;
-    }
-
-    public int getCardsLeft_() {
-        return cardsLeft_;
-    }
 
 }
