@@ -98,11 +98,13 @@ public class Hand {
 
     // checks for a straight flush
     public int straightFlush() {
+        if (hand_.get(0).getRankValue() + 1 != hand_.get(1).getRankValue() || hand_.get(1).getRankValue() + 1 != hand_.get(2).getRankValue() || hand_.get(2).getRankValue() + 1 != hand_.get(3).getRankValue() || hand_.get(3).getRankValue() + 1 != hand_.get(4).getRankValue())
+            return 0;
+
         for (Card i : hand_) {
             if (hand_.get(0).getSuit() != i.getSuit())
                 return 0;
-            if (hand_.get(0).getRankValue() + 1 != hand_.get(1).getRankValue() || hand_.get(1).getRankValue() + 1 != hand_.get(2).getRankValue() || hand_.get(2).getRankValue() + 1 != hand_.get(3).getRankValue() || hand_.get(3).getRankValue() + 1 != hand_.get(4).getRankValue())
-                return 0;
+
         }
         return hand_.get(4).getRankValue();
     }

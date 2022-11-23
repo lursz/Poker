@@ -10,18 +10,25 @@ import java.util.ArrayList;
  * @param numberOfCards - size of player's hand
  */
 public class Player {
+    /* -------------------------------------------------------------------------- */
+    /*                                 Arguements                                 */
+    /* -------------------------------------------------------------------------- */
     final private String name_;
     private int balance_;
     private int bet_;
     private Hand hand_;
 
-    // Constructor
+    /* -------------------------------------------------------------------------- */
+    /*                                 Constructor                                */
+    /* -------------------------------------------------------------------------- */
     public Player(String name) {
         this.name_ = name;
         this.hand_ = new Hand();
     }
 
-    // Methods
+    /* -------------------------------------------------------------------------- */
+    /*                                   Methods                                  */
+    /* -------------------------------------------------------------------------- */
 
 
 }

@@ -1,37 +1,46 @@
 package org.cards;
 
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
+import java.nio.channels.SocketChannel;
+
 public class Client {
-    //    Attributes
-    private String host;
-    private int port;
+    public static void main( String[] args ) throws IOException {
+        InetSocketAddress serverAddr = new InetSocketAddress("localhost", 1234);
 
-    //    Constructor
-    public Client(String host, int port) {
-        this.host = host;
-        this.port = port;
-    }
+        SocketChannel client = SocketChannel.open(serverAddr); // open a connection to the server
 
-    public void startClient() {
-        try {
-            Socket socket = new Socket(host, port);
-            System.out.println("Połączono z serwerem: " + socket.getRemoteAddress());
-            ClientHandler clientHandler = new ClientHandler(socket);
-            clientHandler.start();
-        } catch (IOException e) {
-            System.out.println("Błąd: " + e.getMessage());
+        System.out.println("Łączenie z serwerem: " + client.getRemoteAddress());
+
+        while(true) {
+            try {
+//
+                ByteBuffer buffer = ByteBuffer.allocate(256);
+                client.read(buffer);
+                String result = new String(buffer.array()).trim();
+                System.out.println(result);
+
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+                String command = reader.readLine();
+                byte[] message = new String(command).getBytes(); // Converting string to byte array
+                ByteBuffer messageBuffer = ByteBuffer.wrap(message); // Wrapping byte array into ByteBuffer
+                client.write(messageBuffer); // Sensing message to server
+                System.out.println("Wysłano: " + command);
+                buffer.clear();
+
+            } catch(Exception e) {
+                System.err.println(e.getMessage());
+                client.close();
+            }
         }
-    }
 
-    public static void main(String[] args) {
-        Client client = new Client("localhost", 1234);
-        client.startClient();
     }
 }
-
-
-
-
 
 
 
