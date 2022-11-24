@@ -1,6 +1,6 @@
 package org.cards.object;
 
-
+import org.cards.object.Card;
 import java.util.ArrayList;
 import java.util.Collections;
 

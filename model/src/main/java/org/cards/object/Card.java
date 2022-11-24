@@ -8,11 +8,11 @@ import java.lang.*;
  */
 public class Card {
      /* ------------------------------ Enum template ----------------------------- */
-    private enum suits {
+     enum suits {
         CLUBS, HEARTS, SPADES, DIAMONDS
     }
 
-    private enum ranks {
+    enum ranks {
         ACE(14), KING(13), QUEEN(12), JACK(11), _10(10), _9(9), _8(8), _7(7), _6(6), _5(5), _4(4), _3(3), _2(2);
         private int rankValue;
         ranks(int i) {
