@@ -1,5 +1,4 @@
 package org.cards;
-import org.cards.Game;
 
 
 import java.io.IOException;
@@ -16,14 +15,9 @@ import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 public class Server {
-
-    public static void main( String[] args ) throws IOException  {
-        Logger logger = Logger.getLogger(Server.class.getName());
-
-        // creating new game
-        Game game = new Game();
-
+    public static void main(String[] args) throws IOException {
         Selector selector = Selector.open(); // Tworzymy selektor
         ServerSocketChannel serverSocket = ServerSocketChannel.open(); // Otwieramy socket
         InetSocketAddress serverAddr = new InetSocketAddress("localhost", 1234); // Ustawiamy adres
@@ -51,33 +45,29 @@ public class Server {
                     client.configureBlocking(false);
                     client.register(selector, SelectionKey.OP_READ);
                     System.out.println("Połączenie zaakceptowane: " + client);
-                    byte[] message = new String("WITAMY W POKER STARS 777 CASINO SPECIAL EDITION\n wpisz help aby otrzymac liste wszystkich dostepnych komend").getBytes();
-                    ByteBuffer buffer = ByteBuffer.wrap(message);
 
+//                  ****************************************
+                    byte[] message = new String("Welcome to 7Poker.\n Type 'help' for the list of commands.").getBytes();
+                    ByteBuffer buffer = ByteBuffer.wrap(message);
                     client.write(buffer);
+//                  ****************************************
+
+
                 } else if (key.isReadable()) { // czy kanał jest gotowy do odczytu
                     SocketChannel client = (SocketChannel) key.channel();
 
                     ByteBuffer buffer = ByteBuffer.allocate(256);
                     client.read(buffer);
-                    String clientMessage = new String(buffer.array()).trim();
+                    String result = new String(buffer.array()).trim();
 
-                    System.out.println("Odebrano: " + clientMessage);
-                    String[] words = clientMessage.split("\\s+");
-                    for (int i = 0; i < words.length; i++) {
-                        words[i] = words[i].replaceAll("[^\\w]", "");
-                    }
-                    String response = game.receiveCommands(words);
+                    System.out.println("Odebrano: " + result);
 
-                    ByteBuffer responseBuffer = ByteBuffer.wrap(response.getBytes());
-
-                    client.write(responseBuffer);
+                    client.close();
                 }
 
                 iter.remove();
             }
         }
-
     }
-
 }
+

@@ -4,7 +4,6 @@ import java.lang.*;
  * Class describing a card
  * @param suit - suit of the card
  * @param rank - rank of the card
- * @param value - value of the card
  */
 public class Card {
      /* ------------------------------ Enum template ----------------------------- */
@@ -29,7 +28,7 @@ public class Card {
     /* -------------------------------------------------------------------------- */
     private final suits suit;
     private final ranks rank;
-    private int value;
+
 
      /* -------------------------------------------------------------------------- */
      /*                                Constructors                                */
@@ -51,9 +50,7 @@ public class Card {
     public int getRankValue() {
         return rank.getRankValue();
     }
-    public int getValue() {
-        return value;
-    }
+
 
     /* -------------------------------------------------------------------------- */
     /*                               OverriddenMethods                            */
@@ -69,7 +66,6 @@ public class Card {
         int result = 1;
         result = prime * result + ((suit == null) ? 0 : suit.hashCode());
         result = prime * result + ((rank == null) ? 0 : rank.hashCode());
-        result = prime * result + value;
         return result;
     }
 
@@ -86,8 +82,6 @@ public class Card {
         if (suit != other.suit)
             return false;
         if (rank != other.rank)
-            return false;
-        if (value != other.value)
             return false;
         return true;
     }

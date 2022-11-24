@@ -231,7 +231,6 @@ public class Hand {
         }
         return flushSeniority;
     }
-
     private int allCardsInConsecutiveOrder() {
         //Checks if all cards are in 'straight' order (one after another)
         for (int i = 1; i < numberOfCards_; i++) {
