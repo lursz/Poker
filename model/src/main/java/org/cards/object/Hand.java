@@ -7,35 +7,7 @@ public class Hand {
     private ArrayList<Card> hand_;
     private int numberOfCards_;
 
-    /* ------------ Weighted sorting for multiple cards combinations ------------ */
-    static void weightedSorting(int arr[][]) {
-        Arrays.sort(arr, new Comparator<int[]>() {
-            public int compare(int[] first, int[] second) {
-                if(first[1]*100+first[0] < second[1]*100+second[0]) {
-                    return 1;
-                }
-                else return -1;
-            }
-        });
-    }
 
-    /* -------- Static multiple cards arrays for deciding cards seniority ------- */
-    static int[] pairArray = new int[]{2, 1, 1, 1, 0};
-    static int[] twoPairsArray = new int[]{2, 2, 1, 0, 0};
-    static int[] threeSameArray = new int[]{3, 1, 1, 0, 0};
-    static int[] fullHouseArray = new int[]{3, 2, 0, 0, 0};
-    static int[] fourSameArray = new int[]{4, 1, 0, 0, 0};
-
-    /* --------------------------- Seniority constants -------------------------- */
-    static int noSeniority = 0;
-    static int pairSeniority = 1;
-    static int twoPairsSeniority = 2;
-    static int threeSameSeniority = 3;
-    static int fullHouseSeniority = 6;
-    static int fourSameSeniority = 7;
-    static int consecutiveSeniority = 4;
-    static int colorSeniority = 5;
-    static int[] noMultipleCardsSeniorities = new int[]{0, 4, 5, 9};
 
     /* -------------------------------------------------------------------------- */
     /*                                 Constructor                                */
@@ -93,18 +65,32 @@ public class Hand {
         }
     }
 
-    /* ---------------------------------- Sort ---------------------------------- */
-    private void sortHand(Hand toSort) {
-        toSort.hand_.sort(new Comparator<Card>() {
-            @Override
-            public int compare(Card o1, Card o2) {
-                return Integer.compare(o1.getRankValue(), o2.getRankValue());
-            }
-        });
-    }
+    /* -------------------------------------------------------------------------- */
+    /*                               Hand Management                              */
+    /* -------------------------------------------------------------------------- */
+    /* -------- Static multiple cards arrays for deciding cards seniority ------- */
+    static int[] pairArray = new int[]{2, 1, 1, 1, 0};
+    static int[] twoPairsArray = new int[]{2, 2, 1, 0, 0};
+    static int[] threeSameArray = new int[]{3, 1, 1, 0, 0};
+    static int[] fullHouseArray = new int[]{3, 2, 0, 0, 0};
+    static int[] fourSameArray = new int[]{4, 1, 0, 0, 0};
 
-    /* ------------------------------ Compare hands ----------------------------- */
+    /* --------------------------- Seniority constants -------------------------- */
+    static int noSeniority = 0;
+    static int pairSeniority = 1;
+    static int twoPairsSeniority = 2;
+    static int threeOfTheKindSeniority = 3;
+    static int straightSeniority = 4;
+    static int flushSeniority = 5;
+    static int fullHouseSeniority = 6;
+    static int fourOfTheKindSeniority = 7;
 
+    // flushSeniority (5) + straightSeniority (4) = Straight Flush (9)
+    static int[] noMultipleCardsSeniorities = new int[]{0, 4, 5, 9};
+
+
+
+/* ------------------- Ultimate hand comparison function -------------------- */
     public int isBetterThan(Hand other) {
         // 1 -> this hand is better than the other
         // 0 -> hands are equal
@@ -121,21 +107,54 @@ public class Hand {
         else if(thisSeniority < otherSeniority) {
             return -1;
         }
+        //Same poker rankings
 
+        //Checks for ranking with no repeating cards
         if(IntStream.of(noMultipleCardsSeniorities).anyMatch(x -> x == thisSeniority)) {
+            //if no repeating cards (e.g. straight, flush, straight flush), compare the highest card
             return highestCardSearch(other);
         }
+        //else, we have repeating cards (e.g. pair, two pairs, three of a kind, full house, four of a kind)
         return weightedHighestCardSearch(other);
     }
 
-/* ------------------- Comparing hands - helping utilities ------------------ */
+    //--------auxiliary---------
+    private void sortHand(Hand toSort) {
+        //Just sort the hand
+        toSort.hand_.sort(new Comparator<Card>() {
+            @Override
+            public int compare(Card o1, Card o2) {
+                return Integer.compare(o1.getRankValue(), o2.getRankValue());
+            }
+        });
+    }
 
+
+/* --------------------- Layout WITH NO repeating cards --------------------- */
+
+    private int highestCardSearch(Hand other) {
+        // Looks for the highest card (Cards ought to already be sorted)
+        //Loops through the hand and returns:
+        // -> 1:   if this hand has the highest card
+        // -> -1:  if the other hand has the highest card
+        // -> 0:   if they are equal
+
+        for(int i=0; i<numberOfCards_; i++) {
+            if(this.hand_.get(i).getRankValue() > other.hand_.get(i).getRankValue()) {
+                return 1;
+            } else if(this.hand_.get(i).getRankValue() < other.hand_.get(i).getRankValue()) {
+                return -1;
+            }
+        }
+        return 0;
+    }
+
+
+
+/* ----------------------- Layout WITH repeating cards ---------------------- */
     private int weightedHighestCardSearch(Hand other) {
-        int[][] thisHand = weightedHand(this);
-        int[][] otherHand = weightedHand(other);
-
-        weightedSorting(thisHand);
-        weightedSorting(otherHand);
+        int[][] thisHand = handTo2dArray(this);
+        int[][] otherHand = handTo2dArray(other);
 
         for(int i=0; i<numberOfCards_; i++) {
             if(thisHand[i][0] > otherHand[i][0]) {
@@ -147,10 +166,10 @@ public class Hand {
         return 0;
     }
 
-
-    private int[][] weightedHand(Hand toConvert) {
+    //    --------auxiliary---------
+    private int[][] handTo2dArray(Hand other) {
         /*
-        The representation is an array of cards in hand with their weights.
+        Returns given Hand in form of an array of cards with their weights -> [cardValue, weight].
         For example if we have a hand "A J 4 4 2" the representation is:
         [4, 2]
         [15, 1]
@@ -166,91 +185,91 @@ public class Hand {
         [0, 0]
          */
         int[] cards = new int[13];
-        int[][] handQuantity = new int[5][2];
+        int[][] result = new int[5][2];
 
         for (int i = 0; i < numberOfCards_; i++) {
-            cards[toConvert.hand_.get(i).getRankValue()-2] += 1;
+            cards[other.hand_.get(i).getRankValue()-2] += 1;
         }
 
-        int subIter = 0;
-        for(int i=0; i<13; i++) {
+
+        for(int i=0, j=0; i<13; i++) {
+            //if there is a card with value i+2
             if(cards[i] > 0) {
-                handQuantity[subIter][0] = i;
-                handQuantity[subIter++][1] = cards[i];
+                result[j][0] = i;
+                result[j++][1] = cards[i];
             }
         }
-        return handQuantity;
+        RowsSort(result);
+        return result;
     }
 
-
-    private int highestCardSearch(Hand other) {
-        // Checks the highest card
-        // (cards should be alredy sorted)
-
-        for(int i=0; i<numberOfCards_; i++) {
-            if(this.hand_.get(i).getRankValue() > other.hand_.get(i).getRankValue()) {
-                return 1;
-            } else if(this.hand_.get(i).getRankValue() < other.hand_.get(i).getRankValue()) {
-                return -1;
+    static void RowsSort(int arr[][]) {
+        Arrays.sort(arr, new Comparator<int[]>() {
+            public int compare(int[] first, int[] second) {
+                if(first[1]*100+first[0] < second[1]*100+second[0]) {
+                    return 1;
+                }
+                else return -1;
             }
-        }
-        return 0;
+        });
     }
+
 
     /* ---------------------- Seniority deciding functions ---------------------- */
+    //Hand seniority returns int - meaning poker hand rankings
 
     private int handSeniority() {
-        return sameColor() + consecutiveRanks() + multipleCards();
+        return allCardsInTheSameColor() + allCardsInConsecutiveOrder() + multipleCards();
     }
 
-    private int sameColor() {
+    //    --------auxiliary---------
+    private int allCardsInTheSameColor() {
+        //Checks if all cards are of the same color
         for (Card i : hand_) {
             if (hand_.get(0).getSuit() != i.getSuit())
                 return noSeniority;
-
         }
-        return colorSeniority;
+        return flushSeniority;
     }
 
-    private int consecutiveRanks() {
+    private int allCardsInConsecutiveOrder() {
+        //Checks if all cards are in 'straight' order (one after another)
         for (int i = 1; i < numberOfCards_; i++) {
             if (hand_.get(i-1).getRankValue()-1 != hand_.get(i).getRankValue()) {
                 return noSeniority;
             }
         }
-        return consecutiveSeniority;
+        return straightSeniority;
     }
-
     private int multipleCards() {
         int[] cards = new int[13];
-        int[] handQuantity = new int[5];
+        int[] givenHandSeniority = new int[5];
 
         for (int i = 0; i < numberOfCards_; i++) {
             cards[hand_.get(i).getRankValue()-2] += 1;
         }
 
-        int subIter = 0;
-        for(int i=0; i<13; i++) {
+        for(int i=0, j=0; i<13; i++) {
             if(cards[i] > 0) {
-                handQuantity[subIter++] = cards[i];
+                givenHandSeniority[j++] = cards[i];
             }
         }
 
-        Arrays.sort(handQuantity);
+        Arrays.sort(givenHandSeniority);
 
-        if (Arrays.equals(handQuantity, pairArray)) {
+        if (Arrays.equals(givenHandSeniority, pairArray)) {
             return pairSeniority;
         }
-        else if(Arrays.equals(handQuantity, twoPairsArray)) {
+        else if(Arrays.equals(givenHandSeniority, twoPairsArray)) {
             return twoPairsSeniority;
         }
-        else if(Arrays.equals(handQuantity, threeSameArray)) {
-            return threeSameSeniority;
-        } else if(Arrays.equals(handQuantity, fullHouseArray)) {
+        else if(Arrays.equals(givenHandSeniority, threeSameArray)) {
+            return threeOfTheKindSeniority;
+        } else if(Arrays.equals(givenHandSeniority, fullHouseArray)) {
             return fullHouseSeniority;
         }
-        else if(Arrays.equals(handQuantity, fourSameArray)) {
-            return fourSameSeniority;
+        else if(Arrays.equals(givenHandSeniority, fourSameArray)) {
+            return fourOfTheKindSeniority;
         }
         return noSeniority;
     }
