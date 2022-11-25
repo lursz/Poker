@@ -2,117 +2,121 @@ package org.cards.game;
 
 import org.cards.object.*;
 import org.cards.player.*;
+import org.cards.Server;
 import org.cards.exceptions.*;
 
 import java.util.ArrayList;
+import org.apache.commons.lang3.tuple;
 
-public class Game implements Runnable {
+public class Game {
     private Deck deck_;
-    private ArrayList<Player> players_;
+
     private int numberOfPlayers;
+    private int numberOfReadyPlayers;
     private boolean initialized_;
+    private int balance_ = 1000;
     private int currentRoundsNumber;
+
+
+    public static class Pair {
+        public String answer;
+        public boolean toAll;
+
+        Pair(String answer, boolean toAll) {
+            this.answer = answer;
+            this.toAll = toAll;
+        }
+    }
+
 
     /* -------------------------------------------------------------------------- */
     /*                                 Constructor                                */
     /* -------------------------------------------------------------------------- */
     public Game() {
         this.deck_ = new Deck();
-        this.players_ = new ArrayList<Player>();
         initialized_ = false;
+        numberOfPlayers = 0;
+    }
+    public void addNumberOfPlayers() {
+        numberOfPlayers++;
     }
 
 
 
-    /* -------------------------------------------------------------------------- */
-    /*                                  Game flow                                 */
-    /* -------------------------------------------------------------------------- */
+    //Methods
 
-
-    /*
-    @Override
-    public void run() {
-        while (true) {
-            try {
-                //this.init();
-                //this.startNewRound();
-                while (this.currentRoundsNumber < this.numberOfPlayers) {
-                    //this.getCurrentPlayer().bet(10);
-                    this.currentRoundsNumber++;
+    public Pair receiveCommands(String command, Player player) {
+        String[] commandParts = command.split(" ");
+        switch (commandParts[0]) {
+            //List of commands
+            case "/help": {
+                return new Pair("/help - show the list of commands\n " +
+                        "/ready - start the game\n " +
+                        "<CARDS>\n " +
+                        "/showCards - show cards\n " +
+                        "/check - continue without placing a wager \n " +
+                        "/bet <amount> - make a bet \n " +
+                        "/call - match the wager \n " +
+                        "/raise - raise the wager \n " +
+                        "/fold - withdraw from the round\n " +
+                        "<GAME>\n " +
+                        "/exit - exit the game\n", false);
+            }
+            //Set username
+            case "/usr": {
+                if (commandParts.length == 2) {
+                    if (initialized_) {
+                        return new Pair("Game already started", false);
+                    } else {
+                        player.setName_(commandParts[1]);
+                        return new Pair("Username set to " + commandParts[1], false);
+                    }
+                } else {
+                    return new Pair("Wrong command", false);
                 }
-            } catch (PlayerInvalidCardsNumber | BalanceTooLow e) {
-                e.printStackTrace();
+            }
+            case "/ready": {
+                if (initialized_) {
+                    return new Pair("Game already started", false);
+                } else {
+                    if (player.getName_() == null) {
+                        return new Pair("Set username first", false);
+                    } else {
+                        numberOfReadyPlayers++;
+                        if (numberOfReadyPlayers == numberOfPlayers) {
+                            initialized_ = true;
+                            return new Pair("Game is starting now", true);
+                        } else {
+                            return new Pair("Waiting for other players", false);
+                        }
+                    }
+                }
+            }
+            case "/showCards": {
                 break;
             }
-        }
-
-    }
-
-
-    ///* -------------------------------------------------------------------------- */
-    ///*                            Server Communication                            */
-    ///* -------------------------------------------------------------------------- */
-    public String receiveCommands(String[] command) {
-
-        try {
-            switch (command[0]) {
-                case "help":
-                    return "/help - show the list of commands\n " +
-                            "/ready - start the game\n " +
-                            "<MONEY>\n " +
-                            "/showCards - show cards\n " +
-                            "/set <amount> - make a bet \n " +
-                            "/deal - deal cards to all players\n " +
-                            "<GAME>\n " +
-                            "/exit - exit the game\n";
+            case "/check": {
                 break;
-                case "ShowCards":
-
-                    break;
-
-                default:
-                    return "Invalid command";
             }
-        } catch (InvalidCommand e) {
-            return "Invalid command";
+            case "/bet": {
+
+                break;
+            }
+            case "/call": {
+                break;
+            }
+            case "/raise": {
+                break;
+            }
+            case "/fold": {
+                break;
+            }
+
+            default:
+                return "Invalid command";
         }
+        return "Invalid command";
     }
 
 
-
-
-    /* ----------------------------- Begin the game ----------------------------- */
-    private void init(int playersQuantity, int startingBalance) throws GameAlreadyInitialized {
-        if (this.initialized_) throw new GameAlreadyInitialized("Game has already been initialized");
-
-        this.numberOfPlayers = playersQuantity;
-        this.players_ = new ArrayList<>();
-
-        for (int i = 0; i < this.numberOfPlayers; i++) {
-            System.out.println("Player" + (i + 1) + " : ");
-            this.players_.add(new Player(playerName, startingBalance));
-        }
-        this.initialized_ = true;
-    }
-
-    private void startNewRound() throws PlayerInvalidCardsNumber {
-        this.deck_ = new Deck();
-        this.deck_.shuffle();
-        for (int i = 0; i < this.numberOfPlayers; i++) {
-            this.players_.get(i).setHand(this.deck.popCards(5));
-        }
-        this.currentRoundsNumber = 0;
-    }
-
-    private String getCurrentPlayerState() {
-        Player currentPlayer = this.getCurrentPlayer();
-        ArrayList<Card> currentPlayerCards = currentPlayer.getCards();
-        String userHand = "" + currentPlayer.getName();
-        for (Card card : currentPlayerCards) {
-            userHand += " " + card.getCode();
-        }
-        return userHand + " " + currentPlayer.getBalance();
-    }
-
-*/
 }

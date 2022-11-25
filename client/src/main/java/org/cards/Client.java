@@ -7,21 +7,21 @@ import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
-
-
+import java.util.Scanner;
 
 
 public class Client {
     public static void main(String[] args) throws IOException, InterruptedException {
         InetSocketAddress serverAddr = new InetSocketAddress("localhost", 1234);
-
-        SocketChannel client = SocketChannel.open(serverAddr); // Tworzymy socket i łączymy się z serwerem
-
+        //Create a socket channel
+        SocketChannel client = SocketChannel.open(serverAddr); 
         System.out.println("Łączenie z serwerem: " + client.getRemoteAddress());
-
-        String messageToSend = "Hello from client!";
-
         ByteBuffer buffer = ByteBuffer.allocate(1024);
+
+
+
+        //Read the message from server
+        //If received bytes > 0
         if (client.read(buffer) > 0) {
             buffer.flip();
             byte[] bytes = new byte[buffer.remaining()];
@@ -29,64 +29,25 @@ public class Client {
             System.out.println(new String(bytes));
         }
 
-        byte[] message = new String(messageToSend).getBytes(); // Konwertujemy wiadomość na tablicę bajtów
-        buffer = ByteBuffer.wrap(message); // Wrappujemy tablicę bajtów w bufor
-        int write = client.write(buffer);// Wysyłamy wiadomość
+        //Send message to server
+        Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Wysłano: " + messageToSend);
-        buffer.clear();
-
+        while(true) {
+            //Read message from console
+            String message = scanner.nextLine();
+            //Exit if message is "exit"
+            if (message.equals("exit")) {
+                break;
+            }
+            //Convert message to bytes
+            byte[] messageBytes = message.getBytes(); 
+            //Put bytes to buffer
+            buffer = ByteBuffer.wrap(messageBytes); 
+            //Send message to server
+            int write = client.write(buffer);
+            buffer.clear();
+        }
         client.close();
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-//import java.io.IOException;
-//import java.net.InetSocketAddress;
-//import java.nio.ByteBuffer;
-//import java.nio.channels.SocketChannel;
-//
-//public class Client {
-//    public static void main(String[] args) throws IOException, InterruptedException {
-//        InetSocketAddress serverAddr = new InetSocketAddress("localhost", 1234);
-//
-//        SocketChannel client = SocketChannel.open(serverAddr); // Tworzymy socket i łączymy się z serwerem
-//
-//        System.out.println("Łączenie z serwerem: " + client.getRemoteAddress());
-//
-//        String messageToSend = "Hello from client!";
-//
-//        byte[] message = new String(messageToSend).getBytes(); // Konwertujemy wiadomość na tablicę bajtów
-//        ByteBuffer buffer = ByteBuffer.wrap(message); // Wrappujemy tablicę bajtów w bufor
-//        client.write(buffer); // Wysyłamy wiadomość
-//
-//        System.out.println("Wysłano: " + messageToSend);
-//        buffer.clear();
-//
-//        client.close();
-//    }
-//}
