@@ -1,5 +1,6 @@
 package org.cards.player;
 
+import org.cards.exceptions.BalanceTooLow;
 import org.cards.object.*;
 import java.util.ArrayList;
 
@@ -14,10 +15,11 @@ public class Player {
     /*                                 Arguements                                 */
     /* -------------------------------------------------------------------------- */
     final private String name_;
+    private Hand hand_;
     private int balance_;
     private int bet_;
-    private Hand hand_;
     private int roundsPlayed_;
+    private boolean folded;
     /* -------------------------------------------------------------------------- */
     /*                                 Constructor                                */
     /* -------------------------------------------------------------------------- */
@@ -55,6 +57,7 @@ public class Player {
 
         bet_ = bet_amount;
         balance_ -= bet_amount;
+        System.out.println("Twoja Stara zapierdala");
     }
 
 

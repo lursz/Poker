@@ -21,9 +21,17 @@ public class Client {
 
         String messageToSend = "Hello from client!";
 
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        if (client.read(buffer) > 0) {
+            buffer.flip();
+            byte[] bytes = new byte[buffer.remaining()];
+            buffer.get(bytes);
+            System.out.println(new String(bytes));
+        }
+
         byte[] message = new String(messageToSend).getBytes(); // Konwertujemy wiadomość na tablicę bajtów
-        ByteBuffer buffer = ByteBuffer.wrap(message); // Wrappujemy tablicę bajtów w bufor
-        client.write(buffer); // Wysyłamy wiadomość
+        buffer = ByteBuffer.wrap(message); // Wrappujemy tablicę bajtów w bufor
+        int write = client.write(buffer);// Wysyłamy wiadomość
 
         System.out.println("Wysłano: " + messageToSend);
         buffer.clear();

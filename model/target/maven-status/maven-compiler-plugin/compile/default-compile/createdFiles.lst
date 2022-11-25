@@ -1,7 +1,0 @@
-org/cards/object/Card$ranks.class
-org/cards/object/Deck.class
-org/cards/Main.class
-org/cards/object/Card.class
-org/cards/player/Player.class
-org/cards/object/Card$suits.class
-org/cards/game/CryptUntil.class

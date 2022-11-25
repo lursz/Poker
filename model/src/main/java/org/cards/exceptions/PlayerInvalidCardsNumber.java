@@ -1,4 +1,4 @@
-package exceptions;
+package org.cards.exceptions;
 
 public class PlayerInvalidCardsNumber extends Exception {
     public PlayerInvalidCardsNumber(String message) {

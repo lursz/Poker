@@ -1,6 +1,8 @@
 package org.cards;
 
 
+import org.cards.player.Player;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -9,6 +11,7 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -17,6 +20,7 @@ import java.util.logging.Logger;
 
 
 public class Server {
+    private Map<SelectionKey, Player>
     public static void main(String[] args) throws IOException {
         Selector selector = Selector.open(); // Tworzymy selektor
         ServerSocketChannel serverSocket = ServerSocketChannel.open(); // Otwieramy socket
@@ -61,6 +65,7 @@ public class Server {
                     String result = new String(buffer.array()).trim();
 
                     System.out.println("Odebrano: " + result);
+                    System.out.println("Twoja Stara zapierdala");
 
                     client.close();
                 }
