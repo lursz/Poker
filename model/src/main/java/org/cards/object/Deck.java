@@ -1,6 +1,5 @@
 package org.cards.object;
 
-import org.cards.object.Card;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -57,9 +56,8 @@ public class Deck {
         return tempDeck;
     }
 
-    public Deck shuffle(Deck tempDeck) {
-        Collections.shuffle(tempDeck.deck_);
-        return tempDeck;
+    public void shuffle() {
+        Collections.shuffle(deck_);
     }
 
     public Card draw() {

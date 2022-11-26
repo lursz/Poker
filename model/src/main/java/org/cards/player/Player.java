@@ -63,12 +63,15 @@ public class Player {
     /* -------------------------------------------------------------------------- */
     /*                                   Methods                                  */
     /* -------------------------------------------------------------------------- */
-    public void bet(int bet_amount) throws BalanceTooLow {
+    public void setBet(int bet_amount) throws BalanceTooLow {
         if (bet_amount > balance_)
             throw new BalanceTooLow(name_ + " has insufficient funds");
 
         bet_ = bet_amount;
         balance_ -= bet_amount;
+    }
+    public void addBalance(int amount) {
+        balance_ += amount;
     }
 
 

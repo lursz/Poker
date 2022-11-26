@@ -63,7 +63,7 @@ public class Server {
                     addPlayer(player);
                     game.addNumberOfPlayers();
                     //Welcoming message
-                    byte[] message = new String("Welcome to 7Poker.\n Type: /usr <username> to set your name. Then type 'help' for the list of commands.\n").getBytes();
+                    byte[] message = new String("Welcome to 7Poker.\n Type: '/usr <username>' to set your name, then type '/ready' and wait for other players.\nType '/help' anytime to get list of other commands.").getBytes();
                     //Wrap the message in a buffer
                     ByteBuffer buffer = ByteBuffer.wrap(message);
                     //Send the message to the client
@@ -112,6 +112,8 @@ public class Server {
         } else {
             sendMessageToClient(answer.answer, client);
         }
+
+
 
 
     }
