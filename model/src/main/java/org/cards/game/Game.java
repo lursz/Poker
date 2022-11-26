@@ -5,20 +5,19 @@ import org.cards.player.*;
 import org.cards.exceptions.*;
 
 import java.nio.channels.SelectionKey;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Game {
+    //Object of the game
     private Deck deck_;
-
+    private int balance_ = 1000;
+    //Ready?
     private int numberOfPlayers;
     private int numberOfReadyPlayers;
     private boolean initialized_;
-    private int balance_ = 1000;
     private int currentRoundsNumber;
 
-//    private ArrayList<Player> players_;
+    //private ArrayList<Player> players_;
     public static Map<SelectionKey, Player> playerMap = new HashMap<>();
 
     public static class Pair {
@@ -29,6 +28,7 @@ public class Game {
             this.answer = answer;
             this.toAll = toAll;
         }
+
     }
 
 
@@ -40,15 +40,11 @@ public class Game {
         initialized_ = false;
         numberOfPlayers = 0;
 
-//        players_ = new ArrayList<Player>();
     }
+
     public void addNumberOfPlayers() {
         numberOfPlayers++;
     }
-//    public void addPlayer(Player player) {
-//        players_.add(player);
-//        playerMap.put(player.getKey_(), player);
-//    }
 
 
 
@@ -116,9 +112,12 @@ public class Game {
                 }
 
             }
+            //Check - to not bet without folding.
             case "/check": {
                 if (initialized_) {
-                    return new Pair("Check", true);
+                    player.incrementRoundsPlayed();
+                    String answer = player.getName_() + " checked";
+                    return new Pair(answer, true);
                 } else {
                     return new Pair("Game not started", false);
                 }
@@ -148,8 +147,11 @@ public class Game {
                 }
 
             }
+            //Call - a bet that is the equal amount to the bet made prior.
             case "/call": {
                 if (initialized_) {
+                    player.incrementRoundsPlayed();
+
                     return new Pair("Call", false);
                 } else {
                     return new Pair("Game not started", false);
@@ -166,6 +168,8 @@ public class Game {
             }
             case "/fold": {
                 if (initialized_) {
+                    player.incrementRoundsPlayed();
+                    player.
                     return new Pair("Fold", false);
                 } else {
                     return new Pair("Game not started", false);
@@ -179,41 +183,53 @@ public class Game {
         }
 
     }
+
     void startGame() {
         deck_.shuffle();
-        for(Player player : playerMap.values()) {
-            deck_.deal(player,5);
+        for (Player player : playerMap.values()) {
+            deck_.deal(player, 5);
         }
     }
+
     void calculateRoundWinner() {
-        int [] score = new int[numberOfPlayers];
-        //Compare hands of each with every player using isBetterThan method
-        for (int i = 0; i < numberOfPlayers; i++) {
-            for (int j = 0; j < numberOfPlayers; j++) {
-                if (i != j) {
-                    if (playerMap.get(i).getHand_().isBetterThan(playerMap.get(j).getHand_()) == 1) {
-                        score[i]++;
+        //Class ScorePair( Player, int)
+        class scorePair {
+            public Player player;
+            public int score;
+
+            public scorePair(Player player, int score) {
+                this.player = player;
+                this.score = score;
+            }
+        }
+        Vector<scorePair> playerScores = new Vector<>();
+
+        for (Player player1 : playerMap.values()) {
+            for (Player player2 : playerMap.values()) {
+                if (player1 != player2)
+                    //ADDING 1 POINT FOR WINNING A COMPARISON
+                    if (playerMap.get(player1).getHand_().isBetterThan(playerMap.get(player2).getHand_()) == 1)
+                        //If player1 already in playerScores
+                        if (playerScores.stream().anyMatch(p -> p.player == player1))
+                            playerScores.stream().filter(p -> p.player == player1).findFirst().get().score++;
+                        else
+                            playerScores.add(new scorePair(player1, 1));
+
+                //DIVIDING A POT BETWEEN PLAYERS WITH THE SAME SCORE
+                //if only one player has the highest score
+                if (playerScores.stream().filter(p -> p.score == playerScores.stream().max(Comparator.comparingInt(p -> p.score)).get().score).count() == 1)
+                    playerScores.stream().filter(p -> p.score == playerScores.stream().max(Comparator.comparingInt(p -> p.score)).get().score).findFirst().get().player.setBalance_(playerScores.stream().filter(p -> p.score == playerScores.stream().max(Comparator.comparingInt(p -> p.score)).get().score).findFirst().get().player.getBalance_() + balance_);
+                else
+                    //if more than one player has the highest score
+                    for (scorePair scorePair : playerScores) {
+                        if (scorePair.score == playerScores.stream().max(Comparator.comparingInt(p -> p.score)).get().score)
+                            scorePair.player.setBalance_(scorePair.player.getBalance_() + balance_ / playerScores.stream().filter(p -> p.score == playerScores.stream().max(Comparator.comparingInt(p -> p.score)).get().score).count());
                     }
-
-                }
             }
         }
-        //Find the player with the highest score
-        int max = 0;
-        int winner = 0;
-        for (int i = 0; i < numberOfPlayers; i++) {
-            if (score[i] > max) {
-                max = score[i];
-                winner = i;
-            }
-        }
-
-//        players_.get(winner).setBalance_(players_.get(winner).getBalance_() + balance_);
-        balance_ = 0;
-
     }
-//    TODO: Napraw przesylanie
-    // TODO: Neext player
+
+
 
 
 }

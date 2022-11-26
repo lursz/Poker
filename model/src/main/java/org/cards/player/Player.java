@@ -21,29 +21,46 @@ public class Player {
     private String name_;
     private SelectionKey key_;
     private Hand hand_;
+
     private int balance_;
+
     private int bet_;
 
-
     private boolean wonThisRound_;
-    private int roundsPlayed_;
-    private boolean folded;
 
+    //Folded?
+    private boolean folded_ = false;
+    public boolean isFolded_() {
+        return folded_;
+    }
+    public void setFolded_(boolean folded_) {
+        this.folded_ = folded_;
+    }
+
+    //How many rounds?
+    private int roundsPlayed_;
+    public void incrementRoundsPlayed() {
+        roundsPlayed_++;
+    }
     /* -------------------------------------------------------------------------- */
     /*                                 Constructor                                */
     /* -------------------------------------------------------------------------- */
+
     public Player(String name, int balance, SelectionKey key) {
         this.name_ = name;
         this.balance_ = balance;
         this.hand_ = new Hand();
         this.key_ = key;
     }
-
     public String getName_() {
         return name_;
     }
+
     public void setName_(String name_) {
         this.name_ = name_;
+    }
+    public void setBalance_(int balance_) {
+        this.balance_ = balance_;
     }
     public int getBalance_() {
         return balance_;
