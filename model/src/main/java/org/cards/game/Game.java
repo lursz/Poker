@@ -4,7 +4,10 @@ import org.cards.object.*;
 import org.cards.player.*;
 import org.cards.exceptions.*;
 
+import java.nio.channels.SelectionKey;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Game {
     private Deck deck_;
@@ -15,7 +18,8 @@ public class Game {
     private int balance_ = 1000;
     private int currentRoundsNumber;
 
-    private ArrayList<Player> players_;
+//    private ArrayList<Player> players_;
+    public static Map<SelectionKey, Player> playerMap = new HashMap<>();
 
     public static class Pair {
         public String answer;
@@ -35,14 +39,16 @@ public class Game {
         this.deck_ = new Deck();
         initialized_ = false;
         numberOfPlayers = 0;
-        players_ = new ArrayList<Player>();
+
+//        players_ = new ArrayList<Player>();
     }
     public void addNumberOfPlayers() {
         numberOfPlayers++;
     }
-    public void addPlayer(Player player) {
-        players_.add(player);
-    }
+//    public void addPlayer(Player player) {
+//        players_.add(player);
+//        playerMap.put(player.getKey_(), player);
+//    }
 
 
 
@@ -175,8 +181,8 @@ public class Game {
     }
     void startGame() {
         deck_.shuffle();
-        for (int i = 0; i < numberOfPlayers; i++) {
-            deck_.deal(players_);
+        for(Player player : playerMap.values()) {
+            deck_.deal(player,5);
         }
     }
     void calculateRoundWinner() {
@@ -185,7 +191,7 @@ public class Game {
         for (int i = 0; i < numberOfPlayers; i++) {
             for (int j = 0; j < numberOfPlayers; j++) {
                 if (i != j) {
-                    if (players_.get(i).getHand_().isBetterThan(players_.get(j).getHand_()) == 1) {
+                    if (playerMap.get(i).getHand_().isBetterThan(playerMap.get(j).getHand_()) == 1) {
                         score[i]++;
                     }
 
@@ -202,7 +208,7 @@ public class Game {
             }
         }
 
-        players_.get(winner).setBalance_(players_.get(winner).getBalance_() + balance_);
+//        players_.get(winner).setBalance_(players_.get(winner).getBalance_() + balance_);
         balance_ = 0;
 
     }

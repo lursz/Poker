@@ -16,12 +16,12 @@ import java.util.Set;
 
 
 public class Server {
-    private static Map<SelectionKey, Player> playerMap = new HashMap<>();
+
     private static Game game = new Game();
 
 /* ----------------------------- Add new player ----------------------------- */
     public static void addPlayer(Player player) {
-       playerMap.put(player.getKey_(), player);
+       Game.playerMap.put(player.getKey_(), player);
     }
 
 
@@ -59,7 +59,7 @@ public class Server {
                     SelectionKey selectionKey2 = client.register(selector, SelectionKey.OP_READ);
                     System.out.println("Połączenie zaakceptowane: " + client);
                     //Add player to Playermap
-                    game.addPlayer(new Player("", 0, selectionKey2));
+//                    game.addPlayer(new Player("", 0, selectionKey2));
                     Player player = new Player("", 0, selectionKey2);
                     addPlayer(player);
                     game.addNumberOfPlayers();
@@ -93,7 +93,7 @@ public class Server {
     }
 
     public static void sendMessageToEveryone(String message) throws IOException {
-        for (SelectionKey key : playerMap.keySet()) {
+        for (SelectionKey key : Game.playerMap.keySet()) {
             SocketChannel client = (SocketChannel) key.channel();
             sendMessageToClient(message, client);
         }
@@ -108,7 +108,7 @@ public class Server {
 
         System.out.println("Odebrano: " + result);
         //Forward the result to Game.receiveCommands
-        Game.Pair answer = game.receiveCommands(result, playerMap.get(key));
+        Game.Pair answer = game.receiveCommands(result, Game.playerMap.get(key));
         if(answer.toAll) {
             sendMessageToEveryone(answer.answer);
         } else {

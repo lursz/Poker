@@ -44,6 +44,7 @@ public class Deck {
         return cardsLeft_;
     }
 
+
    /* -------------------------------------------------------------------------- */
    /*                                   Methods                                  */
    /* -------------------------------------------------------------------------- */
@@ -71,13 +72,13 @@ public class Deck {
             return null;
         }
     }
-    public void deal(ArrayList<Player> players) {
-        for (int i = 0; i < 5; i++) {
-            for (Player player : players) {
-                player.getHand_().addCard(draw());
+    public void deal(Player player_, int numberOfCardsToDeal) {
+        for (int i = 0; i < numberOfCardsToDeal; i++) {
+                player_.getHand_().addCard(draw());
+                cardsLeft_--;
             }
         }
-    }
+
     public void printDeck() {
         for (Card i : deck_) {
             System.out.println(i);

@@ -62,10 +62,10 @@ public class Player {
     public SelectionKey getKey_() {
         return key_;
     }
+    //Won this round
     public boolean getWonThisRound_() {
         return wonThisRound_;
     }
-
     public void setWonThisRound_(boolean wonThisRound_) {
         this.wonThisRound_ = wonThisRound_;
     }
