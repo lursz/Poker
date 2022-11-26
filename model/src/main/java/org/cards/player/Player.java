@@ -23,8 +23,12 @@ public class Player {
     private Hand hand_;
     private int balance_;
     private int bet_;
+
+
+    private boolean wonThisRound_;
     private int roundsPlayed_;
     private boolean folded;
+
     /* -------------------------------------------------------------------------- */
     /*                                 Constructor                                */
     /* -------------------------------------------------------------------------- */
@@ -44,7 +48,6 @@ public class Player {
     public int getBalance_() {
         return balance_;
     }
-
     public int getBet_() {
         return bet_;
     }
@@ -59,6 +62,14 @@ public class Player {
     public SelectionKey getKey_() {
         return key_;
     }
+    public boolean getWonThisRound_() {
+        return wonThisRound_;
+    }
+
+    public void setWonThisRound_(boolean wonThisRound_) {
+        this.wonThisRound_ = wonThisRound_;
+    }
+
 
     /* -------------------------------------------------------------------------- */
     /*                                   Methods                                  */

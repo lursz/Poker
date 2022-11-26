@@ -59,6 +59,7 @@ public class Server {
                     SelectionKey selectionKey2 = client.register(selector, SelectionKey.OP_READ);
                     System.out.println("Połączenie zaakceptowane: " + client);
                     //Add player to Playermap
+                    game.addPlayer(new Player("", 0, selectionKey2));
                     Player player = new Player("", 0, selectionKey2);
                     addPlayer(player);
                     game.addNumberOfPlayers();
@@ -106,6 +107,7 @@ public class Server {
         String result = new String(buffer.array()).trim();
 
         System.out.println("Odebrano: " + result);
+        //Forward the result to Game.receiveCommands
         Game.Pair answer = game.receiveCommands(result, playerMap.get(key));
         if(answer.toAll) {
             sendMessageToEveryone(answer.answer);

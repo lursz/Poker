@@ -15,6 +15,7 @@ public class Game {
     private int balance_ = 1000;
     private int currentRoundsNumber;
 
+    private ArrayList<Player> players_;
 
     public static class Pair {
         public String answer;
@@ -34,9 +35,13 @@ public class Game {
         this.deck_ = new Deck();
         initialized_ = false;
         numberOfPlayers = 0;
+        players_ = new ArrayList<Player>();
     }
     public void addNumberOfPlayers() {
         numberOfPlayers++;
+    }
+    public void addPlayer(Player player) {
+        players_.add(player);
     }
 
 
@@ -53,7 +58,7 @@ public class Game {
                 return new Pair("help - show the list of commands\n " +
                         "/ready - start the game\n " +
                         "<CARDS>\n " +
-                        "/showCards - show cards\n " +
+                        "/hand - show cards\n " +
                         "/check - continue without placing a wager \n " +
                         "/bet <amount> - make a bet \n " +
                         "/call - match the wager \n " +
@@ -97,7 +102,7 @@ public class Game {
                 }
 
             }
-            case "/showCards": {
+            case "/hand": {
                 if (initialized_) {
                     return new Pair(player.getHand_().toString(), false);
                 } else {
@@ -171,11 +176,38 @@ public class Game {
     void startGame() {
         deck_.shuffle();
         for (int i = 0; i < numberOfPlayers; i++) {
-//            deck_.dealCard();
+            deck_.deal(players_);
         }
     }
-//TODO: Przenies HashMape do klasy game, server i tak ma dostep
+    void calculateRoundWinner() {
+        int [] score = new int[numberOfPlayers];
+        //Compare hands of each with every player using isBetterThan method
+        for (int i = 0; i < numberOfPlayers; i++) {
+            for (int j = 0; j < numberOfPlayers; j++) {
+                if (i != j) {
+                    if (players_.get(i).getHand_().isBetterThan(players_.get(j).getHand_()) == 1) {
+                        score[i]++;
+                    }
+
+                }
+            }
+        }
+        //Find the player with the highest score
+        int max = 0;
+        int winner = 0;
+        for (int i = 0; i < numberOfPlayers; i++) {
+            if (score[i] > max) {
+                max = score[i];
+                winner = i;
+            }
+        }
+
+        players_.get(winner).setBalance_(players_.get(winner).getBalance_() + balance_);
+        balance_ = 0;
+
+    }
 //    TODO: Napraw przesylanie
+    // TODO: Neext player
 
 
 }

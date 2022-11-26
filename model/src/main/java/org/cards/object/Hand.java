@@ -17,6 +17,8 @@ public class Hand {
         this.hand_ = new ArrayList<Card>();
         this.numberOfCards_ = 0;
     }
+
+
     /* -------------------------------------------------------------------------- */
     /*                                   Getters                                  */
     /* -------------------------------------------------------------------------- */
@@ -33,6 +35,14 @@ public class Hand {
         return hand_.get(index);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (Card card : hand_) {
+            sb.append(card.getRank().toString() + " of " + card.getSuit().toString() + "\t");
+        }
+        return sb.toString();
+    }
     /* -------------------------------------------------------------------------- */
     /*                                   Methods                                  */
     /* -------------------------------------------------------------------------- */

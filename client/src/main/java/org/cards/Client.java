@@ -15,15 +15,16 @@ public class Client {
         InetSocketAddress serverAddr = new InetSocketAddress("localhost", 1234);
         //Create a socket channel
         SocketChannel client = SocketChannel.open(serverAddr); 
-        System.out.println("Łączenie z serwerem: " + client.getRemoteAddress());
-        ByteBuffer buffer = ByteBuffer.allocate(1024);
-
-
+        System.out.println("Connecting to the server: " + client.getRemoteAddress());
 
         Scanner scanner = new Scanner(System.in);
 
         while(true) {
+            //Actually clear the buffer
+            ByteBuffer buffer = ByteBuffer.allocate(1024);
+
             //Read the message from server
+
             //If received bytes > 0
             if (client.read(buffer) > 0) {
                 //receive and print the message from server
@@ -36,9 +37,9 @@ public class Client {
             }
 
             //Send message to server
-            //Read message from console
+
             String message = scanner.nextLine();
-            //Exit if message is "exit"
+            //Exit
             if (message.equals("/exit")) {
                 break;
             }

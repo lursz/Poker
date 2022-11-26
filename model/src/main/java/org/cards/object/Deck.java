@@ -1,5 +1,6 @@
 package org.cards.object;
 
+import org.cards.player.Player;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -70,7 +71,13 @@ public class Deck {
             return null;
         }
     }
-
+    public void deal(ArrayList<Player> players) {
+        for (int i = 0; i < 5; i++) {
+            for (Player player : players) {
+                player.getHand_().addCard(draw());
+            }
+        }
+    }
     public void printDeck() {
         for (Card i : deck_) {
             System.out.println(i);
