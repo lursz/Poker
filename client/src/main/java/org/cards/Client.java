@@ -11,6 +11,34 @@ import java.util.Scanner;
 
 
 public class Client {
+    private static class ClientReadFromServerThread extends Thread {
+        private final SocketChannel socketChannel;
+        private ByteBuffer buffer;
+
+        public ClientReadFromServerThread(SocketChannel socketChannel) {
+            this.socketChannel = socketChannel;
+        }
+
+        @Override
+        public void run() {
+            while (true) {
+                this.buffer = ByteBuffer.allocate(1024);
+
+                try {
+                    buffer.clear();
+                    socketChannel.read(buffer);
+                    buffer.flip();
+                    String output = new String(buffer.array()).trim();
+                    if (output.length() > 0) {
+                        System.out.println(output);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     public static void main(String[] args) throws IOException, InterruptedException {
         InetSocketAddress serverAddr = new InetSocketAddress("localhost", 1234);
         //Create a socket channel
@@ -19,25 +47,13 @@ public class Client {
 
         Scanner scanner = new Scanner(System.in);
 
+        ClientReadFromServerThread clientReadFromServerThread = new ClientReadFromServerThread(client);
+        clientReadFromServerThread.start();
+
+        ByteBuffer buffer;
+
         while(true) {
-            //Actually clear the buffer
-            ByteBuffer buffer = ByteBuffer.allocate(1024);
-
-            //Read the message from server
-
-            //If received bytes > 0
-            if (client.read(buffer) > 0) {
-                //receive and print the message from server
-                buffer.flip();
-                byte[] bytes = new byte[buffer.remaining()];
-                buffer.get(bytes);
-                System.out.println(new String(bytes));
-                buffer.clear();
-
-            }
-
             //Send message to server
-
             String message = scanner.nextLine();
             //Exit
             if (message.equals("/exit")) {

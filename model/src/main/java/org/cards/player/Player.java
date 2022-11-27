@@ -26,6 +26,8 @@ public class Player {
 
     private int bet_;
 
+    public int score = 0;
+
     private boolean wonThisRound_;
 
     //Folded?
@@ -33,8 +35,11 @@ public class Player {
     public boolean isFolded_() {
         return folded_;
     }
-    public void setFolded_(boolean folded_) {
-        this.folded_ = folded_;
+    public void fold() {
+        this.folded_ = true;
+    }
+    public void unFold() {
+        this.folded_ = false;
     }
 
     //How many rounds?
@@ -67,6 +72,9 @@ public class Player {
     }
     public int getBet_() {
         return bet_;
+    }
+    public void setBet_(int bet_) {
+        this.bet_ = bet_;
     }
 
     public Hand getHand_() {

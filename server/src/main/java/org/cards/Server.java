@@ -22,6 +22,7 @@ public class Server {
 /* ----------------------------- Add new player ----------------------------- */
     public static void addPlayer(Player player) {
        Game.playerMap.put(player.getKey_(), player);
+       game.players_.add(player);
     }
 
 
@@ -63,6 +64,7 @@ public class Server {
                     Player player = new Player("", 0, selectionKey2);
                     addPlayer(player);
                     game.addNumberOfPlayers();
+
                     //Welcoming message
                     byte[] message = new String("Welcome to 7Poker.\n Type: '/usr <username>' to set your name, then type '/ready' and wait for other players.\nType '/help' anytime to get list of other commands.").getBytes();
                     //Wrap the message in a buffer
@@ -106,8 +108,8 @@ public class Server {
         client.read(buffer);
         String result = new String(buffer.array()).trim();
 
+        //Process the command
         System.out.println("Odebrano: " + result);
-        //Forward the result to Game.receiveCommands
         Game.Pair answer = game.receiveCommands(result, Game.playerMap.get(key));
         if(answer.toAll) {
             sendMessageToEveryone(answer.answer);
