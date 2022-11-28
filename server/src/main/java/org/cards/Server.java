@@ -69,9 +69,15 @@ public class Server {
                     SelectionKey selectionKey2 = client.register(selector, SelectionKey.OP_READ);
                     System.out.println("Połączenie zaakceptowane: " + client);
                     //Add player to Playermap
-                    Player player = new Player("", balance, selectionKey2);
-                    addPlayer(player);
-                    game.addNumberOfPlayers();
+
+                    if (Game.players_.size() < 5) {
+                        Player player = new Player("", balance, selectionKey2);
+                        addPlayer(player);
+                        game.addNumberOfPlayers();
+                    } else {
+                        System.out.println("Max capacity has been reached");
+                    }
+
 
                     //Welcoming message
                     byte[] message = new String("Welcome to 7Poker.\n Type: '/usr <username>' to set your name, then type '/ready' and wait for other players.\nType '/help' anytime to get list of other commands.").getBytes();
@@ -87,6 +93,8 @@ public class Server {
                 iter.remove();
 
             }
+            //break the loop
+
         }
     }
         /* --------------------------------- Sending -------------------------------- */

@@ -40,34 +40,38 @@ public class Client {
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        InetSocketAddress serverAddr = new InetSocketAddress("localhost", 1234);
-        //Create a socket channel
-        SocketChannel client = SocketChannel.open(serverAddr); 
-        System.out.println("Connecting to the server: " + client.getRemoteAddress());
+        try {
+            InetSocketAddress serverAddr = new InetSocketAddress("localhost", 1234);
+            //Create a socket channel
+            SocketChannel client = SocketChannel.open(serverAddr);
+            System.out.println("Connecting to the server: " + client.getRemoteAddress());
 
-        Scanner scanner = new Scanner(System.in);
+            Scanner scanner = new Scanner(System.in);
 
-        ClientReadFromServerThread clientReadFromServerThread = new ClientReadFromServerThread(client);
-        clientReadFromServerThread.start();
+            ClientReadFromServerThread clientReadFromServerThread = new ClientReadFromServerThread(client);
+            clientReadFromServerThread.start();
 
-        ByteBuffer buffer;
+            ByteBuffer buffer;
 
-        while(true) {
-            //Send message to server
-            String message = scanner.nextLine();
-            //Exit
-            if (message.equals("/exit")) {
-                break;
+            while (true) {
+                //Send message to server
+                String message = scanner.nextLine();
+                //Exit
+                if (message.equals("/exit")) {
+                    break;
+                }
+                //Convert message to bytes
+                byte[] messageBytes = message.getBytes();
+                //Put bytes to buffer
+                buffer = ByteBuffer.wrap(messageBytes);
+                //Send message to server
+                client.write(buffer);
+                buffer.clear();
             }
-            //Convert message to bytes
-            byte[] messageBytes = message.getBytes(); 
-            //Put bytes to buffer
-            buffer = ByteBuffer.wrap(messageBytes); 
-            //Send message to server
-            client.write(buffer);
-            buffer.clear();
+            client.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        client.close();
     }
 }
 

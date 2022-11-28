@@ -5,7 +5,9 @@ import org.cards.player.*;
 import org.cards.exceptions.*;
 
 import javax.print.attribute.standard.PrintQuality;
+import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
+import java.nio.channels.SocketChannel;
 import java.util.*;
 
 public class Game {
@@ -406,10 +408,7 @@ public class Game {
 
             }
             case "/showdown": {
-
                 if (initialized_) {
-
-
                     if (gameState == 4) {
                         if (commandParts.length == 1) {
                             String answer = "";
@@ -427,6 +426,7 @@ public class Game {
                         return new Pair("Can't use the command", false);
                     }
                 }
+                return new Pair("Can't use the command", false);
 
             }
 
@@ -439,6 +439,16 @@ public class Game {
     /* -------------------------------------------------------------------------- */
     /*                                   Methods                                  */
     /* -------------------------------------------------------------------------- */
+    private void sendResponse(SocketChannel client, String response) {
+        try {
+
+            ByteBuffer responseBuffer = ByteBuffer.wrap(response.getBytes());
+            client.write(responseBuffer);
+        } catch(Exception error) {
+            System.out.println("Something went wrong while sending a message");
+        }
+
+    }
 
     public Pair showdown() {
         //showdown - send everyone's hands to everyone
