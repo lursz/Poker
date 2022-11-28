@@ -32,6 +32,8 @@ public class Player {
 
     //Folded?
     private boolean folded_ = false;
+
+    public boolean isWinner_ = false;
     public boolean isFolded_() {
         return folded_;
     }
@@ -44,6 +46,8 @@ public class Player {
 
     //How many rounds?
     private int roundsPlayed_;
+    public boolean wereTheHandsChanged_ = false;
+
     public void incrementRoundsPlayed() {
         roundsPlayed_++;
     }
@@ -56,6 +60,14 @@ public class Player {
         this.balance_ = balance;
         this.hand_ = new Hand();
         this.key_ = key;
+    }
+
+    public void resetForNextRound() {
+        this.hand_ = new Hand();
+        this.folded_ = false;
+        this.wonThisRound_ = false;
+        this.bet_ = -1;
+        this.isWinner_ = false;
     }
     public String getName_() {
         return name_;
@@ -109,6 +121,8 @@ public class Player {
     public void addBalance(int amount) {
         balance_ += amount;
     }
+
+
 
 
 }

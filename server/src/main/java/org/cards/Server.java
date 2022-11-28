@@ -22,11 +22,20 @@ public class Server {
 /* ----------------------------- Add new player ----------------------------- */
     public static void addPlayer(Player player) {
        Game.playerMap.put(player.getKey_(), player);
-       game.players_.add(player);
+       Game.players_.add(player);
     }
 
 
     public static void main(String[] args) throws IOException {
+        //Load pot and initial balance at the beginning of the game
+        if (args.length < 1) {
+            System.out.println("Usage: java Server <initial balance>");
+            return;
+        }
+
+        int balance = Integer.parseInt(args[0]);
+
+
         /* --------------- Socket configuration ---------------- */
         //Create selector
         Selector selector = Selector.open(); 
@@ -60,8 +69,7 @@ public class Server {
                     SelectionKey selectionKey2 = client.register(selector, SelectionKey.OP_READ);
                     System.out.println("Połączenie zaakceptowane: " + client);
                     //Add player to Playermap
-//                    game.addPlayer(new Player("", 0, selectionKey2));
-                    Player player = new Player("", 0, selectionKey2);
+                    Player player = new Player("", balance, selectionKey2);
                     addPlayer(player);
                     game.addNumberOfPlayers();
 

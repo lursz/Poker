@@ -11,7 +11,11 @@ import java.util.*;
 public class Game {
     //Object of the game
     private Deck deck_;
-    private int balance_ = 1000;
+
+    public static final ArrayList<Player> players_ = new ArrayList<>();
+    public static final Map<SelectionKey, Player> playerMap = new HashMap<>();
+
+    private int pot_;
 
     private int gameState = 0;
     // 0 - waiting for players
@@ -22,19 +26,14 @@ public class Game {
     // 5 - game over
 
     private int currentPlayerIndex = 0;
-
     private int currentBet = 0;
-
     private int numberOfPlayers;
     //Ready?
     private int numberOfReadyPlayers;
     //Ready?
-
     private boolean initialized_;
     private int currentRoundsNumber;
 
-    public ArrayList<Player> players_;
-    public static Map<SelectionKey, Player> playerMap = new HashMap<>();
 
     public static class Pair {
         public String answer;
@@ -55,7 +54,10 @@ public class Game {
         this.deck_ = new Deck();
         initialized_ = false;
         numberOfPlayers = 0;
+    }
 
+    public void setPot_(int pot_) {
+        this.pot_ = pot_;
     }
 
     public void addNumberOfPlayers() {
@@ -83,12 +85,13 @@ public class Game {
                 return new Pair("help - show the list of commands\n " +
                         "/ready - start the game\n " +
                         "<CARDS>\n " +
-                        "/hand - show cards\n " +
+                        "/hand - show cards and balance and pot\n " +
                         "/check - continue without placing a wager \n " +
                         "/bet <amount> - make a bet \n " +
                         "/call - match the wager \n " +
                         "/raise - raise the wager \n " +
                         "/fold - withdraw from the round\n " +
+                        "/exchange - exchange your cards during exchange phase. Syntax is: /exchange 1,2,5\n " +
                         "<GAME>\n " +
                         "/exit - exit the game\n", true);
             }
@@ -127,7 +130,7 @@ public class Game {
                             initialized_ = true;
                             System.out.println("Game has begun");
                             startGame();
-                            return new Pair("Game is starting now", true);
+                            return new Pair("Game is starting now, use /hand to view cards.", true);
                         } else {
                             return new Pair("Waiting for other players", false);
                         }
@@ -145,7 +148,11 @@ public class Game {
                 if (player.isFolded_())
                     return new Pair("You folded, wait for next round", false);
                 if (initialized_) {
-                    return new Pair(player.getHand_().toString(), false);
+                    //show hand and balance and pot
+                    return new Pair("Your cards: " + player.getHand_().toString() + "\n" +
+                            "Your balance: " + player.getBalance_() + "\n" +
+                            "Pot: " + pot_, false);
+
                 } else {
                     return new Pair("Game not started", false);
                 }
@@ -157,7 +164,7 @@ public class Game {
                 if (gameState == 0) {
                     return new Pair("Game hasn't started yet", false);
                 }
-                if (gameState == 3) {
+                if (gameState == 2) {
                     return new Pair("You can't check now", false);
                 }
                 if (gameState == 5) {
@@ -171,8 +178,11 @@ public class Game {
                 }
                 if (initialized_) {
                     player.setBet_(0);
+                    currentBet = 0;
                     nextPlayer();
                     String answer = player.getName_() + " checked";
+                    endFirstRoundBets();
+                    endOfSecondRoundBets();
                     return new Pair(answer, true);
                 } else {
                     return new Pair("Game not started", false);
@@ -183,8 +193,8 @@ public class Game {
                 if (gameState == 0) {
                     return new Pair("Game hasn't started yet", false);
                 }
-                if (gameState == 3) {
-                    return new Pair("You can't check now", false);
+                if (gameState == 2) {
+                    return new Pair("You can't bet now", false);
                 }
                 if (gameState == 5) {
                     return new Pair("Game is over", false);
@@ -199,11 +209,19 @@ public class Game {
                     if (commandParts.length == 2) {
                         try {
                             int bet = Integer.parseInt(commandParts[1]);
+                            if (bet < 0) {
+                                return new Pair("Bet must be positive", false);
+                            }
                             if (bet > player.getBalance_()) {
                                 return new Pair("Not enough money", false);
                             } else {
                                 player.setBet(bet);
+                                pot_ += bet;
+
+                                currentBet = bet;
                                 nextPlayer();
+                                endFirstRoundBets();
+                                endOfSecondRoundBets();
                                 return new Pair("--Player " + player.getName_() + " bet --" + bet, true);
                             }
                         } catch (NumberFormatException e) {
@@ -224,8 +242,8 @@ public class Game {
                 if (gameState == 0) {
                     return new Pair("Game hasn't started yet", false);
                 }
-                if (gameState == 3) {
-                    return new Pair("You can't check now", false);
+                if (gameState == 2) {
+                    return new Pair("You can't call now", false);
                 }
                 if (gameState == 5) {
                     return new Pair("Game is over", false);
@@ -241,7 +259,10 @@ public class Game {
                 if (initialized_) {
                     if (commandParts.length == 1) {
                         player.setBet_(currentBet);
+                        pot_ += currentBet;
                         nextPlayer();
+                        endFirstRoundBets();
+                        endOfSecondRoundBets();
                         return new Pair("--Player " + player.getName_() + " called. Current bet is: " + currentBet, true);
                     } else {
                         return new Pair("Wrong command", false);
@@ -255,8 +276,8 @@ public class Game {
                 if (gameState == 0) {
                     return new Pair("Game hasn't started yet", false);
                 }
-                if (gameState == 3) {
-                    return new Pair("You can't check now", false);
+                if (gameState == 2) {
+                    return new Pair("You can't raise now", false);
                 }
                 if (gameState == 5) {
                     return new Pair("Game is over", false);
@@ -272,12 +293,18 @@ public class Game {
                     if (commandParts.length == 2) {
 
                         int bet = Integer.parseInt(commandParts[1]);
+                        if (bet < 0) {
+                            return new Pair("Bet must be positive", false);
+                        }
                         if (bet > player.getBalance_()) {
                             return new Pair("Not enough money", false);
                         } else {
                             currentBet += bet;
+                            pot_ += bet;
                             player.setBet_(currentBet);
                             nextPlayer();
+                            endFirstRoundBets();
+                            endOfSecondRoundBets();
                             return new Pair("--Player " + player.getName_() + " raised --" + bet, true);
                         }
 
@@ -290,10 +317,48 @@ public class Game {
 
             }
             case "/fold": {
+
+                if (currentPlayerIndex != players_.indexOf(player)) {
+                    return new Pair("It's not your turn", false);
+                }
+                if (player.isFolded_())
+                    return new Pair("You folded, wait for next round", false);
                 if (initialized_) {
                     player.incrementRoundsPlayed();
                     player.fold();
+                    endFirstRoundBets();
+                    endOfSecondRoundBets();
                     return new Pair("Fold", false);
+                } else {
+                    return new Pair("Game not started", false);
+                }
+
+            }
+            case "exchange": {
+                if (gameState == 0) {
+                    return new Pair("Game hasn't started yet", false);
+                }
+                if (gameState == 3 || gameState == 4 || gameState == 1) {
+                    return new Pair("It's card exchange phase. You can't place bets now.", false);
+                }
+                if (gameState == 5) {
+                    return new Pair("Game is over", false);
+                }
+                if (initialized_) {
+                    if (commandParts.length == 2) {
+                        String[] splittedCards = commandParts[1].split(",");
+                        int[] indexOfCardsToExchange = new int[splittedCards.length];
+                        for (int i = 0; i < splittedCards.length; i++) {
+                            indexOfCardsToExchange[i] = Integer.parseInt(splittedCards[i]);
+                        }
+
+                        player.getHand_().exchangeCards(indexOfCardsToExchange, deck_);
+                        player.wereTheHandsChanged_ = true;
+                        return new Pair("Cards exchanged.\nYour cards: " + player.getHand_().toString() + "\n" + "Your balance: " + player.getBalance_() + "\n" + "Pot: " + pot_, false);
+
+                    } else {
+                        return new Pair("Wrong command", false);
+                    }
                 } else {
                     return new Pair("Game not started", false);
                 }
@@ -310,17 +375,8 @@ public class Game {
     /*                                   Methods                                  */
     /* -------------------------------------------------------------------------- */
 
-
-    void startGame() {
-        deck_.shuffle();
-        for (Player player : playerMap.values()) {
-            deck_.deal(player, 5);
-        }
-        gameState = 1;
-    }
-
-    //showdown - send everyone's hands to everyone
     public Pair showdown() {
+        //showdown - send everyone's hands to everyone
         String answer = "";
         for (Player player : playerMap.values()) {
             answer += player.getName_() + ": " + player.getHand_().toString() + "\n";
@@ -368,6 +424,95 @@ public class Game {
 
         for (int i = 0; i < numberOfWinners; i++) {
             playersLeft.get(i).setBalance_(playersLeft.get(i).getBalance_() + moneyPerWinner);
+            playersLeft.get(i).isWinner_ = true;
+        }
+    }
+
+
+    boolean isItEndOfBetting() {
+
+
+        int numberOfUnfoldedPlayers = 0;
+        System.out.println("point1");
+        boolean everyPlayer = true;
+        System.out.println(currentBet);
+        for (Player player : players_) {
+            System.out.println(player.getBet_());
+            if (player.getBet_() != currentBet && !player.isFolded_())
+                everyPlayer = false;
+            if (!player.isFolded_()) {
+                numberOfUnfoldedPlayers++;
+            }
+        }
+        System.out.println("point3");
+        if (numberOfUnfoldedPlayers == 1) {
+            return true;
+        }
+        return everyPlayer;
+
+
+    }
+
+
+    /* -------------------------------------------------------------------------- */
+    /*                                 Game States                                */
+    /* -------------------------------------------------------------------------- */
+
+    void startGame() {
+        deck_.shuffle();
+        for (Player player : playerMap.values()) {
+            deck_.deal(player, 5);
+            player.setBet_(-1);
+        }
+        nextPlayer();
+        gameState = 1;
+    }
+    void endFirstRoundBets() {
+        if (gameState != 1 || !isItEndOfBetting()) {
+            return;
+        }
+
+        gameState = 2;
+        for (Player player : players_) {
+            player.setBet_(0);
+        }
+        currentBet = 0;
+        currentPlayerIndex = 0;
+    }
+    void endOfStateWaitingForCardsChangePhase() {
+        if (gameState != 2)
+            return;
+        gameState = 3;
+        for (Player player : players_) {
+            player.setBet_(0);
+        }
+
+        currentBet = 0;
+        currentPlayerIndex = 0;
+    }
+    void endOfSecondRoundBets() {
+        if (gameState != 3 || !isItEndOfBetting())
+            return;
+        gameState = 4;
+        for (Player player : players_) {
+            player.setBet_(0);
+        }
+        currentBet = 0;
+        currentPlayerIndex = 0;
+        calculateRoundWinner();
+        showdown();
+    }
+
+    void endOfStateGameOverStartNextRound() {
+        if (gameState != 5) {
+            return;
+        }
+
+        gameState = 0;
+
+        for (Player player : players_) {
+            player.resetForNextRound();
         }
     }
 }
+

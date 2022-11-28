@@ -1,4 +1,5 @@
 package org.cards.object;
+import org.cards.object.Deck;
 
 import java.util.*;
 import java.util.stream.IntStream;
@@ -38,8 +39,11 @@ public class Hand {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (Card card : hand_) {
-            sb.append(card.getRank().toString() + " of " + card.getSuit().toString() + "\t");
+
+        for (int i = 0; i < hand_.size(); i++) {
+            sb.append("\n(").append(i).append(")").append(hand_.get(i).getRank().toString()).append(" of ").append(hand_.get(i).getSuit().toString()).append("\n");
+//            sb.append("("+i+")"+ hand_.get(i).getRank().toString() + " of " + hand_.get(i).getSuit().toString() + "\n");
+
         }
         return sb.toString();
     }
@@ -72,6 +76,11 @@ public class Hand {
     public void printHand() {
         for (Card i : hand_) {
             System.out.println(i);
+        }
+    }
+    public void exchangeCards(int[] indexOfCardsToExchange, Deck deck) {
+        for (int i = 0; i < indexOfCardsToExchange.length; i++) {
+            hand_.set(indexOfCardsToExchange[i], deck.draw());
         }
     }
 
