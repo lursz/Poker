@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Hand.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">poker-model</a> &gt; <a href="index.source.html" class="el_package">org.cards.object</a> &gt; <span class="el_source">Hand.java</span></div><h1>Hand.java</h1><pre class="source lang-java linenums">package org.cards.object;
+import org.cards.object.Deck;
+
+import java.util.*;
+import java.util.stream.IntStream;
+
+public class Hand {
+    private ArrayList&lt;Card&gt; hand_;
+    private int numberOfCards_;
+
+
+
+    /* -------------------------------------------------------------------------- */
+    /*                                 Constructor                                */
+    /* -------------------------------------------------------------------------- */
+
+<span class="nc" id="L17">    public Hand() {</span>
+<span class="nc" id="L18">        this.hand_ = new ArrayList&lt;Card&gt;();</span>
+<span class="nc" id="L19">        this.numberOfCards_ = 0;</span>
+<span class="nc" id="L20">    }</span>
+
+
+    /* -------------------------------------------------------------------------- */
+    /*                                   Getters                                  */
+    /* -------------------------------------------------------------------------- */
+
+    public ArrayList&lt;Card&gt; getHand_() {
+<span class="nc" id="L28">        return hand_;</span>
+    }
+
+    public int getNumberOfCards() {
+<span class="nc" id="L32">        return numberOfCards_;</span>
+    }
+
+    public Card getCard(int index) {
+<span class="nc" id="L36">        return hand_.get(index);</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L41">        sortHand(this);</span>
+<span class="nc" id="L42">        StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L43">        sb.append(&quot;\n&quot;);</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        for (int i = 0; i &lt; hand_.size(); i++) {</span>
+<span class="nc" id="L45">            sb.append(&quot;(&quot;).append(i).append(&quot;)&quot;).append(hand_.get(i).getRank().toString()).append(&quot; of &quot;).append(hand_.get(i).getSuit().toString()).append(&quot;\n&quot;);</span>
+//            sb.append(&quot;(&quot;+i+&quot;)&quot;+ hand_.get(i).getRank().toString() + &quot; of &quot; + hand_.get(i).getSuit().toString() + &quot;\n&quot;);
+
+        }
+<span class="nc" id="L49">        return sb.toString();</span>
+    }
+    /* -------------------------------------------------------------------------- */
+    /*                                   Methods                                  */
+    /* -------------------------------------------------------------------------- */
+
+    /* ------------------------------- Manage hand ------------------------------ */
+    public void addCard(Card card) {
+<span class="nc" id="L57">        hand_.add(card);</span>
+<span class="nc" id="L58">        numberOfCards_++;</span>
+
+<span class="nc" id="L60">    }</span>
+
+    public void removeCard(Card card) {
+<span class="nc" id="L63">        hand_.remove(card);</span>
+<span class="nc" id="L64">        numberOfCards_--;</span>
+<span class="nc" id="L65">    }</span>
+
+    public void removeCard(int index) {
+<span class="nc" id="L68">        hand_.remove(index);</span>
+<span class="nc" id="L69">        numberOfCards_--;</span>
+<span class="nc" id="L70">    }</span>
+
+    public void clearHand() {
+<span class="nc" id="L73">        hand_.clear();</span>
+<span class="nc" id="L74">        numberOfCards_ = 0;</span>
+<span class="nc" id="L75">    }</span>
+
+    public void printHand() {
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        for (Card i : hand_) {</span>
+<span class="nc" id="L79">            System.out.println(i);</span>
+<span class="nc" id="L80">        }</span>
+<span class="nc" id="L81">    }</span>
+    public void exchangeCards(int[] indexOfCardsToExchange, Deck deck) {
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        for (int i = 0; i &lt; indexOfCardsToExchange.length; i++) {</span>
+<span class="nc" id="L84">            hand_.set(indexOfCardsToExchange[i], deck.draw());</span>
+        }
+<span class="nc" id="L86">    }</span>
+
+    /* -------------------------------------------------------------------------- */
+    /*                               Hand Management                              */
+    /* -------------------------------------------------------------------------- */
+    /* -------- Static multiple cards arrays for deciding cards seniority ------- */
+<span class="nc" id="L92">    static int[] pairArray = new int[]{2, 1, 1, 1, 0};</span>
+<span class="nc" id="L93">    static int[] twoPairsArray = new int[]{2, 2, 1, 0, 0};</span>
+<span class="nc" id="L94">    static int[] threeSameArray = new int[]{3, 1, 1, 0, 0};</span>
+<span class="nc" id="L95">    static int[] fullHouseArray = new int[]{3, 2, 0, 0, 0};</span>
+<span class="nc" id="L96">    static int[] fourSameArray = new int[]{4, 1, 0, 0, 0};</span>
+
+    /* --------------------------- Seniority constants -------------------------- */
+<span class="nc" id="L99">    static int noSeniority = 0;</span>
+<span class="nc" id="L100">    static int pairSeniority = 1;</span>
+<span class="nc" id="L101">    static int twoPairsSeniority = 2;</span>
+<span class="nc" id="L102">    static int threeOfTheKindSeniority = 3;</span>
+<span class="nc" id="L103">    static int straightSeniority = 4;</span>
+<span class="nc" id="L104">    static int flushSeniority = 5;</span>
+<span class="nc" id="L105">    static int fullHouseSeniority = 6;</span>
+<span class="nc" id="L106">    static int fourOfTheKindSeniority = 7;</span>
+
+    // flushSeniority (5) + straightSeniority (4) = Straight Flush (9)
+<span class="nc" id="L109">    static int[] noMultipleCardsSeniorities = new int[]{0, 4, 5, 9};</span>
+
+
+
+/* ------------------- Ultimate hand comparison function -------------------- */
+    public int isBetterThan(Hand other) {
+        // 1 -&gt; this hand is better than the other
+        // 0 -&gt; hands are equal
+        // -1 -&gt; this hand is worse than the other
+
+<span class="nc" id="L119">        sortHand(this);</span>
+<span class="nc" id="L120">        sortHand(other);</span>
+<span class="nc" id="L121">        int thisSeniority = this.handSeniority();</span>
+<span class="nc" id="L122">        int otherSeniority = other.handSeniority();</span>
+
+<span class="nc bnc" id="L124" title="All 2 branches missed.">        if (thisSeniority &gt; otherSeniority) {</span>
+<span class="nc" id="L125">            return 1;</span>
+        }
+<span class="nc bnc" id="L127" title="All 2 branches missed.">        else if(thisSeniority &lt; otherSeniority) {</span>
+<span class="nc" id="L128">            return -1;</span>
+        }
+        //Same poker rankings
+
+        //Checks for ranking with no repeating cards
+<span class="nc bnc" id="L133" title="All 4 branches missed.">        if(IntStream.of(noMultipleCardsSeniorities).anyMatch(x -&gt; x == thisSeniority)) {</span>
+            //if no repeating cards (e.g. straight, flush, straight flush), compare the highest card
+<span class="nc" id="L135">            return highestCardSearch(other);</span>
+        }
+        //else, we have repeating cards (e.g. pair, two pairs, three of a kind, full house, four of a kind)
+<span class="nc" id="L138">        return weightedHighestCardSearch(other);</span>
+    }
+
+    //--------auxiliary---------
+    private void sortHand(Hand toSort) {
+        //Just sort the hand
+<span class="nc" id="L144">        toSort.hand_.sort(new Comparator&lt;Card&gt;() {</span>
+            @Override
+            public int compare(Card o1, Card o2) {
+<span class="nc" id="L147">                return Integer.compare(o1.getRankValue(), o2.getRankValue());</span>
+            }
+        });
+<span class="nc" id="L150">    }</span>
+
+
+/* --------------------- Layout WITH NO repeating cards --------------------- */
+
+    private int highestCardSearch(Hand other) {
+        // Looks for the highest card (Cards ought to already be sorted)
+        //Loops through the hand and returns:
+        // -&gt; 1:   if this hand has the highest card
+        // -&gt; -1:  if the other hand has the highest card
+        // -&gt; 0:   if they are equal
+
+<span class="nc bnc" id="L162" title="All 2 branches missed.">        for(int i=0; i&lt;numberOfCards_; i++) {</span>
+<span class="nc bnc" id="L163" title="All 2 branches missed.">            if(this.hand_.get(i).getRankValue() &gt; other.hand_.get(i).getRankValue()) {</span>
+<span class="nc" id="L164">                return 1;</span>
+<span class="nc bnc" id="L165" title="All 2 branches missed.">            } else if(this.hand_.get(i).getRankValue() &lt; other.hand_.get(i).getRankValue()) {</span>
+<span class="nc" id="L166">                return -1;</span>
+            }
+        }
+<span class="nc" id="L169">        return 0;</span>
+    }
+
+
+
+/* ----------------------- Layout WITH repeating cards ---------------------- */
+    private int weightedHighestCardSearch(Hand other) {
+<span class="nc" id="L176">        int[][] thisHand = handTo2dArray(this);</span>
+<span class="nc" id="L177">        int[][] otherHand = handTo2dArray(other);</span>
+
+<span class="nc bnc" id="L179" title="All 2 branches missed.">        for(int i=0; i&lt;numberOfCards_; i++) {</span>
+<span class="nc bnc" id="L180" title="All 2 branches missed.">            if(thisHand[i][0] &gt; otherHand[i][0]) {</span>
+<span class="nc" id="L181">                return 1;</span>
+<span class="nc bnc" id="L182" title="All 2 branches missed.">            } else if(thisHand[i][0] &lt; otherHand[i][0]) {</span>
+<span class="nc" id="L183">                return -1;</span>
+            }
+        }
+<span class="nc" id="L186">        return 0;</span>
+    }
+
+    //    --------auxiliary---------
+    private int[][] handTo2dArray(Hand other) {
+        /*
+        Returns given Hand in form of an array of cards with their weights -&gt; [cardValue, weight].
+        For example if we have a hand &quot;A J 4 4 2&quot; the representation is:
+        [4, 2]
+        [15, 1]
+        [11, 1]
+        [2, 1]
+        [0, 0]
+        There are always 5 rows and 2 columns (numbers in column 1 always add up to 5).
+        Example &quot;Q Q Q 7 7&quot;:
+        [12, 3]
+        [7, 2]
+        [0, 0]
+        [0, 0]
+        [0, 0]
+         */
+<span class="nc" id="L207">        int[] cards = new int[13];</span>
+<span class="nc" id="L208">        int[][] result = new int[5][2];</span>
+
+<span class="nc bnc" id="L210" title="All 2 branches missed.">        for (int i = 0; i &lt; numberOfCards_; i++) {</span>
+<span class="nc" id="L211">            cards[other.hand_.get(i).getRankValue()-2] += 1;</span>
+        }
+
+
+<span class="nc bnc" id="L215" title="All 2 branches missed.">        for(int i=0, j=0; i&lt;13; i++) {</span>
+            //if there is a card with value i+2
+<span class="nc bnc" id="L217" title="All 2 branches missed.">            if(cards[i] &gt; 0) {</span>
+<span class="nc" id="L218">                result[j][0] = i;</span>
+<span class="nc" id="L219">                result[j++][1] = cards[i];</span>
+            }
+        }
+<span class="nc" id="L222">        RowsSort(result);</span>
+<span class="nc" id="L223">        return result;</span>
+    }
+
+    static void RowsSort(int arr[][]) {
+<span class="nc" id="L227">        Arrays.sort(arr, new Comparator&lt;int[]&gt;() {</span>
+            public int compare(int[] first, int[] second) {
+<span class="nc bnc" id="L229" title="All 2 branches missed.">                if(first[1]*100+first[0] &lt; second[1]*100+second[0]) {</span>
+<span class="nc" id="L230">                    return 1;</span>
+                }
+<span class="nc" id="L232">                else return -1;</span>
+            }
+        });
+<span class="nc" id="L235">    }</span>
+
+
+    /* ---------------------- Seniority deciding functions ---------------------- */
+    //Hand seniority returns int - meaning poker hand rankings
+
+    private int handSeniority() {
+<span class="nc" id="L242">        return allCardsInTheSameColor() + allCardsInConsecutiveOrder() + multipleCards();</span>
+    }
+
+    //    --------auxiliary---------
+    private int allCardsInTheSameColor() {
+        //Checks if all cards are of the same color
+<span class="nc bnc" id="L248" title="All 2 branches missed.">        for (Card i : hand_) {</span>
+<span class="nc bnc" id="L249" title="All 2 branches missed.">            if (hand_.get(0).getSuit() != i.getSuit())</span>
+<span class="nc" id="L250">                return noSeniority;</span>
+<span class="nc" id="L251">        }</span>
+<span class="nc" id="L252">        return flushSeniority;</span>
+    }
+    private int allCardsInConsecutiveOrder() {
+        //Checks if all cards are in 'straight' order (one after another)
+<span class="nc bnc" id="L256" title="All 2 branches missed.">        for (int i = 1; i &lt; numberOfCards_; i++) {</span>
+<span class="nc bnc" id="L257" title="All 2 branches missed.">            if (hand_.get(i-1).getRankValue()-1 != hand_.get(i).getRankValue()) {</span>
+<span class="nc" id="L258">                return noSeniority;</span>
+            }
+        }
+<span class="nc" id="L261">        return straightSeniority;</span>
+    }
+    private int multipleCards() {
+<span class="nc" id="L264">        int[] cards = new int[13];</span>
+<span class="nc" id="L265">        int[] givenHandSeniority = new int[5];</span>
+
+<span class="nc bnc" id="L267" title="All 2 branches missed.">        for (int i = 0; i &lt; numberOfCards_; i++) {</span>
+<span class="nc" id="L268">            cards[hand_.get(i).getRankValue()-2] += 1;</span>
+        }
+
+<span class="nc bnc" id="L271" title="All 2 branches missed.">        for(int i=0, j=0; i&lt;13; i++) {</span>
+<span class="nc bnc" id="L272" title="All 2 branches missed.">            if(cards[i] &gt; 0) {</span>
+<span class="nc" id="L273">                givenHandSeniority[j++] = cards[i];</span>
+            }
+        }
+
+<span class="nc" id="L277">        Arrays.sort(givenHandSeniority);</span>
+
+<span class="nc bnc" id="L279" title="All 2 branches missed.">        if (Arrays.equals(givenHandSeniority, pairArray)) {</span>
+<span class="nc" id="L280">            return pairSeniority;</span>
+        }
+<span class="nc bnc" id="L282" title="All 2 branches missed.">        else if(Arrays.equals(givenHandSeniority, twoPairsArray)) {</span>
+<span class="nc" id="L283">            return twoPairsSeniority;</span>
+        }
+<span class="nc bnc" id="L285" title="All 2 branches missed.">        else if(Arrays.equals(givenHandSeniority, threeSameArray)) {</span>
+<span class="nc" id="L286">            return threeOfTheKindSeniority;</span>
+<span class="nc bnc" id="L287" title="All 2 branches missed.">        } else if(Arrays.equals(givenHandSeniority, fullHouseArray)) {</span>
+<span class="nc" id="L288">            return fullHouseSeniority;</span>
+        }
+<span class="nc bnc" id="L290" title="All 2 branches missed.">        else if(Arrays.equals(givenHandSeniority, fourSameArray)) {</span>
+<span class="nc" id="L291">            return fourOfTheKindSeniority;</span>
+        }
+<span class="nc" id="L293">        return noSeniority;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
