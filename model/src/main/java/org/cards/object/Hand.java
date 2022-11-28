@@ -4,6 +4,9 @@ import org.cards.object.Deck;
 import java.util.*;
 import java.util.stream.IntStream;
 
+/**
+ *Class managing Hand functions
+ */
 public class Hand {
     private ArrayList<Card> hand_;
     private int numberOfCards_;
@@ -14,6 +17,9 @@ public class Hand {
     /*                                 Constructor                                */
     /* -------------------------------------------------------------------------- */
 
+    /**
+     * Constructor
+     */
     public Hand() {
         this.hand_ = new ArrayList<Card>();
         this.numberOfCards_ = 0;
@@ -32,6 +38,11 @@ public class Hand {
         return numberOfCards_;
     }
 
+    /**
+     *
+     * @param index
+     * @return index
+     */
     public Card getCard(int index) {
         return hand_.get(index);
     }
@@ -74,11 +85,11 @@ public class Hand {
         numberOfCards_ = 0;
     }
 
-    public void printHand() {
-        for (Card i : hand_) {
-            System.out.println(i);
-        }
-    }
+    /**
+     * Function used to let go of cards in hand, and collect cards from deck
+     * @param indexOfCardsToExchange
+     * @param deck
+     */
     public void exchangeCards(int[] indexOfCardsToExchange, Deck deck) {
         for (int i = 0; i < indexOfCardsToExchange.length; i++) {
             hand_.set(indexOfCardsToExchange[i], deck.draw());
@@ -111,6 +122,17 @@ public class Hand {
 
 
 /* ------------------- Ultimate hand comparison function -------------------- */
+
+    /**
+     * Ultimate comparison function
+     * Looks for the highest card (Cards ought to already be sorted)
+     *         Loops through the hand and returns:
+     *         -> 1:   if this hand has the highest card
+     *         -> -1:  if the other hand has the highest card
+     *         -> 0:   if they are equal
+     * @param other
+     * @return
+     */
     public int isBetterThan(Hand other) {
         // 1 -> this hand is better than the other
         // 0 -> hands are equal
@@ -139,6 +161,11 @@ public class Hand {
     }
 
     //--------auxiliary---------
+
+    /**
+     * Auxiliary function, sorts hand for easier comparisons
+     * @param toSort
+     */
     private void sortHand(Hand toSort) {
         //Just sort the hand
         toSort.hand_.sort(new Comparator<Card>() {
@@ -152,6 +179,11 @@ public class Hand {
 
 /* --------------------- Layout WITH NO repeating cards --------------------- */
 
+    /**
+     * Kicker comparator when there are no repeating cards. Looks for the highest card (Cards ought to already be sorted)
+     * @param other
+     * @return
+     */
     private int highestCardSearch(Hand other) {
         // Looks for the highest card (Cards ought to already be sorted)
         //Loops through the hand and returns:
@@ -172,6 +204,12 @@ public class Hand {
 
 
 /* ----------------------- Layout WITH repeating cards ---------------------- */
+
+    /**
+     * Kicker comparator when there are repeating cards. Looks for the highest card (Cards ought to already be sorted)
+     * @param other
+     * @return
+     */
     private int weightedHighestCardSearch(Hand other) {
         int[][] thisHand = handTo2dArray(this);
         int[][] otherHand = handTo2dArray(other);
@@ -187,6 +225,12 @@ public class Hand {
     }
 
     //    --------auxiliary---------
+
+    /**
+     * Auxiliary function counting occurances and weights of cards and putting it in 2d array
+     * @param other
+     * @return
+     */
     private int[][] handTo2dArray(Hand other) {
         /*
         Returns given Hand in form of an array of cards with their weights -> [cardValue, weight].
@@ -223,6 +267,10 @@ public class Hand {
         return result;
     }
 
+    /**
+     * Auxiliary function sorting 2d card arrays
+     * @param arr
+     */
     static void RowsSort(int arr[][]) {
         Arrays.sort(arr, new Comparator<int[]>() {
             public int compare(int[] first, int[] second) {
@@ -238,6 +286,11 @@ public class Hand {
     /* ---------------------- Seniority deciding functions ---------------------- */
     //Hand seniority returns int - meaning poker hand rankings
 
+    /**
+     * Hand seniority returns int - meaning poker hand rankings
+     * Function looks for known card layouts. First thing we ought to start when comparing two hands.
+     * @return
+     */
     private int handSeniority() {
         return allCardsInTheSameColor() + allCardsInConsecutiveOrder() + multipleCards();
     }

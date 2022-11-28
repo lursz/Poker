@@ -1,9 +1,7 @@
 package org.cards.object;
 import java.lang.*;
-/*
+/**
  * Class describing a card
- * @param suit - suit of the card
- * @param rank - rank of the card
  */
 public class Card {
      /* ------------------------------ Enum template ----------------------------- */

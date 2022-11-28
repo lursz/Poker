@@ -4,11 +4,8 @@ import org.cards.player.Player;
 import java.util.ArrayList;
 import java.util.Collections;
 
-/*
+/**
  * Class describing a deck of cards
- * @param cards - list of cards
- * @param cardsLeft - number of cards left in the deck
- * @param size_ - size of the deck
  */
 public class Deck {
     /* -------------------------------------------------------------------------- */
@@ -48,6 +45,12 @@ public class Deck {
    /* -------------------------------------------------------------------------- */
    /*                                   Methods                                  */
    /* -------------------------------------------------------------------------- */
+
+    /**
+     * Function resets deck and returns it in order.
+     * @param tempDeck
+     * @return
+     */
     public Deck reset(Deck tempDeck) {
         tempDeck.deck_.clear();
         for (Card.suits iSuit : Card.suits.values()) {
@@ -58,10 +61,17 @@ public class Deck {
         return tempDeck;
     }
 
+    /**
+     * Function to shuffle deck
+     */
     public void shuffle() {
         Collections.shuffle(deck_);
     }
 
+    /**
+     * Function to draw card from the deck
+     * @return
+     */
     public Card draw() {
         if (cardsLeft_ > 0) {
             Card tempCard = deck_.get(0);
@@ -72,6 +82,12 @@ public class Deck {
             return null;
         }
     }
+
+    /**
+     * Function dealing cards to player's hands
+     * @param player_
+     * @param numberOfCardsToDeal
+     */
     public void deal(Player player_, int numberOfCardsToDeal) {
         for (int i = 0; i < numberOfCardsToDeal; i++) {
                 player_.getHand_().addCard(draw());
@@ -79,6 +95,9 @@ public class Deck {
             }
         }
 
+    /**
+     * Function printing deck
+     */
     public void printDeck() {
         for (Card i : deck_) {
             System.out.println(i);

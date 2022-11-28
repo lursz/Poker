@@ -10,6 +10,7 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 import java.util.*;
 
+
 public class Game {
     //Object of the game
     private Deck deck_;
@@ -79,6 +80,9 @@ public class Game {
     /*                            Master Game Function                            */
     /* -------------------------------------------------------------------------- */
 
+    /**
+     * Change the current player to next player
+     */
     public void nextPlayer() {
         do {
             currentPlayerIndex++;
@@ -88,6 +92,12 @@ public class Game {
         } while (players_.get(currentPlayerIndex).isFolded_());
     }
 
+    /**
+     * Function communicating with the server
+     * @param command
+     * @param player
+     * @return
+     */
     public Pair receiveCommands(String command, Player player) {
         String[] commandParts = command.split(" ");
         switch (commandParts[0]) {
@@ -435,7 +445,7 @@ public class Game {
                         if (commandParts.length == 1) {
                             String answer = "";
                             for (Player player_i : playerMap.values()) {
-                                answer += player_i.getName_() + ": " + player_i.getHand_().toString() + "Balance: " + player_i.getBalance_() + "\n";
+                                answer += player_i.getName_() + ": " + player_i.getHand_().toString() + "\n";
                             }
                             //show nickname of the winner
                             Player winner = calculateRoundWinner();
@@ -462,6 +472,12 @@ public class Game {
     /* -------------------------------------------------------------------------- */
     /*                                   Methods                                  */
     /* -------------------------------------------------------------------------- */
+
+    /**
+     * Function to send a message to client without a request
+     * @param client
+     * @param response
+     */
     private void sendResponse(SocketChannel client, String response) {
         try {
 
@@ -473,6 +489,10 @@ public class Game {
 
     }
 
+    /**
+     * Function to show everyone's cards to everyone
+     * @return
+     */
     public Pair showdown() {
         //showdown - send everyone's hands to everyone
         String answer = "";
@@ -482,6 +502,10 @@ public class Game {
         return new Pair(answer, true);
     }
 
+    /**
+     * Function to trigger calculating the winning hand and grant points
+     * @return
+     */
     Player calculateRoundWinner() {
         int numberOfPlayersLeft = 0;
         ArrayList<Player> playersLeft = new ArrayList<>();
@@ -571,7 +595,10 @@ public class Game {
 
      */
 
-
+    /**
+     * Function checking for end of round of betting
+     * @return
+     */
     boolean isItEndOfBetting() {
         int numberOfUnfoldedPlayers = 0;
         boolean everyPlayer = true;
@@ -596,6 +623,9 @@ public class Game {
     /*                                 Game States                                */
     /* -------------------------------------------------------------------------- */
 
+    /**
+     * Triggered at the start of the game
+     */
     void startGame() {
         deck_.shuffle();
         for (Player player : playerMap.values()) {
@@ -605,6 +635,9 @@ public class Game {
         nextPlayer();
         gameState = 1;
     }
+    /**
+     * Triggered at the end of first found of bets
+     */
     boolean endFirstRoundBets() {
         if (gameState != 1 || !isItEndOfBetting()) {
             return false;
@@ -619,6 +652,9 @@ public class Game {
 
         return true;
     }
+    /**
+     * Triggered at the end of exchange phase
+     */
     boolean endOfStateWaitingForCardsChangePhase() {
         if (gameState != 2)
             return false;
@@ -637,6 +673,9 @@ public class Game {
 
         return true;
     }
+    /**
+     * Triggered at the end of second round of bets
+     */
     void endOfSecondRoundBets() {
         if (gameState != 3 || !isItEndOfBetting())
             return;
@@ -649,7 +688,9 @@ public class Game {
         calculateRoundWinner();
         showdown();
     }
-
+    /**
+     * Triggered at the very end of the round
+     */
     void endOfStateGameOverStartNextRound() {
         if (gameState != 5) {
             return;

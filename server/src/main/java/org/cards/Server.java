@@ -21,6 +21,11 @@ public class Server {
 
     private static boolean isRunning = true;
 /* ----------------------------- Add new player ----------------------------- */
+
+    /**
+     * Function adds new player to the game
+     * @param player
+     */
     public static void addPlayer(Player player) {
        Game.playerMap.put(player.getKey_(), player);
        Game.players_.add(player);
@@ -117,6 +122,13 @@ public class Server {
         }
     }
         /* --------------------------------- Sending -------------------------------- */
+
+    /**
+     * Send message to client
+     * @param message
+     * @param client
+     * @throws IOException
+     */
     public static void sendMessageToClient(String message, SocketChannel client) throws IOException {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
         //Convert the message to bytes
@@ -129,6 +141,11 @@ public class Server {
         
     }
 
+    /**
+     * Send message to all clients
+     * @param message
+     * @throws IOException
+     */
     public static void sendMessageToEveryone(String message) throws IOException {
         for (SelectionKey key : Game.playerMap.keySet()) {
             SocketChannel client = (SocketChannel) key.channel();
@@ -136,6 +153,12 @@ public class Server {
         }
     }
     /* -------------------------------- Receiving ------------------------------- */
+
+    /**
+     * Receive message from client
+     * @param key
+     * @throws IOException
+     */
     public static void receiveMessageFromClient(SelectionKey key) throws IOException {
         SocketChannel client = (SocketChannel) key.channel();
         ByteBuffer buffer = ByteBuffer.allocate(256);

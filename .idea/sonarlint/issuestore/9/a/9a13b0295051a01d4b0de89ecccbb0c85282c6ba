@@ -1,0 +1,65 @@
+
+a	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ
+i
+java:S1192¦"MDefine a constant instead of duplicating this literal "Game is over" 6 times.(¹Ÿƒ™üÿÿÿÿ
+»
+java:S1192Ò"Define a constant instead of duplicating this literal "
+Showdown time! Are you ready? Type /showdown to see the results appear on everyone's screen." 4 times.(Š˜ÿøÿÿÿÿ
+j
+java:S1192…"NDefine a constant instead of duplicating this literal "Wrong command" 8 times.(‚¡¹„şÿÿÿÿ
+|
+java:S1192©"`Define a constant instead of duplicating this literal "You folded, wait for next round" 7 times.(”¨™Õÿÿÿÿÿ
+h
+java:S1192±"QDefine a constant instead of duplicating this literal "Game not started" 7 times.(íÜëù
+o
+java:S1192£"XDefine a constant instead of duplicating this literal "Game hasn't started yet" 6 times.(“Ô¼¦
+Ä
+java:S1192Ô"¬Define a constant instead of duplicating this literal "
+It's time to exchange your cards using /exchange <number, [number]>. Then proceed with next betting round." 3 times.(²òü³
+j
+java:S1192Å"SDefine a constant instead of duplicating this literal "It's not your turn" 5 times.(èËÂ¹
+~
+java:S1319"hThe type of "players_" should be an interface such as "List" rather than the implementation "ArrayList".(‘œ½õ
+f	java:S117A"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(°ô™ã
+D
+java:S1604‹"(Make this anonymous inner class a lambda(‰±îßşÿÿÿÿ
+8
+java:S1643À"Use a StringBuilder instead.( ˜Èêÿÿÿÿÿ
+8
+java:S1643ô"Use a StringBuilder instead.(á‘¶„øÿÿÿÿ
+m
+java:S1104-"RMake answer a static final constant or non-public and provide accessors if needed.(è÷şùÿÿÿÿ
+l
+java:S1104."QMake toAll a static final constant or non-public and provide accessors if needed.( ëëÈüÿÿÿÿ
+j	java:S116"PRename this field "deck_" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¯èÛˆşÿÿÿÿ
+d	java:S116"ORename this field "pot_" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ªÆ®¸
+l	java:S116'"WRename this field "initialized_" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÒÄÖè
+3
+java:S2386"Make this member "protected".(‘œ½õ
+3
+java:S2386"Make this member "protected".(åîà
+c	java:S100A"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(°ô™ã
+c	java:S100D"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ƒ…ßŸ
+n
+java:S3776e"SRefactor this method to reduce its Cognitive Complexity from 213 to the 15 allowed.(·Úÿ¦ûÿÿÿÿ
+O	java:S106"9Replace this use of System.out or System.err by a logger.(öÇõâ
+T	java:S106—"9Replace this use of System.out or System.err by a logger.(½©‘Æûÿÿÿÿ
+T	java:S106ç"9Replace this use of System.out or System.err by a logger.(ø…Öëøÿÿÿÿ
+V
+java:S1854“"?Remove this useless assignment to local variable "winnerScore".(’ğêŠ
+Y
+java:S1854"=Remove this useless assignment to local variable "moneyLeft".(ÏŠ¬ˆùÿÿÿÿ
+2
+java:S3626ˆ"Remove this redundant jump.(ÉŠ©ƒ
+G
+java:S1481“"0Remove this unused "winnerScore" local variable.(’ğêŠ
+J
+java:S1481".Remove this unused "moneyLeft" local variable.(ÏŠ¬ˆùÿÿÿÿ
+W	java:S125§"<This block of commented-out lines of code should be removed.(ï¢¡ şÿÿÿÿ
+T	java:S106Ş"9Replace this use of System.out or System.err by a logger.(Î«®Øÿÿÿÿÿ
+L
+java:S1481•"0Remove this unused "everyPlayer" local variable.(…ØíÑùÿÿÿÿ
+^
+java:S1128"HRemove this unused import 'javax.print.attribute.standard.PrintQuality'.(ÍÎ˜»
+H
+java:S1144á"1Remove this unused private "sendResponse" method.(Õ÷õè

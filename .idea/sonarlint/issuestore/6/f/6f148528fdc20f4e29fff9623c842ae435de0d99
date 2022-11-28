@@ -1,0 +1,36 @@
+
+r	java:S117P"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¤›·ÿÿÿÿÿÿ8Â’ıË0
+m	java:S117X"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(’Å¦£8Â’ıË0
+m	java:S117a"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ğÊÖï8Â’ıË0
+r	java:S117w"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(şò•áÿÿÿÿÿ8Â’ıË0
+s	java:S117…"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ö·Š¸ÿÿÿÿÿ8Â’ıË0
+s
+java:S1104"QMake score a static final constant or non-public and provide accessors if needed.(‹†ªÓıÿÿÿÿ8Â’ıË0
+r
+java:S1104$"UMake isWinner_ a static final constant or non-public and provide accessors if needed.(ğë¿ô8Â’ıË0
+}
+java:S11041"`Make wereTheHandsChanged_ a static final constant or non-public and provide accessors if needed.(¤›¨ä8Â’ıË0
+k	java:S116"PRename this field "name_" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ˆÅÊ8ë’ıË0
+k	java:S116"ORename this field "key_" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(®¢áÙ8ë’ıË0
+k	java:S116"PRename this field "hand_" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ëİ‚.8ë’ıË0
+o	java:S116"SRename this field "balance_" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(òñØ—8ë’ıË0
+p	java:S116"ORename this field "bet_" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Í¸¬şÿÿÿÿ8ë’ıË0
+y	java:S116"XRename this field "wonThisRound_" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÀèÜ³úÿÿÿÿ8ë’ıË0
+s	java:S116""RRename this field "folded_" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(„Àõºşÿÿÿÿ8ë’ıË0
+p	java:S116$"TRename this field "isWinner_" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ğë¿ô8ë’ıË0
+t	java:S1160"XRename this field "roundsPlayed_" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¼ş™û8ë’ıË0
+{	java:S1161"_Rename this field "wereTheHandsChanged_" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¤›¨ä8ë’ıË0
+o	java:S100%"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÚªÓáûÿÿÿÿ8ô’ıË0
+o	java:S100H"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ñ›Àßüÿÿÿÿ8‡“ıË0
+o	java:S100P"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¤›·ÿÿÿÿÿÿ8‡“ıË0
+j	java:S100X"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(’Å¦£8ˆ“ıË0
+j	java:S100["NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(è€¡ı8ˆ“ıË0
+o	java:S100^"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Òä•¥úÿÿÿÿ8‰“ıË0
+j	java:S100a"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ğÊÖï8‰“ıË0
+o	java:S100e"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(©¯¾ûÿÿÿÿ8‰“ıË0
+j	java:S100h"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‚˜Õ­8Š“ıË0
+o	java:S100p"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—ÖÕ‚úÿÿÿÿ8Š“ıË0
+j	java:S100t"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‰éË…8‹“ıË0
+o	java:S100w"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(şò•áÿÿÿÿÿ8‹“ıË0
+M
+java:S1128"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8Œ“ıË0

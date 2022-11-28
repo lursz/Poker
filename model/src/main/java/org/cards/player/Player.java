@@ -73,9 +73,18 @@ public class Player {
         return name_;
     }
 
+    /**
+     * Give player a name
+     * @param name_
+     */
     public void setName_(String name_) {
         this.name_ = name_;
     }
+
+    /**
+     * Set balance of player's account
+     * @param balance_
+     */
     public void setBalance_(int balance_) {
         this.balance_ = balance_;
     }
@@ -96,6 +105,10 @@ public class Player {
         return roundsPlayed_;
     }
 
+    /**
+     * Return players key
+     * @return
+     */
     public SelectionKey getKey_() {
         return key_;
     }
@@ -111,6 +124,12 @@ public class Player {
     /* -------------------------------------------------------------------------- */
     /*                                   Methods                                  */
     /* -------------------------------------------------------------------------- */
+
+    /**
+     * Subtract
+     * @param bet_amount
+     * @throws BalanceTooLow
+     */
     public void setBet(int bet_amount) throws BalanceTooLow {
         if (bet_amount > balance_)
             throw new BalanceTooLow(name_ + " has insufficient funds");
@@ -121,6 +140,11 @@ public class Player {
             balance_ -= bet_amount - bet_;
         bet_ = bet_amount;
     }
+
+    /**
+     * Add value to players balance
+     * @param amount
+     */
     public void addBalance(int amount) {
         balance_ += amount;
     }
