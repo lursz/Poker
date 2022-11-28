@@ -53,7 +53,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>server.Main</mainClass>
+                            <mainClass>org.cards.Server</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

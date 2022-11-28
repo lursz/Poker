@@ -2,5 +2,5 @@ projectKey=Poker
 serverUrl=http://localhost:9000
 serverVersion=9.7.1.62043
 dashboardUrl=http://localhost:9000/dashboard?id=Poker
-ceTaskId=AYS9u-jGITSovZgFRRQ7
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AYS9u-jGITSovZgFRRQ7
+ceTaskId=AYS96qxYITSovZgFRRRt
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYS96qxYITSovZgFRRRt

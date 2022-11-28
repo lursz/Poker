@@ -55,7 +55,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>client.Client</mainClass>
+                            <mainClass>org.cards.Client</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

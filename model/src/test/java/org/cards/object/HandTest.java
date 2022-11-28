@@ -104,6 +104,69 @@ class HandTest {
         assertEquals(hand.isBetterThan(hand3), 1);
 
     }
+    public void testIsBetterThan2(){
+        Hand hand = new Hand();
+        // correct hand
+        hand.addCard(new Card(Card.suits.CLUBS, Card.ranks.ACE));
+        hand.addCard(new Card(Card.suits.CLUBS, Card.ranks.KING));
+        hand.addCard(new Card(Card.suits.CLUBS, Card.ranks.QUEEN));
+        hand.addCard(new Card(Card.suits.CLUBS, Card.ranks.JACK));
+        hand.addCard(new Card(Card.suits.CLUBS, Card.ranks._10));
+
+        Hand hand2 = new Hand();
+        // correct hand
+        hand2.addCard(new Card(Card.suits.CLUBS, Card.ranks.ACE));
+        hand2.addCard(new Card(Card.suits.CLUBS, Card.ranks.KING));
+        hand2.addCard(new Card(Card.suits.CLUBS, Card.ranks.QUEEN));
+        hand2.addCard(new Card(Card.suits.CLUBS, Card.ranks.JACK));
+        hand2.addCard(new Card(Card.suits.CLUBS, Card.ranks._10));
+
+        assertEquals(hand.isBetterThan(hand2), 0);
+
+        Hand hand3 = new Hand();
+        // correct hand
+        hand3.addCard(new Card(Card.suits.HEARTS, Card.ranks._2));
+        hand3.addCard(new Card(Card.suits.SPADES, Card.ranks.QUEEN));
+        hand3.addCard(new Card(Card.suits.DIAMONDS, Card.ranks._3));
+        hand3.addCard(new Card(Card.suits.CLUBS, Card.ranks._8));
+        hand3.addCard(new Card(Card.suits.CLUBS, Card.ranks._10));
+
+        assertEquals(hand.isBetterThan(hand3), 1);
+
+    }
+
+    public void testIsBetterThan3(){
+        Hand hand = new Hand();
+        // correct hand
+        hand.addCard(new Card(Card.suits.CLUBS, Card.ranks.ACE));
+        hand.addCard(new Card(Card.suits.CLUBS, Card.ranks.KING));
+        hand.addCard(new Card(Card.suits.CLUBS, Card.ranks.QUEEN));
+        hand.addCard(new Card(Card.suits.CLUBS, Card.ranks.JACK));
+        hand.addCard(new Card(Card.suits.CLUBS, Card.ranks._10));
+
+        Hand hand2 = new Hand();
+        // correct hand
+        hand2.addCard(new Card(Card.suits.CLUBS, Card.ranks.ACE));
+        hand2.addCard(new Card(Card.suits.CLUBS, Card.ranks.KING));
+        hand2.addCard(new Card(Card.suits.CLUBS, Card.ranks.QUEEN));
+        hand2.addCard(new Card(Card.suits.CLUBS, Card.ranks.JACK));
+        hand2.addCard(new Card(Card.suits.CLUBS, Card.ranks._10));
+
+        assertEquals(hand.isBetterThan(hand2), 0);
+
+        Hand hand3 = new Hand();
+        // correct hand
+        hand3.addCard(new Card(Card.suits.HEARTS, Card.ranks._2));
+        hand3.addCard(new Card(Card.suits.SPADES, Card.ranks.QUEEN));
+        hand3.addCard(new Card(Card.suits.DIAMONDS, Card.ranks._3));
+        hand3.addCard(new Card(Card.suits.CLUBS, Card.ranks._8));
+        hand3.addCard(new Card(Card.suits.CLUBS, Card.ranks._10));
+
+        assertEquals(hand.isBetterThan(hand3), 1);
+
+    }
+
+
 
 
 }

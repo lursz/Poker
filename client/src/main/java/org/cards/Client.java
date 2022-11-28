@@ -11,6 +11,8 @@ import java.util.Scanner;
 
 
 public class Client {
+    private static boolean isRunning = true;
+
     private static class ClientReadFromServerThread extends Thread {
         private final SocketChannel socketChannel;
         private ByteBuffer buffer;
@@ -21,7 +23,7 @@ public class Client {
 
         @Override
         public void run() {
-            while (true) {
+            while (isRunning) {
                 this.buffer = ByteBuffer.allocate(1024);
 
                 try {
@@ -40,10 +42,11 @@ public class Client {
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
+        SocketChannel client = null;
         try {
             InetSocketAddress serverAddr = new InetSocketAddress("localhost", 1234);
             //Create a socket channel
-            SocketChannel client = SocketChannel.open(serverAddr);
+            client = SocketChannel.open(serverAddr);
             System.out.println("Connecting to the server: " + client.getRemoteAddress());
 
             Scanner scanner = new Scanner(System.in);
@@ -53,11 +56,12 @@ public class Client {
 
             ByteBuffer buffer;
 
-            while (true) {
+            while (isRunning) {
                 //Send message to server
                 String message = scanner.nextLine();
                 //Exit
                 if (message.equals("/exit")) {
+                    isRunning = false;
                     break;
                 }
                 //Convert message to bytes
@@ -68,9 +72,12 @@ public class Client {
                 client.write(buffer);
                 buffer.clear();
             }
-            client.close();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (client != null) {
+                client.close();
+            }
         }
     }
 }

@@ -421,6 +421,7 @@ public class Game {
                             //show nickname of the winner
                             Player winner = calculateRoundWinner();
                             answer += "Winner: " + winner.getName_() + "\n";
+                            endOfStateGameOverStartNextRound();
                             return new Pair(answer, true);
                         } else {
                             return new Pair("Wrong command", false);
