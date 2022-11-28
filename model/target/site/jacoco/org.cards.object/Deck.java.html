@@ -21,17 +21,17 @@ public class Deck {
     /* -------------------------------------------------------------------------- */
     /*                                 Constructor                                */
     /* -------------------------------------------------------------------------- */
-<span class="nc" id="L24">    public Deck() {</span>
-<span class="nc" id="L25">        deck_ = new ArrayList&lt;Card&gt;();</span>
-<span class="nc" id="L26">        this.size_ = 52;</span>
-<span class="nc" id="L27">        this.cardsLeft_ = 52;</span>
-<span class="nc bnc" id="L28" title="All 2 branches missed.">        for (Card.suits iSuit : Card.suits.values()) {</span>
-<span class="nc bnc" id="L29" title="All 2 branches missed.">            for (Card.ranks iRank : Card.ranks.values()) {</span>
-<span class="nc" id="L30">                deck_.add(new Card(iSuit, iRank));</span>
+<span class="fc" id="L24">    public Deck() {</span>
+<span class="fc" id="L25">        deck_ = new ArrayList&lt;Card&gt;();</span>
+<span class="fc" id="L26">        this.size_ = 52;</span>
+<span class="fc" id="L27">        this.cardsLeft_ = 52;</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        for (Card.suits iSuit : Card.suits.values()) {</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">            for (Card.ranks iRank : Card.ranks.values()) {</span>
+<span class="fc" id="L30">                deck_.add(new Card(iSuit, iRank));</span>
             }
         }
 
-<span class="nc" id="L34">    }</span>
+<span class="fc" id="L34">    }</span>
 
     /* -------------------------------------------------------------------------- */
     /*                                   Getters                                  */

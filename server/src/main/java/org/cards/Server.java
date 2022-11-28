@@ -102,7 +102,7 @@ public class Server {
 
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Server exception: " + e.getMessage());
         } finally {
             try {
                 if (serverSocket != null) {
@@ -112,7 +112,7 @@ public class Server {
                     selector.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Server exception: " + e.getMessage());
             }
         }
     }

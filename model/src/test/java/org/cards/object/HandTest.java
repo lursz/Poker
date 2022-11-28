@@ -1,8 +1,11 @@
 package org.cards.object;
 
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class HandTest {
+    @Test
         public void testAddCard() {
         Hand hand = new Hand();
         // correct hand
@@ -18,6 +21,8 @@ class HandTest {
         assertEquals(hand.getCard(3).getRank(), Card.ranks.JACK);
         assertEquals(hand.getCard(4).getRank(), Card.ranks._10);
     }
+    @Test
+
     public void testRemoveCard(){
         Hand hand = new Hand();
         // correct hand
@@ -33,6 +38,8 @@ class HandTest {
         assertEquals(hand.getCard(2).getRank(), Card.ranks.JACK);
         assertEquals(hand.getCard(3).getRank(), Card.ranks._10);
     }
+
+    @Test
 
     public void testGetCard(){
         Hand hand = new Hand();
@@ -50,6 +57,8 @@ class HandTest {
         assertEquals(hand.getCard(4).getRank(), Card.ranks._10);
     }
 
+    @Test
+
     public void testGetNumberOfCards(){
         Hand hand = new Hand();
         // correct hand
@@ -61,6 +70,7 @@ class HandTest {
 
         assertEquals(hand.getNumberOfCards(), 5);
     }
+    @Test
 
     public void testToString(){
         Hand hand = new Hand();
@@ -71,8 +81,9 @@ class HandTest {
         hand.addCard(new Card(Card.suits.CLUBS, Card.ranks.JACK));
         hand.addCard(new Card(Card.suits.CLUBS, Card.ranks._10));
 
-        assertEquals(hand.toString(), "ACE of CLUBS, KING of CLUBS, QUEEN of CLUBS, JACK of CLUBS, _10 of CLUBS");
+        assertEquals("\n(0)_10 of CLUBS\n(1)JACK of CLUBS\n(2)QUEEN of CLUBS\n(3)KING of CLUBS\n(4)ACE of CLUBS\n", hand.toString());
     }
+    @Test
 
     public void testIsBetterThan(){
         Hand hand = new Hand();
@@ -104,6 +115,8 @@ class HandTest {
         assertEquals(hand.isBetterThan(hand3), 1);
 
     }
+    @Test
+
     public void testIsBetterThan2(){
         Hand hand = new Hand();
         // correct hand
@@ -134,6 +147,7 @@ class HandTest {
         assertEquals(hand.isBetterThan(hand3), 1);
 
     }
+    @Test
 
     public void testIsBetterThan3(){
         Hand hand = new Hand();

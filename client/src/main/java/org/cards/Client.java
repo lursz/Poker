@@ -35,7 +35,7 @@ public class Client {
                         System.out.println(output);
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println("Server has closed the connection");
                 }
             }
         }
@@ -73,7 +73,7 @@ public class Client {
                 buffer.clear();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Server is not running");
         } finally {
             if (client != null) {
                 client.close();

@@ -14,10 +14,10 @@ public class Hand {
     /*                                 Constructor                                */
     /* -------------------------------------------------------------------------- */
 
-<span class="nc" id="L17">    public Hand() {</span>
-<span class="nc" id="L18">        this.hand_ = new ArrayList&lt;Card&gt;();</span>
-<span class="nc" id="L19">        this.numberOfCards_ = 0;</span>
-<span class="nc" id="L20">    }</span>
+<span class="fc" id="L17">    public Hand() {</span>
+<span class="fc" id="L18">        this.hand_ = new ArrayList&lt;Card&gt;();</span>
+<span class="fc" id="L19">        this.numberOfCards_ = 0;</span>
+<span class="fc" id="L20">    }</span>
 
 
     /* -------------------------------------------------------------------------- */
@@ -29,24 +29,24 @@ public class Hand {
     }
 
     public int getNumberOfCards() {
-<span class="nc" id="L32">        return numberOfCards_;</span>
+<span class="fc" id="L32">        return numberOfCards_;</span>
     }
 
     public Card getCard(int index) {
-<span class="nc" id="L36">        return hand_.get(index);</span>
+<span class="fc" id="L36">        return hand_.get(index);</span>
     }
 
     @Override
     public String toString() {
-<span class="nc" id="L41">        sortHand(this);</span>
-<span class="nc" id="L42">        StringBuilder sb = new StringBuilder();</span>
-<span class="nc" id="L43">        sb.append(&quot;\n&quot;);</span>
-<span class="nc bnc" id="L44" title="All 2 branches missed.">        for (int i = 0; i &lt; hand_.size(); i++) {</span>
-<span class="nc" id="L45">            sb.append(&quot;(&quot;).append(i).append(&quot;)&quot;).append(hand_.get(i).getRank().toString()).append(&quot; of &quot;).append(hand_.get(i).getSuit().toString()).append(&quot;\n&quot;);</span>
+<span class="fc" id="L41">        sortHand(this);</span>
+<span class="fc" id="L42">        StringBuilder sb = new StringBuilder();</span>
+<span class="fc" id="L43">        sb.append(&quot;\n&quot;);</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        for (int i = 0; i &lt; hand_.size(); i++) {</span>
+<span class="fc" id="L45">            sb.append(&quot;(&quot;).append(i).append(&quot;)&quot;).append(hand_.get(i).getRank().toString()).append(&quot; of &quot;).append(hand_.get(i).getSuit().toString()).append(&quot;\n&quot;);</span>
 //            sb.append(&quot;(&quot;+i+&quot;)&quot;+ hand_.get(i).getRank().toString() + &quot; of &quot; + hand_.get(i).getSuit().toString() + &quot;\n&quot;);
 
         }
-<span class="nc" id="L49">        return sb.toString();</span>
+<span class="fc" id="L49">        return sb.toString();</span>
     }
     /* -------------------------------------------------------------------------- */
     /*                                   Methods                                  */
@@ -54,10 +54,10 @@ public class Hand {
 
     /* ------------------------------- Manage hand ------------------------------ */
     public void addCard(Card card) {
-<span class="nc" id="L57">        hand_.add(card);</span>
-<span class="nc" id="L58">        numberOfCards_++;</span>
+<span class="fc" id="L57">        hand_.add(card);</span>
+<span class="fc" id="L58">        numberOfCards_++;</span>
 
-<span class="nc" id="L60">    }</span>
+<span class="fc" id="L60">    }</span>
 
     public void removeCard(Card card) {
 <span class="nc" id="L63">        hand_.remove(card);</span>
@@ -65,9 +65,9 @@ public class Hand {
 <span class="nc" id="L65">    }</span>
 
     public void removeCard(int index) {
-<span class="nc" id="L68">        hand_.remove(index);</span>
-<span class="nc" id="L69">        numberOfCards_--;</span>
-<span class="nc" id="L70">    }</span>
+<span class="fc" id="L68">        hand_.remove(index);</span>
+<span class="fc" id="L69">        numberOfCards_--;</span>
+<span class="fc" id="L70">    }</span>
 
     public void clearHand() {
 <span class="nc" id="L73">        hand_.clear();</span>
@@ -89,24 +89,24 @@ public class Hand {
     /*                               Hand Management                              */
     /* -------------------------------------------------------------------------- */
     /* -------- Static multiple cards arrays for deciding cards seniority ------- */
-<span class="nc" id="L92">    static int[] pairArray = new int[]{2, 1, 1, 1, 0};</span>
-<span class="nc" id="L93">    static int[] twoPairsArray = new int[]{2, 2, 1, 0, 0};</span>
-<span class="nc" id="L94">    static int[] threeSameArray = new int[]{3, 1, 1, 0, 0};</span>
-<span class="nc" id="L95">    static int[] fullHouseArray = new int[]{3, 2, 0, 0, 0};</span>
-<span class="nc" id="L96">    static int[] fourSameArray = new int[]{4, 1, 0, 0, 0};</span>
+<span class="fc" id="L92">    static int[] pairArray = new int[]{2, 1, 1, 1, 0};</span>
+<span class="fc" id="L93">    static int[] twoPairsArray = new int[]{2, 2, 1, 0, 0};</span>
+<span class="fc" id="L94">    static int[] threeSameArray = new int[]{3, 1, 1, 0, 0};</span>
+<span class="fc" id="L95">    static int[] fullHouseArray = new int[]{3, 2, 0, 0, 0};</span>
+<span class="fc" id="L96">    static int[] fourSameArray = new int[]{4, 1, 0, 0, 0};</span>
 
     /* --------------------------- Seniority constants -------------------------- */
-<span class="nc" id="L99">    static int noSeniority = 0;</span>
-<span class="nc" id="L100">    static int pairSeniority = 1;</span>
-<span class="nc" id="L101">    static int twoPairsSeniority = 2;</span>
-<span class="nc" id="L102">    static int threeOfTheKindSeniority = 3;</span>
-<span class="nc" id="L103">    static int straightSeniority = 4;</span>
-<span class="nc" id="L104">    static int flushSeniority = 5;</span>
-<span class="nc" id="L105">    static int fullHouseSeniority = 6;</span>
-<span class="nc" id="L106">    static int fourOfTheKindSeniority = 7;</span>
+<span class="fc" id="L99">    static int noSeniority = 0;</span>
+<span class="fc" id="L100">    static int pairSeniority = 1;</span>
+<span class="fc" id="L101">    static int twoPairsSeniority = 2;</span>
+<span class="fc" id="L102">    static int threeOfTheKindSeniority = 3;</span>
+<span class="fc" id="L103">    static int straightSeniority = 4;</span>
+<span class="fc" id="L104">    static int flushSeniority = 5;</span>
+<span class="fc" id="L105">    static int fullHouseSeniority = 6;</span>
+<span class="fc" id="L106">    static int fourOfTheKindSeniority = 7;</span>
 
     // flushSeniority (5) + straightSeniority (4) = Straight Flush (9)
-<span class="nc" id="L109">    static int[] noMultipleCardsSeniorities = new int[]{0, 4, 5, 9};</span>
+<span class="fc" id="L109">    static int[] noMultipleCardsSeniorities = new int[]{0, 4, 5, 9};</span>
 
 
 
@@ -116,23 +116,23 @@ public class Hand {
         // 0 -&gt; hands are equal
         // -1 -&gt; this hand is worse than the other
 
-<span class="nc" id="L119">        sortHand(this);</span>
-<span class="nc" id="L120">        sortHand(other);</span>
-<span class="nc" id="L121">        int thisSeniority = this.handSeniority();</span>
-<span class="nc" id="L122">        int otherSeniority = other.handSeniority();</span>
+<span class="fc" id="L119">        sortHand(this);</span>
+<span class="fc" id="L120">        sortHand(other);</span>
+<span class="fc" id="L121">        int thisSeniority = this.handSeniority();</span>
+<span class="fc" id="L122">        int otherSeniority = other.handSeniority();</span>
 
-<span class="nc bnc" id="L124" title="All 2 branches missed.">        if (thisSeniority &gt; otherSeniority) {</span>
-<span class="nc" id="L125">            return 1;</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">        if (thisSeniority &gt; otherSeniority) {</span>
+<span class="fc" id="L125">            return 1;</span>
         }
-<span class="nc bnc" id="L127" title="All 2 branches missed.">        else if(thisSeniority &lt; otherSeniority) {</span>
+<span class="pc bpc" id="L127" title="1 of 2 branches missed.">        else if(thisSeniority &lt; otherSeniority) {</span>
 <span class="nc" id="L128">            return -1;</span>
         }
         //Same poker rankings
 
         //Checks for ranking with no repeating cards
-<span class="nc bnc" id="L133" title="All 4 branches missed.">        if(IntStream.of(noMultipleCardsSeniorities).anyMatch(x -&gt; x == thisSeniority)) {</span>
+<span class="pc bpc" id="L133" title="1 of 4 branches missed.">        if(IntStream.of(noMultipleCardsSeniorities).anyMatch(x -&gt; x == thisSeniority)) {</span>
             //if no repeating cards (e.g. straight, flush, straight flush), compare the highest card
-<span class="nc" id="L135">            return highestCardSearch(other);</span>
+<span class="fc" id="L135">            return highestCardSearch(other);</span>
         }
         //else, we have repeating cards (e.g. pair, two pairs, three of a kind, full house, four of a kind)
 <span class="nc" id="L138">        return weightedHighestCardSearch(other);</span>
@@ -141,13 +141,13 @@ public class Hand {
     //--------auxiliary---------
     private void sortHand(Hand toSort) {
         //Just sort the hand
-<span class="nc" id="L144">        toSort.hand_.sort(new Comparator&lt;Card&gt;() {</span>
+<span class="fc" id="L144">        toSort.hand_.sort(new Comparator&lt;Card&gt;() {</span>
             @Override
             public int compare(Card o1, Card o2) {
-<span class="nc" id="L147">                return Integer.compare(o1.getRankValue(), o2.getRankValue());</span>
+<span class="fc" id="L147">                return Integer.compare(o1.getRankValue(), o2.getRankValue());</span>
             }
         });
-<span class="nc" id="L150">    }</span>
+<span class="fc" id="L150">    }</span>
 
 
 /* --------------------- Layout WITH NO repeating cards --------------------- */
@@ -159,14 +159,14 @@ public class Hand {
         // -&gt; -1:  if the other hand has the highest card
         // -&gt; 0:   if they are equal
 
-<span class="nc bnc" id="L162" title="All 2 branches missed.">        for(int i=0; i&lt;numberOfCards_; i++) {</span>
-<span class="nc bnc" id="L163" title="All 2 branches missed.">            if(this.hand_.get(i).getRankValue() &gt; other.hand_.get(i).getRankValue()) {</span>
+<span class="fc bfc" id="L162" title="All 2 branches covered.">        for(int i=0; i&lt;numberOfCards_; i++) {</span>
+<span class="pc bpc" id="L163" title="1 of 2 branches missed.">            if(this.hand_.get(i).getRankValue() &gt; other.hand_.get(i).getRankValue()) {</span>
 <span class="nc" id="L164">                return 1;</span>
-<span class="nc bnc" id="L165" title="All 2 branches missed.">            } else if(this.hand_.get(i).getRankValue() &lt; other.hand_.get(i).getRankValue()) {</span>
+<span class="pc bpc" id="L165" title="1 of 2 branches missed.">            } else if(this.hand_.get(i).getRankValue() &lt; other.hand_.get(i).getRankValue()) {</span>
 <span class="nc" id="L166">                return -1;</span>
             }
         }
-<span class="nc" id="L169">        return 0;</span>
+<span class="fc" id="L169">        return 0;</span>
     }
 
 
@@ -239,58 +239,58 @@ public class Hand {
     //Hand seniority returns int - meaning poker hand rankings
 
     private int handSeniority() {
-<span class="nc" id="L242">        return allCardsInTheSameColor() + allCardsInConsecutiveOrder() + multipleCards();</span>
+<span class="fc" id="L242">        return allCardsInTheSameColor() + allCardsInConsecutiveOrder() + multipleCards();</span>
     }
 
     //    --------auxiliary---------
     private int allCardsInTheSameColor() {
         //Checks if all cards are of the same color
-<span class="nc bnc" id="L248" title="All 2 branches missed.">        for (Card i : hand_) {</span>
-<span class="nc bnc" id="L249" title="All 2 branches missed.">            if (hand_.get(0).getSuit() != i.getSuit())</span>
-<span class="nc" id="L250">                return noSeniority;</span>
-<span class="nc" id="L251">        }</span>
-<span class="nc" id="L252">        return flushSeniority;</span>
+<span class="fc bfc" id="L248" title="All 2 branches covered.">        for (Card i : hand_) {</span>
+<span class="fc bfc" id="L249" title="All 2 branches covered.">            if (hand_.get(0).getSuit() != i.getSuit())</span>
+<span class="fc" id="L250">                return noSeniority;</span>
+<span class="fc" id="L251">        }</span>
+<span class="fc" id="L252">        return flushSeniority;</span>
     }
     private int allCardsInConsecutiveOrder() {
         //Checks if all cards are in 'straight' order (one after another)
-<span class="nc bnc" id="L256" title="All 2 branches missed.">        for (int i = 1; i &lt; numberOfCards_; i++) {</span>
-<span class="nc bnc" id="L257" title="All 2 branches missed.">            if (hand_.get(i-1).getRankValue()-1 != hand_.get(i).getRankValue()) {</span>
-<span class="nc" id="L258">                return noSeniority;</span>
+<span class="pc bpc" id="L256" title="1 of 2 branches missed.">        for (int i = 1; i &lt; numberOfCards_; i++) {</span>
+<span class="pc bpc" id="L257" title="1 of 2 branches missed.">            if (hand_.get(i-1).getRankValue()-1 != hand_.get(i).getRankValue()) {</span>
+<span class="fc" id="L258">                return noSeniority;</span>
             }
         }
 <span class="nc" id="L261">        return straightSeniority;</span>
     }
     private int multipleCards() {
-<span class="nc" id="L264">        int[] cards = new int[13];</span>
-<span class="nc" id="L265">        int[] givenHandSeniority = new int[5];</span>
+<span class="fc" id="L264">        int[] cards = new int[13];</span>
+<span class="fc" id="L265">        int[] givenHandSeniority = new int[5];</span>
 
-<span class="nc bnc" id="L267" title="All 2 branches missed.">        for (int i = 0; i &lt; numberOfCards_; i++) {</span>
-<span class="nc" id="L268">            cards[hand_.get(i).getRankValue()-2] += 1;</span>
+<span class="fc bfc" id="L267" title="All 2 branches covered.">        for (int i = 0; i &lt; numberOfCards_; i++) {</span>
+<span class="fc" id="L268">            cards[hand_.get(i).getRankValue()-2] += 1;</span>
         }
 
-<span class="nc bnc" id="L271" title="All 2 branches missed.">        for(int i=0, j=0; i&lt;13; i++) {</span>
-<span class="nc bnc" id="L272" title="All 2 branches missed.">            if(cards[i] &gt; 0) {</span>
-<span class="nc" id="L273">                givenHandSeniority[j++] = cards[i];</span>
+<span class="fc bfc" id="L271" title="All 2 branches covered.">        for(int i=0, j=0; i&lt;13; i++) {</span>
+<span class="fc bfc" id="L272" title="All 2 branches covered.">            if(cards[i] &gt; 0) {</span>
+<span class="fc" id="L273">                givenHandSeniority[j++] = cards[i];</span>
             }
         }
 
-<span class="nc" id="L277">        Arrays.sort(givenHandSeniority);</span>
+<span class="fc" id="L277">        Arrays.sort(givenHandSeniority);</span>
 
-<span class="nc bnc" id="L279" title="All 2 branches missed.">        if (Arrays.equals(givenHandSeniority, pairArray)) {</span>
+<span class="pc bpc" id="L279" title="1 of 2 branches missed.">        if (Arrays.equals(givenHandSeniority, pairArray)) {</span>
 <span class="nc" id="L280">            return pairSeniority;</span>
         }
-<span class="nc bnc" id="L282" title="All 2 branches missed.">        else if(Arrays.equals(givenHandSeniority, twoPairsArray)) {</span>
+<span class="pc bpc" id="L282" title="1 of 2 branches missed.">        else if(Arrays.equals(givenHandSeniority, twoPairsArray)) {</span>
 <span class="nc" id="L283">            return twoPairsSeniority;</span>
         }
-<span class="nc bnc" id="L285" title="All 2 branches missed.">        else if(Arrays.equals(givenHandSeniority, threeSameArray)) {</span>
+<span class="pc bpc" id="L285" title="1 of 2 branches missed.">        else if(Arrays.equals(givenHandSeniority, threeSameArray)) {</span>
 <span class="nc" id="L286">            return threeOfTheKindSeniority;</span>
-<span class="nc bnc" id="L287" title="All 2 branches missed.">        } else if(Arrays.equals(givenHandSeniority, fullHouseArray)) {</span>
+<span class="pc bpc" id="L287" title="1 of 2 branches missed.">        } else if(Arrays.equals(givenHandSeniority, fullHouseArray)) {</span>
 <span class="nc" id="L288">            return fullHouseSeniority;</span>
         }
-<span class="nc bnc" id="L290" title="All 2 branches missed.">        else if(Arrays.equals(givenHandSeniority, fourSameArray)) {</span>
+<span class="pc bpc" id="L290" title="1 of 2 branches missed.">        else if(Arrays.equals(givenHandSeniority, fourSameArray)) {</span>
 <span class="nc" id="L291">            return fourOfTheKindSeniority;</span>
         }
-<span class="nc" id="L293">        return noSeniority;</span>
+<span class="fc" id="L293">        return noSeniority;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

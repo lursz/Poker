@@ -61,8 +61,14 @@ public class Game {
         numberOfPlayers = 0;
     }
 
-    public void setPot_(int pot_) {
+     void setPot_(int pot_) {
         this.pot_ = pot_;
+    }
+     int getPot_() {
+        return this.pot_;
+    }
+    int getNumberOfPlayers() {
+        return numberOfPlayers;
     }
 
     public void addNumberOfPlayers() {

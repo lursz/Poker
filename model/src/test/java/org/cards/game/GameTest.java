@@ -8,44 +8,36 @@ class GameTest {
 
     @Test
     void setPot_() {
-//        Game game = new Game();
-//        game.setPot(100);
-//        assertEquals(game.getPot(), 100);
+        Game game = new Game();
+        game.setPot_(100);
+        assertEquals(game.getPot_(), 100);
     }
 
     @Test
     void addNumberOfPlayers() {
+        Game game = new Game();
+        game.addNumberOfPlayers();
+        assertEquals(1, game.getNumberOfPlayers());
     }
 
-    @Test
+    //@Test
     void nextPlayer() {
+
     }
 
-    @Test
-    void calculateRoundWinner() {
-    }
 
-    @Test
-    void isItEndOfBetting() {
-    }
 
-    @Test
-    void startGame() {
-    }
 
-    @Test
-    void endFirstRoundBets() {
-    }
-
-    @Test
+    //@Test
     void endOfStateWaitingForCardsChangePhase() {
+
     }
 
-    @Test
+    //@Test
     void endOfSecondRoundBets() {
     }
 
-    @Test
+    //@Test
     void endOfStateGameOverStartNextRound() {
     }
 }

@@ -1,11 +1,11 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-poker-model,org.cards.object,Hand,649,0,56,0,114,0,51,0,23,0
-poker-model,org.cards.object,Deck,170,0,14,0,31,0,15,0,8,0
-poker-model,org.cards.object,Card.ranks,105,0,0,0,6,0,3,0,3,0
-poker-model,org.cards.object,Card,99,0,14,0,25,0,14,0,7,0
-poker-model,org.cards.object,Card.suits,27,0,0,0,2,0,1,0,1,0
+poker-model,org.cards.object,Hand,191,458,27,29,44,70,27,24,8,15
+poker-model,org.cards.object,Deck,115,55,10,4,23,8,12,3,7,1
+poker-model,org.cards.object,Card.ranks,0,105,0,0,0,6,0,3,0,3
+poker-model,org.cards.object,Card,80,19,14,0,18,7,10,4,3,4
+poker-model,org.cards.object,Card.suits,0,27,0,0,0,2,0,1,0,1
 poker-model,org.cards.object,Hand.new Comparator() {...},26,0,2,0,4,0,3,0,2,0
-poker-model,org.cards.object,Hand.new Comparator() {...},12,0,0,0,2,0,2,0,2,0
+poker-model,org.cards.object,Hand.new Comparator() {...},0,12,0,0,0,2,0,2,0,2
 poker-model,org.cards.exceptions,BalanceTooLow,4,0,0,0,2,0,1,0,1,0
 poker-model,org.cards.exceptions,CardsAlreadyThrown,4,0,0,0,2,0,1,0,1,0
 poker-model,org.cards.exceptions,InvalidCommand,4,0,0,0,2,0,1,0,1,0
@@ -14,4 +14,4 @@ poker-model,org.cards.exceptions,PlayerInvalidCardsNumber,4,0,0,0,2,0,1,0,1,0
 poker-model,org.cards.exceptions,InvalidCardCode,4,0,0,0,2,0,1,0,1,0
 poker-model,org.cards.player,Player,136,0,2,0,45,0,20,0,19,0
 poker-model,org.cards.game,Game.Pair,9,0,0,0,4,0,1,0,1,0
-poker-model,org.cards.game,Game,1591,0,210,0,321,0,126,0,16,0
+poker-model,org.cards.game,Game,1548,49,210,0,307,16,122,6,12,6
