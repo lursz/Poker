@@ -93,7 +93,7 @@ public class Game {
                         "/fold - withdraw from the round\n " +
                         "/exchange - exchange your cards during exchange phase. Syntax is: /exchange 1,2,5\n " +
                         "<GAME>\n " +
-                        "/exit - exit the game\n", true);
+                        "/exit - exit the game\n", false);
             }
             //Set username
             case "/usr": {
@@ -180,9 +180,14 @@ public class Game {
                     player.setBet_(0);
                     currentBet = 0;
                     nextPlayer();
-                    String answer = player.getName_() + " checked";
+                    String answer = "--"+player.getName_() + " checked--";
                     endFirstRoundBets();
                     endOfSecondRoundBets();
+                    if (gameState == 4) {
+                        return new Pair(answer + "\nShowdown time! Are you ready? Type /showdown to see the results appear on everyone's screen.", true);
+                    } else if (gameState == 2) {
+                        return new Pair(answer +"\nIt's time to exchange your cards using /exchange <number, [number]>. Then proceed with next betting round.", true);
+                    }
                     return new Pair(answer, true);
                 } else {
                     return new Pair("Game not started", false);
@@ -202,6 +207,7 @@ public class Game {
                 if (player.isFolded_())
                     return new Pair("You folded, wait for next round", false);
 
+
                 if (currentPlayerIndex != players_.indexOf(player)) {
                     return new Pair("It's not your turn", false);
                 }
@@ -212,6 +218,9 @@ public class Game {
                             if (bet < 0) {
                                 return new Pair("Bet must be positive", false);
                             }
+                            if (bet < currentBet) {
+                                return new Pair("Bet must be greater than current bet", false);
+                            }
                             if (bet > player.getBalance_()) {
                                 return new Pair("Not enough money", false);
                             } else {
@@ -219,10 +228,16 @@ public class Game {
                                 pot_ += bet;
 
                                 currentBet = bet;
+                                String answer = "--"+player.getName_() + " bet " + bet + "--";
                                 nextPlayer();
                                 endFirstRoundBets();
                                 endOfSecondRoundBets();
-                                return new Pair("--Player " + player.getName_() + " bet --" + bet, true);
+                                if (gameState == 4) {
+                                    return new Pair(answer + "\nShowdown time! Are you ready? Type /showdown to see the results appear on everyone's screen.", true);
+                                } else if (gameState == 2) {
+                                    return new Pair(answer +"\nIt's time to exchange your cards using /exchange <number,[number]> (no comma). Then proceed with next betting round.", true);
+                                }
+                                return new Pair(answer, true);
                             }
                         } catch (NumberFormatException e) {
                             return new Pair("Wrong command", false);
@@ -260,10 +275,16 @@ public class Game {
                     if (commandParts.length == 1) {
                         player.setBet_(currentBet);
                         pot_ += currentBet;
+                        String answer = "--"+player.getName_() + " called. The current bet is: "+currentBet+" --";
                         nextPlayer();
                         endFirstRoundBets();
                         endOfSecondRoundBets();
-                        return new Pair("--Player " + player.getName_() + " called. Current bet is: " + currentBet, true);
+                        if (gameState == 4) {
+                            return new Pair(answer + "\nShowdown time! Are you ready? Type /showdown to see the results appear on everyone's screen.", true);
+                        } else if (gameState == 2) {
+                            return new Pair(answer +"\nIt's time to exchange your cards using /exchange <number, [number]>. Then proceed with next betting round.", true);
+                        }
+                        return new Pair(answer, true);
                     } else {
                         return new Pair("Wrong command", false);
                     }
@@ -302,10 +323,16 @@ public class Game {
                             currentBet += bet;
                             pot_ += bet;
                             player.setBet_(currentBet);
+                            String answer = "--"+player.getName_() + " raised to: " + currentBet + "--";
                             nextPlayer();
                             endFirstRoundBets();
                             endOfSecondRoundBets();
-                            return new Pair("--Player " + player.getName_() + " raised --" + bet, true);
+                            if (gameState == 4) {
+                                return new Pair(answer + "\nShowdown time! Are you ready? Type /showdown to see the results appear on everyone's screen.", true);
+                            } else if (gameState == 2) {
+                                return new Pair(answer +"\nIt's time to exchange your cards using /exchange <number, [number]>. Then proceed with next betting round.", true);
+                            }
+                            return new Pair(answer, true);
                         }
 
                     } else {
@@ -334,18 +361,29 @@ public class Game {
                 }
 
             }
-            case "exchange": {
+            case "/exchange": {
+                if (player.isFolded_())
+                    return new Pair("You folded, wait for next round", false);
                 if (gameState == 0) {
                     return new Pair("Game hasn't started yet", false);
                 }
-                if (gameState == 3 || gameState == 4 || gameState == 1) {
-                    return new Pair("It's card exchange phase. You can't place bets now.", false);
+                
+                if (gameState == 1 || gameState == 3 || gameState == 4) {
+                    return new Pair("Can't exchange in this part of the game.", false);
                 }
                 if (gameState == 5) {
                     return new Pair("Game is over", false);
                 }
+                if (player.wereTheHandsChanged_) {
+                    return new Pair("You already changed your cards", false);
+                }
                 if (initialized_) {
                     if (commandParts.length == 2) {
+                        if (commandParts[1].equals("-")) {
+                            player.wereTheHandsChanged_ = true;
+                            endOfStateWaitingForCardsChangePhase();
+                            return new Pair("No cards were exchanged", false);
+                        }
                         String[] splittedCards = commandParts[1].split(",");
                         int[] indexOfCardsToExchange = new int[splittedCards.length];
                         for (int i = 0; i < splittedCards.length; i++) {
@@ -354,6 +392,9 @@ public class Game {
 
                         player.getHand_().exchangeCards(indexOfCardsToExchange, deck_);
                         player.wereTheHandsChanged_ = true;
+                        endOfStateWaitingForCardsChangePhase();
+                        
+
                         return new Pair("Cards exchanged.\nYour cards: " + player.getHand_().toString() + "\n" + "Your balance: " + player.getBalance_() + "\n" + "Pot: " + pot_, false);
 
                     } else {
@@ -361,6 +402,30 @@ public class Game {
                     }
                 } else {
                     return new Pair("Game not started", false);
+                }
+
+            }
+            case "/showdown": {
+
+                if (initialized_) {
+
+
+                    if (gameState == 4) {
+                        if (commandParts.length == 1) {
+                            String answer = "";
+                            for (Player player_i : playerMap.values()) {
+                                answer += player_i.getName_() + ": " + player_i.getHand_().toString() + "Balance: " + player_i.getBalance_() + "\n";
+                            }
+                            //show nickname of the winner
+                            Player winner = calculateRoundWinner();
+                            answer += "Winner: " + winner.getName_() + "\n";
+                            return new Pair(answer, true);
+                        } else {
+                            return new Pair("Wrong command", false);
+                        }
+                    } else {
+                        return new Pair("Can't use the command", false);
+                    }
                 }
 
             }
@@ -384,7 +449,7 @@ public class Game {
         return new Pair(answer, true);
     }
 
-    void calculateRoundWinner() {
+    Player calculateRoundWinner() {
         int numberOfPlayersLeft = 0;
         ArrayList<Player> playersLeft = new ArrayList<>();
         int pot = 0;
@@ -426,16 +491,13 @@ public class Game {
             playersLeft.get(i).setBalance_(playersLeft.get(i).getBalance_() + moneyPerWinner);
             playersLeft.get(i).isWinner_ = true;
         }
+        return playersLeft.get(0);
     }
 
 
     boolean isItEndOfBetting() {
-
-
         int numberOfUnfoldedPlayers = 0;
-        System.out.println("point1");
         boolean everyPlayer = true;
-        System.out.println(currentBet);
         for (Player player : players_) {
             System.out.println(player.getBet_());
             if (player.getBet_() != currentBet && !player.isFolded_())
@@ -444,7 +506,6 @@ public class Game {
                 numberOfUnfoldedPlayers++;
             }
         }
-        System.out.println("point3");
         if (numberOfUnfoldedPlayers == 1) {
             return true;
         }
@@ -467,28 +528,35 @@ public class Game {
         nextPlayer();
         gameState = 1;
     }
-    void endFirstRoundBets() {
+    boolean endFirstRoundBets() {
         if (gameState != 1 || !isItEndOfBetting()) {
-            return;
+            return false;
         }
 
         gameState = 2;
         for (Player player : players_) {
-            player.setBet_(0);
+            player.setBet_(-1);
         }
         currentBet = 0;
         currentPlayerIndex = 0;
+        return true;
     }
-    void endOfStateWaitingForCardsChangePhase() {
+    boolean endOfStateWaitingForCardsChangePhase() {
         if (gameState != 2)
-            return;
+            return false;
+        boolean everyPlayer = true;
+        for (Player player : players_) {
+            if (!player.wereTheHandsChanged_)
+                return false;
+        }
         gameState = 3;
         for (Player player : players_) {
-            player.setBet_(0);
+            player.setBet_(-1);
         }
 
         currentBet = 0;
         currentPlayerIndex = 0;
+        return true;
     }
     void endOfSecondRoundBets() {
         if (gameState != 3 || !isItEndOfBetting())
@@ -507,7 +575,6 @@ public class Game {
         if (gameState != 5) {
             return;
         }
-
         gameState = 0;
 
         for (Player player : players_) {

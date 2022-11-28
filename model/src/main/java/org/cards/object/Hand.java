@@ -38,10 +38,11 @@ public class Hand {
 
     @Override
     public String toString() {
+        sortHand(this);
         StringBuilder sb = new StringBuilder();
-
+        sb.append("\n");
         for (int i = 0; i < hand_.size(); i++) {
-            sb.append("\n(").append(i).append(")").append(hand_.get(i).getRank().toString()).append(" of ").append(hand_.get(i).getSuit().toString()).append("\n");
+            sb.append("(").append(i).append(")").append(hand_.get(i).getRank().toString()).append(" of ").append(hand_.get(i).getSuit().toString()).append("\n");
 //            sb.append("("+i+")"+ hand_.get(i).getRank().toString() + " of " + hand_.get(i).getSuit().toString() + "\n");
 
         }
