@@ -598,7 +598,7 @@ public class Game {
             return;
         }
         gameState = 0;
-
+        pot_ = 0;
         for (Player player : players_) {
             player.resetForNextRound();
         }

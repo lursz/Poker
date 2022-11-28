@@ -115,8 +115,11 @@ public class Player {
         if (bet_amount > balance_)
             throw new BalanceTooLow(name_ + " has insufficient funds");
 
+        if (bet_ == -1)
+            balance_ -= bet_amount;
+        else
+            balance_ -= bet_amount - bet_;
         bet_ = bet_amount;
-        balance_ -= bet_amount;
     }
     public void addBalance(int amount) {
         balance_ += amount;
