@@ -1,5 +1,5 @@
 # Poker
-##[PZ1] Online, real time game of Poker for 2 - 4 players
+## [PZ1] Online, real time game of Poker for 2 - 4 players
 
 Useful links:
 ```
