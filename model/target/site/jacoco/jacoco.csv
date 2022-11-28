@@ -13,5 +13,6 @@ poker-model,org.cards.exceptions,GameAlreadyInitialized,4,0,0,0,2,0,1,0,1,0
 poker-model,org.cards.exceptions,PlayerInvalidCardsNumber,4,0,0,0,2,0,1,0,1,0
 poker-model,org.cards.exceptions,InvalidCardCode,4,0,0,0,2,0,1,0,1,0
 poker-model,org.cards.player,Player,118,32,4,0,36,11,19,2,17,2
+poker-model,org.cards.game,Game.new Comparator() {...},12,0,0,0,2,0,2,0,2,0
 poker-model,org.cards.game,Game.Pair,0,9,0,0,0,4,0,1,0,1
-poker-model,org.cards.game,Game,1484,116,199,11,294,30,118,10,11,7
+poker-model,org.cards.game,Game,1507,131,196,14,294,34,115,12,9,8

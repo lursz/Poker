@@ -14,3 +14,4 @@ org/cards/game/Game$Pair.class
 org/cards/exceptions/GameAlreadyInitialized.class
 org/cards/exceptions/CardsAlreadyThrown.class
 org/cards/exceptions/PlayerInvalidCardsNumber.class
+org/cards/game/Game$1.class

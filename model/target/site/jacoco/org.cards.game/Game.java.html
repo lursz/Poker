@@ -36,7 +36,7 @@ public class Game {
     private int numberOfReadyPlayers;
     //Ready?
     private boolean initialized_;
-    private int currentRoundsNumber;
+
 
 
 
@@ -61,10 +61,10 @@ public class Game {
 <span class="fc" id="L61">        numberOfPlayers = 0;</span>
 <span class="fc" id="L62">    }</span>
 
-     void setPot_(int pot_) {
+    void setPot_(int pot_) {
 <span class="fc" id="L65">        this.pot_ = pot_;</span>
 <span class="fc" id="L66">    }</span>
-     int getPot_() {
+    int getPot_() {
 <span class="fc" id="L68">        return this.pot_;</span>
     }
     int getNumberOfPlayers() {
@@ -90,7 +90,7 @@ public class Game {
 
     public Pair receiveCommands(String command, Player player) {
 <span class="fc" id="L92">        String[] commandParts = command.split(&quot; &quot;);</span>
-<span class="pc bpc" id="L93" title="8 of 12 branches missed.">        switch (commandParts[0]) {</span>
+<span class="pc bpc" id="L93" title="7 of 12 branches missed.">        switch (commandParts[0]) {</span>
             //List of commands
             case &quot;/help&quot;: {
 <span class="nc" id="L96">                return new Pair(&quot;help - show the list of commands\n &quot; +</span>
@@ -98,350 +98,363 @@ public class Game {
                         &quot;&lt;CARDS&gt;\n &quot; +
                         &quot;/hand - show cards and balance and pot\n &quot; +
                         &quot;/check - continue without placing a wager \n &quot; +
-                        &quot;/bet &lt;amount&gt; - make a bet \n &quot; +
                         &quot;/call - match the wager \n &quot; +
-                        &quot;/raise - raise the wager \n &quot; +
+                        &quot;/raise &lt;amount&gt; - raise the wager \n &quot; +
                         &quot;/fold - withdraw from the round\n &quot; +
-                        &quot;/exchange - exchange your cards during exchange phase. Syntax is: /exchange 1,2,5\n &quot; +
+                        &quot;/exchange - exchange your cards during exchange phase. Syntax is: /exchange 1,2,5 or '-' for no exchange.\n &quot; +
                         &quot;&lt;GAME&gt;\n &quot; +
                         &quot;/exit - exit the game\n&quot;, false);
             }
             //Set username
             case &quot;/usr&quot;: {
-<span class="nc bnc" id="L111" title="All 2 branches missed.">                if (gameState != 0) {</span>
-<span class="nc" id="L112">                    return new Pair(&quot;You can't change your username now&quot;, false);</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">                if (gameState != 0) {</span>
+<span class="nc" id="L111">                    return new Pair(&quot;You can't change your username now&quot;, false);</span>
                 }
 
-<span class="nc bnc" id="L115" title="All 2 branches missed.">                if (commandParts.length == 2) {</span>
-<span class="nc bnc" id="L116" title="All 2 branches missed.">                    if (initialized_) {</span>
-<span class="nc" id="L117">                        return new Pair(&quot;Game already started&quot;, false);</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">                if (commandParts.length == 2) {</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">                    if (initialized_) {</span>
+<span class="nc" id="L116">                        return new Pair(&quot;Game already started&quot;, false);</span>
                     } else {
-<span class="nc" id="L119">                        player.setName_(commandParts[1]);</span>
-<span class="nc" id="L120">                        System.out.println(&quot;Player &quot; + player.getName_() + &quot; joined the game.&quot;);</span>
-<span class="nc" id="L121">                        return new Pair(&quot;Username set to &quot; + commandParts[1], false);</span>
+<span class="nc" id="L118">                        player.setName_(commandParts[1]);</span>
+<span class="nc" id="L119">                        System.out.println(&quot;Player &quot; + player.getName_() + &quot; joined the game.&quot;);</span>
+<span class="nc" id="L120">                        return new Pair(&quot;Username set to &quot; + commandParts[1], false);</span>
                     }
                 } else {
-<span class="nc" id="L124">                    return new Pair(&quot;Wrong command&quot;, false);</span>
+<span class="nc" id="L123">                    return new Pair(&quot;Wrong command&quot;, false);</span>
                 }
 
             }
             case &quot;/ready&quot;: {
-<span class="pc bpc" id="L129" title="1 of 2 branches missed.">                if (gameState != 0) {</span>
-<span class="nc" id="L130">                    return new Pair(&quot;You cannot start the game now&quot;, false);</span>
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">                if (gameState != 0) {</span>
+<span class="nc" id="L129">                    return new Pair(&quot;You cannot start the game now&quot;, false);</span>
                 }
 
-<span class="pc bpc" id="L133" title="1 of 2 branches missed.">                if (initialized_) {</span>
-<span class="nc" id="L134">                    return new Pair(&quot;Game already started&quot;, false);</span>
+<span class="pc bpc" id="L132" title="1 of 2 branches missed.">                if (initialized_) {</span>
+<span class="nc" id="L133">                    return new Pair(&quot;Game already started&quot;, false);</span>
                 } else {
-<span class="pc bpc" id="L136" title="1 of 2 branches missed.">                    if (player.getName_() == null) {</span>
-<span class="nc" id="L137">                        return new Pair(&quot;Set username first&quot;, false);</span>
+<span class="pc bpc" id="L135" title="1 of 2 branches missed.">                    if (player.getName_() == null) {</span>
+<span class="nc" id="L136">                        return new Pair(&quot;Set username first&quot;, false);</span>
                     } else {
-<span class="fc" id="L139">                        numberOfReadyPlayers++;</span>
-<span class="pc bpc" id="L140" title="1 of 2 branches missed.">                        if (numberOfReadyPlayers == numberOfPlayers) {</span>
-<span class="nc" id="L141">                            initialized_ = true;</span>
-<span class="nc" id="L142">                            System.out.println(&quot;Game has begun&quot;);</span>
-<span class="nc" id="L143">                            startGame();</span>
-<span class="nc" id="L144">                            return new Pair(&quot;Game is starting now, use /hand to view cards.&quot;, true);</span>
+<span class="fc" id="L138">                        numberOfReadyPlayers++;</span>
+<span class="pc bpc" id="L139" title="1 of 2 branches missed.">                        if (numberOfReadyPlayers == numberOfPlayers) {</span>
+<span class="nc" id="L140">                            initialized_ = true;</span>
+<span class="nc" id="L141">                            System.out.println(&quot;Game has begun&quot;);</span>
+<span class="nc" id="L142">                            startGame();</span>
+<span class="nc" id="L143">                            return new Pair(&quot;Game is starting now, use /hand to view cards.&quot;, true);</span>
                         } else {
-<span class="fc" id="L146">                            return new Pair(&quot;Waiting for other players&quot;, false);</span>
+<span class="fc" id="L145">                            return new Pair(&quot;Waiting for other players&quot;, false);</span>
                         }
                     }
                 }
 
             }
             case &quot;/hand&quot;: {
-<span class="pc bpc" id="L153" title="1 of 2 branches missed.">                if (gameState == 0) {</span>
-<span class="fc" id="L154">                    return new Pair(&quot;Game hasn't started yet&quot;, false);</span>
+<span class="pc bpc" id="L152" title="1 of 2 branches missed.">                if (gameState == 0) {</span>
+<span class="fc" id="L153">                    return new Pair(&quot;Game hasn't started yet&quot;, false);</span>
                 }
-<span class="nc bnc" id="L156" title="All 2 branches missed.">                if (gameState == 5) {</span>
-<span class="nc" id="L157">                    return new Pair(&quot;Game is over&quot;, false);</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">                if (gameState == 5) {</span>
+<span class="nc" id="L156">                    return new Pair(&quot;Game is over&quot;, false);</span>
                 }
-<span class="nc bnc" id="L159" title="All 2 branches missed.">                if (player.isFolded_())</span>
-<span class="nc" id="L160">                    return new Pair(&quot;You folded, wait for next round&quot;, false);</span>
-<span class="nc bnc" id="L161" title="All 2 branches missed.">                if (initialized_) {</span>
+<span class="nc bnc" id="L158" title="All 2 branches missed.">                if (player.isFolded_())</span>
+<span class="nc" id="L159">                    return new Pair(&quot;You folded, wait for next round&quot;, false);</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">                if (initialized_) {</span>
                     //show hand and balance and pot
-<span class="nc" id="L163">                    return new Pair(&quot;Your cards: &quot; + player.getHand_().toString() + &quot;\n&quot; +</span>
-<span class="nc" id="L164">                            &quot;Your balance: &quot; + player.getBalance_() + &quot;\n&quot; +</span>
+<span class="nc" id="L162">                    return new Pair(&quot;Your cards: &quot; + player.getHand_().toString() + &quot;\n&quot; +</span>
+<span class="nc" id="L163">                            &quot;Your balance: &quot; + player.getBalance_() + &quot;\n&quot; +</span>
                             &quot;Pot: &quot; + pot_, false);
 
                 } else {
-<span class="nc" id="L168">                    return new Pair(&quot;Game not started&quot;, false);</span>
+<span class="nc" id="L167">                    return new Pair(&quot;Game not started&quot;, false);</span>
                 }
 
             }
             //Check - to not bet without folding.
             case &quot;/check&quot;: {
 
-<span class="pc bpc" id="L175" title="1 of 2 branches missed.">                if (gameState == 0) {</span>
-<span class="fc" id="L176">                    return new Pair(&quot;Game hasn't started yet&quot;, false);</span>
+<span class="pc bpc" id="L174" title="1 of 2 branches missed.">                if (gameState == 0) {</span>
+<span class="fc" id="L175">                    return new Pair(&quot;Game hasn't started yet&quot;, false);</span>
                 }
-<span class="nc bnc" id="L178" title="All 2 branches missed.">                if (gameState == 2) {</span>
-<span class="nc" id="L179">                    return new Pair(&quot;You can't check now&quot;, false);</span>
+<span class="nc bnc" id="L177" title="All 2 branches missed.">                if (gameState == 2) {</span>
+<span class="nc" id="L178">                    return new Pair(&quot;You can't check now&quot;, false);</span>
                 }
-<span class="nc bnc" id="L181" title="All 2 branches missed.">                if (gameState == 5) {</span>
-<span class="nc" id="L182">                    return new Pair(&quot;Game is over&quot;, false);</span>
+<span class="nc bnc" id="L180" title="All 2 branches missed.">                if (gameState == 5) {</span>
+<span class="nc" id="L181">                    return new Pair(&quot;Game is over&quot;, false);</span>
                 }
-<span class="nc bnc" id="L184" title="All 2 branches missed.">                if (player.isFolded_())</span>
-<span class="nc" id="L185">                    return new Pair(&quot;You folded, wait for next round&quot;, false);</span>
-
-<span class="nc bnc" id="L187" title="All 2 branches missed.">                if (currentPlayerIndex != players_.indexOf(player)) {</span>
-<span class="nc" id="L188">                    return new Pair(&quot;It's not your turn&quot;, false);</span>
+<span class="nc bnc" id="L183" title="All 2 branches missed.">                if (player.isFolded_()) {</span>
+<span class="nc" id="L184">                    return new Pair(&quot;You folded, wait for next round&quot;, false);</span>
                 }
-<span class="nc bnc" id="L190" title="All 2 branches missed.">                if (initialized_) {</span>
-<span class="nc" id="L191">                    player.setBet_(0);</span>
-<span class="nc" id="L192">                    currentBet = 0;</span>
-<span class="nc" id="L193">                    nextPlayer();</span>
-<span class="nc" id="L194">                    String answer = &quot;--&quot;+player.getName_() + &quot; checked--&quot;;</span>
-<span class="nc" id="L195">                    endFirstRoundBets();</span>
-<span class="nc" id="L196">                    endOfSecondRoundBets();</span>
-<span class="nc bnc" id="L197" title="All 2 branches missed.">                    if (gameState == 4) {</span>
-<span class="nc" id="L198">                        return new Pair(answer + &quot;\nShowdown time! Are you ready? Type /showdown to see the results appear on everyone's screen.&quot;, true);</span>
-<span class="nc bnc" id="L199" title="All 2 branches missed.">                    } else if (gameState == 2) {</span>
-<span class="nc" id="L200">                        return new Pair(answer +&quot;\nIt's time to exchange your cards using /exchange &lt;number, [number]&gt;. Then proceed with next betting round.&quot;, true);</span>
+<span class="nc bnc" id="L186" title="All 2 branches missed.">                if (currentPlayerIndex != players_.indexOf(player)) {</span>
+<span class="nc" id="L187">                    return new Pair(&quot;It's not your turn&quot;, false);</span>
+                }
+<span class="nc bnc" id="L189" title="All 2 branches missed.">                if (currentBet &gt; 0) {</span>
+<span class="nc" id="L190">                    return new Pair(&quot;You can't check now, the bet is greater than 0&quot;, false);</span>
+                }
+<span class="nc bnc" id="L192" title="All 2 branches missed.">                if (initialized_) {</span>
+<span class="nc" id="L193">                    player.setBet_(0);</span>
+<span class="nc" id="L194">                    currentBet = 0;</span>
+<span class="nc" id="L195">                    nextPlayer();</span>
+<span class="nc" id="L196">                    String answer = &quot;--&quot;+player.getName_() + &quot; checked--&quot;;</span>
+<span class="nc" id="L197">                    endFirstRoundBets();</span>
+<span class="nc" id="L198">                    endOfSecondRoundBets();</span>
+<span class="nc bnc" id="L199" title="All 2 branches missed.">                    if (gameState == 4) {</span>
+<span class="nc" id="L200">                        return new Pair(answer + &quot;\nShowdown time! Are you ready? Type /showdown to see the results appear on everyone's screen.&quot;, true);</span>
+<span class="nc bnc" id="L201" title="All 2 branches missed.">                    } else if (gameState == 2) {</span>
+<span class="nc" id="L202">                        return new Pair(answer +&quot;\nIt's time to exchange your cards using /exchange &lt;number, [number]&gt;. Then proceed with next betting round.&quot;, true);</span>
                     }
-<span class="nc" id="L202">                    return new Pair(answer, true);</span>
+<span class="nc" id="L204">                    return new Pair(answer, true);</span>
                 } else {
-<span class="nc" id="L204">                    return new Pair(&quot;Game not started&quot;, false);</span>
+<span class="nc" id="L206">                    return new Pair(&quot;Game not started&quot;, false);</span>
                 }
 
             }
             case &quot;/bet&quot;: {
-<span class="nc bnc" id="L209" title="All 2 branches missed.">                if (gameState == 0) {</span>
-<span class="nc" id="L210">                    return new Pair(&quot;Game hasn't started yet&quot;, false);</span>
+<span class="nc bnc" id="L211" title="All 2 branches missed.">                if (gameState == 0) {</span>
+<span class="nc" id="L212">                    return new Pair(&quot;Game hasn't started yet&quot;, false);</span>
                 }
-<span class="nc bnc" id="L212" title="All 2 branches missed.">                if (gameState == 2) {</span>
-<span class="nc" id="L213">                    return new Pair(&quot;You can't bet now&quot;, false);</span>
+<span class="nc bnc" id="L214" title="All 2 branches missed.">                if (gameState == 2) {</span>
+<span class="nc" id="L215">                    return new Pair(&quot;You can't bet now&quot;, false);</span>
                 }
-<span class="nc bnc" id="L215" title="All 2 branches missed.">                if (gameState == 5) {</span>
-<span class="nc" id="L216">                    return new Pair(&quot;Game is over&quot;, false);</span>
+<span class="nc bnc" id="L217" title="All 2 branches missed.">                if (gameState == 5) {</span>
+<span class="nc" id="L218">                    return new Pair(&quot;Game is over&quot;, false);</span>
                 }
-<span class="nc bnc" id="L218" title="All 2 branches missed.">                if (player.isFolded_())</span>
-<span class="nc" id="L219">                    return new Pair(&quot;You folded, wait for next round&quot;, false);</span>
+<span class="nc bnc" id="L220" title="All 2 branches missed.">                if (player.isFolded_())</span>
+<span class="nc" id="L221">                    return new Pair(&quot;You folded, wait for next round&quot;, false);</span>
 
 
-<span class="nc bnc" id="L222" title="All 2 branches missed.">                if (currentPlayerIndex != players_.indexOf(player)) {</span>
-<span class="nc" id="L223">                    return new Pair(&quot;It's not your turn&quot;, false);</span>
+<span class="nc bnc" id="L224" title="All 2 branches missed.">                if (currentPlayerIndex != players_.indexOf(player)) {</span>
+<span class="nc" id="L225">                    return new Pair(&quot;It's not your turn&quot;, false);</span>
                 }
-<span class="nc bnc" id="L225" title="All 2 branches missed.">                if (initialized_) {</span>
-<span class="nc bnc" id="L226" title="All 2 branches missed.">                    if (commandParts.length == 2) {</span>
+<span class="nc bnc" id="L227" title="All 2 branches missed.">                if (initialized_) {</span>
+<span class="nc bnc" id="L228" title="All 2 branches missed.">                    if (commandParts.length == 2) {</span>
                         try {
-<span class="nc" id="L228">                            int bet = Integer.parseInt(commandParts[1]);</span>
-<span class="nc bnc" id="L229" title="All 2 branches missed.">                            if (bet &lt; 0) {</span>
-<span class="nc" id="L230">                                return new Pair(&quot;Bet must be positive&quot;, false);</span>
+<span class="nc" id="L230">                            int bet = Integer.parseInt(commandParts[1]);</span>
+<span class="nc bnc" id="L231" title="All 2 branches missed.">                            if (bet &lt; 0) {</span>
+<span class="nc" id="L232">                                return new Pair(&quot;Bet must be positive&quot;, false);</span>
                             }
-<span class="nc bnc" id="L232" title="All 2 branches missed.">                            if (bet &lt; currentBet) {</span>
-<span class="nc" id="L233">                                return new Pair(&quot;Bet must be greater than current bet&quot;, false);</span>
+<span class="nc bnc" id="L234" title="All 2 branches missed.">                            if (bet &lt; currentBet) {</span>
+<span class="nc" id="L235">                                return new Pair(&quot;Bet must be greater than current bet&quot;, false);</span>
                             }
-<span class="nc bnc" id="L235" title="All 2 branches missed.">                            if (bet &gt; player.getBalance_()) {</span>
-<span class="nc" id="L236">                                return new Pair(&quot;Not enough money&quot;, false);</span>
+<span class="nc bnc" id="L237" title="All 2 branches missed.">                            if (bet &gt; player.getBalance_()) {</span>
+<span class="nc" id="L238">                                return new Pair(&quot;Not enough money&quot;, false);</span>
                             } else {
-<span class="nc" id="L238">                                player.setBet(bet);</span>
-<span class="nc" id="L239">                                pot_ += bet;</span>
-
-<span class="nc" id="L241">                                currentBet = bet;</span>
-<span class="nc" id="L242">                                String answer = &quot;--&quot;+player.getName_() + &quot; bet &quot; + bet + &quot;--&quot;;</span>
-<span class="nc" id="L243">                                nextPlayer();</span>
-<span class="nc" id="L244">                                endFirstRoundBets();</span>
-<span class="nc" id="L245">                                endOfSecondRoundBets();</span>
-<span class="nc bnc" id="L246" title="All 2 branches missed.">                                if (gameState == 4) {</span>
-<span class="nc" id="L247">                                    return new Pair(answer + &quot;\nShowdown time! Are you ready? Type /showdown to see the results appear on everyone's screen.&quot;, true);</span>
-<span class="nc bnc" id="L248" title="All 2 branches missed.">                                } else if (gameState == 2) {</span>
-<span class="nc" id="L249">                                    return new Pair(answer +&quot;\nIt's time to exchange your cards using /exchange &lt;number,[number]&gt; (no comma). Then proceed with next betting round.&quot;, true);</span>
+<span class="nc bnc" id="L240" title="All 2 branches missed.">                                if(player.getBet_() == -1) {</span>
+<span class="nc" id="L241">                                    player.setBet_(0);</span>
                                 }
-<span class="nc" id="L251">                                return new Pair(answer, true);</span>
+<span class="nc" id="L243">                                pot_ += bet-player.getBet_();</span>
+<span class="nc" id="L244">                                player.setBalance_(player.getBalance_()-(bet-player.getBet_()));</span>
+<span class="nc" id="L245">                                player.setBet(bet);</span>
+
+<span class="nc" id="L247">                                currentBet = bet;</span>
+<span class="nc" id="L248">                                String answer = &quot;--&quot;+player.getName_() + &quot; bet &quot; + bet + &quot;--&quot;;</span>
+<span class="nc" id="L249">                                nextPlayer();</span>
+<span class="nc" id="L250">                                endFirstRoundBets();</span>
+<span class="nc" id="L251">                                endOfSecondRoundBets();</span>
+<span class="nc bnc" id="L252" title="All 2 branches missed.">                                if (gameState == 4) {</span>
+<span class="nc" id="L253">                                    return new Pair(answer + &quot;\nShowdown time! Are you ready? Type /showdown to see the results appear on everyone's screen.&quot;, true);</span>
+<span class="nc bnc" id="L254" title="All 2 branches missed.">                                } else if (gameState == 2) {</span>
+<span class="nc" id="L255">                                    return new Pair(answer +&quot;\nIt's time to exchange your cards using /exchange &lt;number,[number]&gt; (no comma). Then proceed with next betting round.&quot;, true);</span>
+                                }
+<span class="nc" id="L257">                                return new Pair(answer, true);</span>
                             }
-<span class="nc" id="L253">                        } catch (NumberFormatException e) {</span>
-<span class="nc" id="L254">                            return new Pair(&quot;Wrong command&quot;, false);</span>
-<span class="nc" id="L255">                        } catch (BalanceTooLow e) {</span>
-<span class="nc" id="L256">                            throw new RuntimeException(e);</span>
+<span class="nc" id="L259">                        } catch (NumberFormatException e) {</span>
+<span class="nc" id="L260">                            return new Pair(&quot;Wrong command&quot;, false);</span>
+<span class="nc" id="L261">                        } catch (BalanceTooLow e) {</span>
+<span class="nc" id="L262">                            throw new RuntimeException(e);</span>
                         }
                     } else {
-<span class="nc" id="L259">                        return new Pair(&quot;Wrong command&quot;, false);</span>
+<span class="nc" id="L265">                        return new Pair(&quot;Wrong command&quot;, false);</span>
                     }
                 } else {
-<span class="nc" id="L262">                    return new Pair(&quot;Game not started&quot;, false);</span>
+<span class="nc" id="L268">                    return new Pair(&quot;Game not started&quot;, false);</span>
                 }
 
             }
             //Call - a bet that is the equal amount to the bet made prior.
             case &quot;/call&quot;: {
-<span class="pc bpc" id="L268" title="1 of 2 branches missed.">                if (gameState == 0) {</span>
-<span class="fc" id="L269">                    return new Pair(&quot;Game hasn't started yet&quot;, false);</span>
+<span class="pc bpc" id="L274" title="1 of 2 branches missed.">                if (gameState == 0) {</span>
+<span class="fc" id="L275">                    return new Pair(&quot;Game hasn't started yet&quot;, false);</span>
                 }
-<span class="nc bnc" id="L271" title="All 2 branches missed.">                if (gameState == 2) {</span>
-<span class="nc" id="L272">                    return new Pair(&quot;You can't call now&quot;, false);</span>
+<span class="nc bnc" id="L277" title="All 2 branches missed.">                if (gameState == 2) {</span>
+<span class="nc" id="L278">                    return new Pair(&quot;You can't call now&quot;, false);</span>
                 }
-<span class="nc bnc" id="L274" title="All 2 branches missed.">                if (gameState == 5) {</span>
-<span class="nc" id="L275">                    return new Pair(&quot;Game is over&quot;, false);</span>
-                }
-
-<span class="nc bnc" id="L278" title="All 2 branches missed.">                if (player.isFolded_())</span>
-<span class="nc" id="L279">                    return new Pair(&quot;You folded, wait for next round&quot;, false);</span>
-
-<span class="nc bnc" id="L281" title="All 2 branches missed.">                if (currentPlayerIndex != players_.indexOf(player)) {</span>
-<span class="nc" id="L282">                    return new Pair(&quot;It's not your turn&quot;, false);</span>
+<span class="nc bnc" id="L280" title="All 2 branches missed.">                if (gameState == 5) {</span>
+<span class="nc" id="L281">                    return new Pair(&quot;Game is over&quot;, false);</span>
                 }
 
-<span class="nc bnc" id="L285" title="All 2 branches missed.">                if (initialized_) {</span>
-<span class="nc bnc" id="L286" title="All 2 branches missed.">                    if (commandParts.length == 1) {</span>
-<span class="nc" id="L287">                        player.setBet_(currentBet);</span>
-<span class="nc" id="L288">                        pot_ += currentBet;</span>
-<span class="nc" id="L289">                        String answer = &quot;--&quot;+player.getName_() + &quot; called. The current bet is: &quot;+currentBet+&quot; --&quot;;</span>
-<span class="nc" id="L290">                        nextPlayer();</span>
-<span class="nc" id="L291">                        endFirstRoundBets();</span>
-<span class="nc" id="L292">                        endOfSecondRoundBets();</span>
-<span class="nc bnc" id="L293" title="All 2 branches missed.">                        if (gameState == 4) {</span>
-<span class="nc" id="L294">                            return new Pair(answer + &quot;\nShowdown time! Are you ready? Type /showdown to see the results appear on everyone's screen.&quot;, true);</span>
-<span class="nc bnc" id="L295" title="All 2 branches missed.">                        } else if (gameState == 2) {</span>
-<span class="nc" id="L296">                            return new Pair(answer +&quot;\nIt's time to exchange your cards using /exchange &lt;number, [number]&gt;. Then proceed with next betting round.&quot;, true);</span>
+<span class="nc bnc" id="L284" title="All 2 branches missed.">                if (player.isFolded_())</span>
+<span class="nc" id="L285">                    return new Pair(&quot;You folded, wait for next round&quot;, false);</span>
+
+<span class="nc bnc" id="L287" title="All 2 branches missed.">                if (currentPlayerIndex != players_.indexOf(player)) {</span>
+<span class="nc" id="L288">                    return new Pair(&quot;It's not your turn&quot;, false);</span>
+                }
+
+<span class="nc bnc" id="L291" title="All 2 branches missed.">                if (initialized_) {</span>
+<span class="nc bnc" id="L292" title="All 2 branches missed.">                    if (commandParts.length == 1) {</span>
+<span class="nc bnc" id="L293" title="All 2 branches missed.">                        if(player.getBet_() == -1) {</span>
+<span class="nc" id="L294">                            player.setBet_(0);</span>
                         }
-<span class="nc" id="L298">                        return new Pair(answer, true);</span>
+<span class="nc" id="L296">                        pot_ += currentBet-player.getBet_();</span>
+<span class="nc" id="L297">                        player.setBalance_(player.getBalance_()-(currentBet-player.getBet_()));</span>
+<span class="nc" id="L298">                        player.setBet_(currentBet);</span>
+<span class="nc" id="L299">                        String answer = &quot;--&quot;+player.getName_() + &quot; called. The current bet is: &quot;+currentBet+&quot; --&quot;;</span>
+<span class="nc" id="L300">                        nextPlayer();</span>
+<span class="nc" id="L301">                        endFirstRoundBets();</span>
+<span class="nc" id="L302">                        endOfSecondRoundBets();</span>
+<span class="nc bnc" id="L303" title="All 2 branches missed.">                        if (gameState == 4) {</span>
+<span class="nc" id="L304">                            return new Pair(answer + &quot;\nShowdown time! Are you ready? Type /showdown to see the results appear on everyone's screen.&quot;, true);</span>
+<span class="nc bnc" id="L305" title="All 2 branches missed.">                        } else if (gameState == 2) {</span>
+<span class="nc" id="L306">                            return new Pair(answer +&quot;\nIt's time to exchange your cards using /exchange &lt;number, [number]&gt;. Then proceed with next betting round.&quot;, true);</span>
+                        }
+<span class="nc" id="L308">                        return new Pair(answer, true);</span>
                     } else {
-<span class="nc" id="L300">                        return new Pair(&quot;Wrong command&quot;, false);</span>
+<span class="nc" id="L310">                        return new Pair(&quot;Wrong command&quot;, false);</span>
                     }
                 } else {
-<span class="nc" id="L303">                    return new Pair(&quot;Game not started&quot;, false);</span>
+<span class="nc" id="L313">                    return new Pair(&quot;Game not started&quot;, false);</span>
                 }
 
             }
             case &quot;/raise&quot;: {
-<span class="nc bnc" id="L308" title="All 2 branches missed.">                if (gameState == 0) {</span>
-<span class="nc" id="L309">                    return new Pair(&quot;Game hasn't started yet&quot;, false);</span>
+<span class="pc bpc" id="L318" title="1 of 2 branches missed.">                if (gameState == 0) {</span>
+<span class="fc" id="L319">                    return new Pair(&quot;Game hasn't started yet&quot;, false);</span>
                 }
-<span class="nc bnc" id="L311" title="All 2 branches missed.">                if (gameState == 2) {</span>
-<span class="nc" id="L312">                    return new Pair(&quot;You can't raise now&quot;, false);</span>
+<span class="nc bnc" id="L321" title="All 2 branches missed.">                if (gameState == 2) {</span>
+<span class="nc" id="L322">                    return new Pair(&quot;You can't raise now&quot;, false);</span>
                 }
-<span class="nc bnc" id="L314" title="All 2 branches missed.">                if (gameState == 5) {</span>
-<span class="nc" id="L315">                    return new Pair(&quot;Game is over&quot;, false);</span>
+<span class="nc bnc" id="L324" title="All 2 branches missed.">                if (gameState == 5) {</span>
+<span class="nc" id="L325">                    return new Pair(&quot;Game is over&quot;, false);</span>
                 }
 
-<span class="nc bnc" id="L318" title="All 2 branches missed.">                if (player.isFolded_())</span>
-<span class="nc" id="L319">                    return new Pair(&quot;You folded, wait for next round&quot;, false);</span>
+<span class="nc bnc" id="L328" title="All 2 branches missed.">                if (player.isFolded_())</span>
+<span class="nc" id="L329">                    return new Pair(&quot;You folded, wait for next round&quot;, false);</span>
 
-<span class="nc bnc" id="L321" title="All 2 branches missed.">                if (currentPlayerIndex != players_.indexOf(player)) {</span>
-<span class="nc" id="L322">                    return new Pair(&quot;It's not your turn&quot;, false);</span>
+<span class="nc bnc" id="L331" title="All 2 branches missed.">                if (currentPlayerIndex != players_.indexOf(player)) {</span>
+<span class="nc" id="L332">                    return new Pair(&quot;It's not your turn&quot;, false);</span>
                 }
-<span class="nc bnc" id="L324" title="All 2 branches missed.">                if (initialized_) {</span>
-<span class="nc bnc" id="L325" title="All 2 branches missed.">                    if (commandParts.length == 2) {</span>
+<span class="nc bnc" id="L334" title="All 2 branches missed.">                if (initialized_) {</span>
+<span class="nc bnc" id="L335" title="All 2 branches missed.">                    if (commandParts.length == 2) {</span>
 
-<span class="nc" id="L327">                        int bet = Integer.parseInt(commandParts[1]);</span>
-<span class="nc bnc" id="L328" title="All 2 branches missed.">                        if (bet &lt; 0) {</span>
-<span class="nc" id="L329">                            return new Pair(&quot;Bet must be positive&quot;, false);</span>
+<span class="nc" id="L337">                        int bet = Integer.parseInt(commandParts[1]);</span>
+<span class="nc bnc" id="L338" title="All 2 branches missed.">                        if (bet &lt; 0) {</span>
+<span class="nc" id="L339">                            return new Pair(&quot;Bet must be positive&quot;, false);</span>
                         }
-<span class="nc bnc" id="L331" title="All 2 branches missed.">                        if (bet &gt; player.getBalance_()) {</span>
-<span class="nc" id="L332">                            return new Pair(&quot;Not enough money&quot;, false);</span>
+<span class="nc bnc" id="L341" title="All 2 branches missed.">                        if (bet &gt; player.getBalance_()) {</span>
+<span class="nc" id="L342">                            return new Pair(&quot;Not enough money&quot;, false);</span>
                         } else {
-<span class="nc" id="L334">                            currentBet += bet;</span>
-<span class="nc" id="L335">                            pot_ += bet;</span>
-<span class="nc" id="L336">                            player.setBet_(currentBet);</span>
-<span class="nc" id="L337">                            String answer = &quot;--&quot;+player.getName_() + &quot; raised to: &quot; + currentBet + &quot;--&quot;;</span>
-<span class="nc" id="L338">                            nextPlayer();</span>
-<span class="nc" id="L339">                            endFirstRoundBets();</span>
-<span class="nc" id="L340">                            endOfSecondRoundBets();</span>
-<span class="nc bnc" id="L341" title="All 2 branches missed.">                            if (gameState == 4) {</span>
-<span class="nc" id="L342">                                return new Pair(answer + &quot;\nShowdown time! Are you ready? Type /showdown to see the results appear on everyone's screen.&quot;, true);</span>
-<span class="nc bnc" id="L343" title="All 2 branches missed.">                            } else if (gameState == 2) {</span>
-<span class="nc" id="L344">                                return new Pair(answer +&quot;\nIt's time to exchange your cards using /exchange &lt;number, [number]&gt;. Then proceed with next betting round.&quot;, true);</span>
+<span class="nc bnc" id="L344" title="All 2 branches missed.">                            if(player.getBet_() == -1) {</span>
+<span class="nc" id="L345">                                player.setBet_(0);</span>
                             }
-<span class="nc" id="L346">                            return new Pair(answer, true);</span>
+<span class="nc" id="L347">                            currentBet += bet;</span>
+<span class="nc" id="L348">                            pot_ += bet;</span>
+<span class="nc" id="L349">                            player.setBalance_(player.getBalance_()-bet);</span>
+<span class="nc" id="L350">                            player.setBet_(currentBet);</span>
+<span class="nc" id="L351">                            String answer = &quot;--&quot;+player.getName_() + &quot; raised to: &quot; + currentBet + &quot;--&quot;;</span>
+<span class="nc" id="L352">                            nextPlayer();</span>
+<span class="nc" id="L353">                            endFirstRoundBets();</span>
+<span class="nc" id="L354">                            endOfSecondRoundBets();</span>
+<span class="nc bnc" id="L355" title="All 2 branches missed.">                            if (gameState == 4) {</span>
+<span class="nc" id="L356">                                return new Pair(answer + &quot;\nShowdown time! Are you ready? Type /showdown to see the results appear on everyone's screen.&quot;, true);</span>
+<span class="nc bnc" id="L357" title="All 2 branches missed.">                            } else if (gameState == 2) {</span>
+<span class="nc" id="L358">                                return new Pair(answer +&quot;\nIt's time to exchange your cards using /exchange &lt;number, [number]&gt;. Then proceed with next betting round.&quot;, true);</span>
+                            }
+<span class="nc" id="L360">                            return new Pair(answer, true);</span>
                         }
 
                     } else {
-<span class="nc" id="L350">                        return new Pair(&quot;Wrong command&quot;, false);</span>
+<span class="nc" id="L364">                        return new Pair(&quot;Wrong command&quot;, false);</span>
                     }
                 } else {
-<span class="nc" id="L353">                    return new Pair(&quot;Game not started&quot;, false);</span>
+<span class="nc" id="L367">                    return new Pair(&quot;Game not started&quot;, false);</span>
                 }
 
             }
             case &quot;/fold&quot;: {
 
-<span class="nc bnc" id="L359" title="All 2 branches missed.">                if (currentPlayerIndex != players_.indexOf(player)) {</span>
-<span class="nc" id="L360">                    return new Pair(&quot;It's not your turn&quot;, false);</span>
+<span class="nc bnc" id="L373" title="All 2 branches missed.">                if (currentPlayerIndex != players_.indexOf(player)) {</span>
+<span class="nc" id="L374">                    return new Pair(&quot;It's not your turn&quot;, false);</span>
                 }
-<span class="nc bnc" id="L362" title="All 2 branches missed.">                if (player.isFolded_())</span>
-<span class="nc" id="L363">                    return new Pair(&quot;You folded, wait for next round&quot;, false);</span>
-<span class="nc bnc" id="L364" title="All 2 branches missed.">                if (initialized_) {</span>
-<span class="nc" id="L365">                    player.incrementRoundsPlayed();</span>
-<span class="nc" id="L366">                    player.fold();</span>
-<span class="nc" id="L367">                    endFirstRoundBets();</span>
-<span class="nc" id="L368">                    endOfSecondRoundBets();</span>
-<span class="nc" id="L369">                    return new Pair(&quot;Fold&quot;, false);</span>
+<span class="nc bnc" id="L376" title="All 2 branches missed.">                if (player.isFolded_())</span>
+<span class="nc" id="L377">                    return new Pair(&quot;You folded, wait for next round&quot;, false);</span>
+<span class="nc bnc" id="L378" title="All 2 branches missed.">                if (initialized_) {</span>
+<span class="nc" id="L379">                    player.incrementRoundsPlayed();</span>
+<span class="nc" id="L380">                    player.fold();</span>
+<span class="nc" id="L381">                    endOfSecondRoundBets();</span>
+<span class="nc" id="L382">                    return new Pair(&quot;Player &quot; + player.getName_() + &quot;folded. He is out of the game.&quot;, true);</span>
                 } else {
-<span class="nc" id="L371">                    return new Pair(&quot;Game not started&quot;, false);</span>
+<span class="nc" id="L384">                    return new Pair(&quot;Game not started&quot;, false);</span>
                 }
 
             }
             case &quot;/exchange&quot;: {
-<span class="nc bnc" id="L376" title="All 2 branches missed.">                if (player.isFolded_())</span>
-<span class="nc" id="L377">                    return new Pair(&quot;You folded, wait for next round&quot;, false);</span>
-<span class="nc bnc" id="L378" title="All 2 branches missed.">                if (gameState == 0) {</span>
-<span class="nc" id="L379">                    return new Pair(&quot;Game hasn't started yet&quot;, false);</span>
+<span class="nc bnc" id="L389" title="All 2 branches missed.">                if (player.isFolded_())</span>
+<span class="nc" id="L390">                    return new Pair(&quot;You folded, wait for next round&quot;, false);</span>
+<span class="nc bnc" id="L391" title="All 2 branches missed.">                if (gameState == 0) {</span>
+<span class="nc" id="L392">                    return new Pair(&quot;Game hasn't started yet&quot;, false);</span>
                 }
-                
-<span class="nc bnc" id="L382" title="All 6 branches missed.">                if (gameState == 1 || gameState == 3 || gameState == 4) {</span>
-<span class="nc" id="L383">                    return new Pair(&quot;Can't exchange in this part of the game.&quot;, false);</span>
+
+<span class="nc bnc" id="L395" title="All 6 branches missed.">                if (gameState == 1 || gameState == 3 || gameState == 4) {</span>
+<span class="nc" id="L396">                    return new Pair(&quot;Can't exchange in this part of the game.&quot;, false);</span>
                 }
-<span class="nc bnc" id="L385" title="All 2 branches missed.">                if (gameState == 5) {</span>
-<span class="nc" id="L386">                    return new Pair(&quot;Game is over&quot;, false);</span>
+<span class="nc bnc" id="L398" title="All 2 branches missed.">                if (gameState == 5) {</span>
+<span class="nc" id="L399">                    return new Pair(&quot;Game is over&quot;, false);</span>
                 }
-<span class="nc bnc" id="L388" title="All 2 branches missed.">                if (player.wereTheHandsChanged_) {</span>
-<span class="nc" id="L389">                    return new Pair(&quot;You already changed your cards&quot;, false);</span>
+<span class="nc bnc" id="L401" title="All 2 branches missed.">                if (player.wereTheHandsChanged_) {</span>
+<span class="nc" id="L402">                    return new Pair(&quot;You already changed your cards&quot;, false);</span>
                 }
-<span class="nc bnc" id="L391" title="All 2 branches missed.">                if (initialized_) {</span>
-<span class="nc bnc" id="L392" title="All 2 branches missed.">                    if (commandParts.length == 2) {</span>
-<span class="nc bnc" id="L393" title="All 2 branches missed.">                        if (commandParts[1].equals(&quot;-&quot;)) {</span>
-<span class="nc" id="L394">                            player.wereTheHandsChanged_ = true;</span>
-<span class="nc" id="L395">                            endOfStateWaitingForCardsChangePhase();</span>
-<span class="nc" id="L396">                            return new Pair(&quot;No cards were exchanged&quot;, false);</span>
+<span class="nc bnc" id="L404" title="All 2 branches missed.">                if (initialized_) {</span>
+<span class="nc bnc" id="L405" title="All 2 branches missed.">                    if (commandParts.length == 2) {</span>
+<span class="nc bnc" id="L406" title="All 2 branches missed.">                        if (commandParts[1].equals(&quot;-&quot;)) {</span>
+<span class="nc" id="L407">                            player.wereTheHandsChanged_ = true;</span>
+<span class="nc" id="L408">                            endOfStateWaitingForCardsChangePhase();</span>
+<span class="nc" id="L409">                            return new Pair(&quot;No cards were exchanged&quot;, false);</span>
                         }
-<span class="nc" id="L398">                        String[] splittedCards = commandParts[1].split(&quot;,&quot;);</span>
-<span class="nc" id="L399">                        int[] indexOfCardsToExchange = new int[splittedCards.length];</span>
-<span class="nc bnc" id="L400" title="All 2 branches missed.">                        for (int i = 0; i &lt; splittedCards.length; i++) {</span>
-<span class="nc" id="L401">                            indexOfCardsToExchange[i] = Integer.parseInt(splittedCards[i]);</span>
+<span class="nc" id="L411">                        String[] splittedCards = commandParts[1].split(&quot;,&quot;);</span>
+<span class="nc" id="L412">                        int[] indexOfCardsToExchange = new int[splittedCards.length];</span>
+<span class="nc bnc" id="L413" title="All 2 branches missed.">                        for (int i = 0; i &lt; splittedCards.length; i++) {</span>
+<span class="nc" id="L414">                            indexOfCardsToExchange[i] = Integer.parseInt(splittedCards[i]);</span>
                         }
 
-<span class="nc" id="L404">                        player.getHand_().exchangeCards(indexOfCardsToExchange, deck_);</span>
-<span class="nc" id="L405">                        player.wereTheHandsChanged_ = true;</span>
-<span class="nc" id="L406">                        endOfStateWaitingForCardsChangePhase();</span>
-                        
+<span class="nc" id="L417">                        player.getHand_().exchangeCards(indexOfCardsToExchange, deck_);</span>
+<span class="nc" id="L418">                        player.wereTheHandsChanged_ = true;</span>
+<span class="nc" id="L419">                        endOfStateWaitingForCardsChangePhase();</span>
 
-<span class="nc" id="L409">                        return new Pair(&quot;Cards exchanged.\nYour cards: &quot; + player.getHand_().toString() + &quot;\n&quot; + &quot;Your balance: &quot; + player.getBalance_() + &quot;\n&quot; + &quot;Pot: &quot; + pot_, false);</span>
+
+<span class="nc" id="L422">                        return new Pair(&quot;Cards exchanged.\nYour cards: &quot; + player.getHand_().toString() + &quot;\n&quot; + &quot;Your balance: &quot; + player.getBalance_() + &quot;\n&quot; + &quot;Pot: &quot; + pot_, false);</span>
 
                     } else {
-<span class="nc" id="L412">                        return new Pair(&quot;Wrong command&quot;, false);</span>
+<span class="nc" id="L425">                        return new Pair(&quot;Wrong command&quot;, false);</span>
                     }
                 } else {
-<span class="nc" id="L415">                    return new Pair(&quot;Game not started&quot;, false);</span>
+<span class="nc" id="L428">                    return new Pair(&quot;Game not started&quot;, false);</span>
                 }
 
             }
             case &quot;/showdown&quot;: {
-<span class="nc bnc" id="L420" title="All 2 branches missed.">                if (initialized_) {</span>
-<span class="nc bnc" id="L421" title="All 2 branches missed.">                    if (gameState == 4) {</span>
-<span class="nc bnc" id="L422" title="All 2 branches missed.">                        if (commandParts.length == 1) {</span>
-<span class="nc" id="L423">                            String answer = &quot;&quot;;</span>
-<span class="nc bnc" id="L424" title="All 2 branches missed.">                            for (Player player_i : playerMap.values()) {</span>
-<span class="nc" id="L425">                                answer += player_i.getName_() + &quot;: &quot; + player_i.getHand_().toString() + &quot;Balance: &quot; + player_i.getBalance_() + &quot;\n&quot;;</span>
-<span class="nc" id="L426">                            }</span>
+<span class="nc bnc" id="L433" title="All 2 branches missed.">                if (initialized_) {</span>
+<span class="nc bnc" id="L434" title="All 2 branches missed.">                    if (gameState == 4) {</span>
+<span class="nc bnc" id="L435" title="All 2 branches missed.">                        if (commandParts.length == 1) {</span>
+<span class="nc" id="L436">                            String answer = &quot;&quot;;</span>
+<span class="nc bnc" id="L437" title="All 2 branches missed.">                            for (Player player_i : playerMap.values()) {</span>
+<span class="nc" id="L438">                                answer += player_i.getName_() + &quot;: &quot; + player_i.getHand_().toString() + &quot;Balance: &quot; + player_i.getBalance_() + &quot;\n&quot;;</span>
+<span class="nc" id="L439">                            }</span>
                             //show nickname of the winner
-<span class="nc" id="L428">                            Player winner = calculateRoundWinner();</span>
-<span class="nc" id="L429">                            answer += &quot;Winner: &quot; + winner.getName_() + &quot;\n&quot;;</span>
-<span class="nc" id="L430">                            endOfStateGameOverStartNextRound();</span>
-<span class="nc" id="L431">                            return new Pair(answer, true);</span>
+<span class="nc" id="L441">                            Player winner = calculateRoundWinner();</span>
+<span class="nc" id="L442">                            answer += &quot;Winner: &quot; + winner.getName_() + &quot;\n&quot;;</span>
+<span class="nc" id="L443">                            endOfStateGameOverStartNextRound();</span>
+<span class="nc" id="L444">                            return new Pair(answer, true);</span>
                         } else {
-<span class="nc" id="L433">                            return new Pair(&quot;Wrong command&quot;, false);</span>
+<span class="nc" id="L446">                            return new Pair(&quot;Wrong command&quot;, false);</span>
                         }
                     } else {
-<span class="nc" id="L436">                        return new Pair(&quot;Can't use the command&quot;, false);</span>
+<span class="nc" id="L449">                        return new Pair(&quot;Can't use the command&quot;, false);</span>
                     }
                 }
-<span class="nc" id="L439">                return new Pair(&quot;Can't use the command&quot;, false);</span>
+<span class="nc" id="L452">                return new Pair(&quot;Can't use the command&quot;, false);</span>
 
             }
 
             default:
-<span class="nc" id="L444">                return new Pair(&quot;Wrong command&quot;, false);</span>
+<span class="nc" id="L457">                return new Pair(&quot;Wrong command&quot;, false);</span>
 
         }
 
@@ -452,84 +465,128 @@ public class Game {
     private void sendResponse(SocketChannel client, String response) {
         try {
 
-<span class="nc" id="L455">            ByteBuffer responseBuffer = ByteBuffer.wrap(response.getBytes());</span>
-<span class="nc" id="L456">            client.write(responseBuffer);</span>
-<span class="nc" id="L457">        } catch(Exception error) {</span>
-<span class="nc" id="L458">            System.out.println(&quot;Something went wrong while sending a message&quot;);</span>
-<span class="nc" id="L459">        }</span>
+<span class="nc" id="L468">            ByteBuffer responseBuffer = ByteBuffer.wrap(response.getBytes());</span>
+<span class="nc" id="L469">            client.write(responseBuffer);</span>
+<span class="nc" id="L470">        } catch(Exception error) {</span>
+<span class="nc" id="L471">            System.out.println(&quot;Something went wrong while sending a message&quot;);</span>
+<span class="nc" id="L472">        }</span>
 
-<span class="nc" id="L461">    }</span>
+<span class="nc" id="L474">    }</span>
 
     public Pair showdown() {
         //showdown - send everyone's hands to everyone
-<span class="nc" id="L465">        String answer = &quot;&quot;;</span>
-<span class="nc bnc" id="L466" title="All 2 branches missed.">        for (Player player : playerMap.values()) {</span>
-<span class="nc" id="L467">            answer += player.getName_() + &quot;: &quot; + player.getHand_().toString() + &quot;\n&quot;;</span>
-<span class="nc" id="L468">        }</span>
-<span class="nc" id="L469">        return new Pair(answer, true);</span>
+<span class="nc" id="L478">        String answer = &quot;&quot;;</span>
+<span class="nc bnc" id="L479" title="All 2 branches missed.">        for (Player player : playerMap.values()) {</span>
+<span class="nc" id="L480">            answer += player.getName_() + &quot;: &quot; + player.getHand_().toString() + &quot;\n&quot;;</span>
+<span class="nc" id="L481">        }</span>
+<span class="nc" id="L482">        return new Pair(answer, true);</span>
     }
 
     Player calculateRoundWinner() {
-<span class="nc" id="L473">        int numberOfPlayersLeft = 0;</span>
-<span class="nc" id="L474">        ArrayList&lt;Player&gt; playersLeft = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L475">        int pot = 0;</span>
-<span class="nc bnc" id="L476" title="All 2 branches missed.">        for (Player player1 : playerMap.values()) {</span>
-<span class="nc" id="L477">            player1.score = 0;</span>
-<span class="nc" id="L478">            pot += player1.getBet_();</span>
-<span class="nc bnc" id="L479" title="All 2 branches missed.">            if (!player1.isFolded_()) {</span>
-<span class="nc" id="L480">                numberOfPlayersLeft++;</span>
-<span class="nc" id="L481">                playersLeft.add(player1);</span>
+<span class="nc" id="L486">        int numberOfPlayersLeft = 0;</span>
+<span class="nc" id="L487">        ArrayList&lt;Player&gt; playersLeft = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L488">        int pot = 0;</span>
+<span class="nc bnc" id="L489" title="All 2 branches missed.">        for (Player player1 : playerMap.values()) {</span>
+<span class="nc" id="L490">            player1.score = 0;</span>
+<span class="nc" id="L491">            pot += player1.getBet_();</span>
+<span class="nc bnc" id="L492" title="All 2 branches missed.">            if (!player1.isFolded_()) {</span>
+<span class="nc" id="L493">                numberOfPlayersLeft++;</span>
+<span class="nc" id="L494">                playersLeft.add(player1);</span>
             } else {
                 continue;
             }
-<span class="nc bnc" id="L485" title="All 2 branches missed.">            for (Player player2 : playerMap.values()) {</span>
-<span class="nc bnc" id="L486" title="All 4 branches missed.">                if (player1 != player2 &amp;&amp; !player2.isFolded_()) {</span>
-                    //ADDING 1 POINT FOR WINNING A COMPARISON
-<span class="nc bnc" id="L488" title="All 2 branches missed.">                    if (player1.getHand_().isBetterThan(player2.getHand_()) &gt; 0) {</span>
-<span class="nc" id="L489">                        player1.score++;</span>
-                    }
-                }
-<span class="nc" id="L492">            }</span>
-<span class="nc" id="L493">        }</span>
+<span class="nc" id="L498">        }</span>
+<span class="nc" id="L499">        playersLeft.sort(new Comparator&lt;Player&gt;() {</span>
+            @Override
+            public int compare(Player player, Player t1) {
+<span class="nc" id="L502">                return t1.getHand_().isBetterThan(player.getHand_());</span>
+            }
+        });
 
-<span class="nc" id="L495">        playersLeft.sort(Comparator.comparingInt(o -&gt; -o.score));</span>
-
-<span class="nc" id="L497">        int numberOfWinners = 1;</span>
-<span class="nc" id="L498">        int winnerScore = playersLeft.get(0).score;</span>
-<span class="nc bnc" id="L499" title="All 2 branches missed.">        for (int i = 1; i &lt; numberOfPlayersLeft; i++) {</span>
-<span class="nc bnc" id="L500" title="All 2 branches missed.">            if (playersLeft.get(i).score == winnerScore) {</span>
-<span class="nc" id="L501">                numberOfWinners++;</span>
+<span class="nc" id="L506">        int numberOfWinners = 1;</span>
+<span class="nc" id="L507">        int winnerScore = playersLeft.get(0).score;</span>
+<span class="nc bnc" id="L508" title="All 2 branches missed.">        for (int i = 1; i &lt; numberOfPlayersLeft; i++) {</span>
+<span class="nc bnc" id="L509" title="All 2 branches missed.">            if (playersLeft.get(i).getHand_().isBetterThan(playersLeft.get(0).getHand_())==0) {</span>
+<span class="nc" id="L510">                numberOfWinners++;</span>
             } else {
                 break;
             }
         }
 
-<span class="nc" id="L507">        int moneyPerWinner = pot / numberOfWinners;</span>
-<span class="nc" id="L508">        int moneyLeft = pot % numberOfWinners;</span>
+<span class="nc" id="L516">        int moneyPerWinner = pot / numberOfWinners;</span>
+<span class="nc" id="L517">        int moneyLeft = pot % numberOfWinners;</span>
 
-<span class="nc bnc" id="L510" title="All 2 branches missed.">        for (int i = 0; i &lt; numberOfWinners; i++) {</span>
-<span class="nc" id="L511">            playersLeft.get(i).setBalance_(playersLeft.get(i).getBalance_() + moneyPerWinner);</span>
-<span class="nc" id="L512">            playersLeft.get(i).isWinner_ = true;</span>
+<span class="nc bnc" id="L519" title="All 2 branches missed.">        for (int i = 0; i &lt; numberOfWinners; i++) {</span>
+<span class="nc" id="L520">            playersLeft.get(i).setBalance_(playersLeft.get(i).getBalance_() + moneyPerWinner);</span>
+<span class="nc" id="L521">            playersLeft.get(i).isWinner_ = true;</span>
         }
-<span class="nc" id="L514">        return playersLeft.get(0);</span>
+<span class="nc" id="L523">        return playersLeft.get(0);</span>
     }
+
+    /*
+    Player calculateRoundWinner() {
+        int numberOfPlayersLeft = 0;
+        ArrayList&lt;Player&gt; playersLeft = new ArrayList&lt;&gt;();
+        int pot = 0;
+        for (Player player1 : playerMap.values()) {
+            player1.score = 0;
+            pot += player1.getBet_();
+            if (!player1.isFolded_()) {
+                numberOfPlayersLeft++;
+                playersLeft.add(player1);
+            } else {
+                continue;
+            }
+            for (Player player2 : playerMap.values()) {
+                if (player1 != player2 &amp;&amp; !player2.isFolded_()) {
+                    //ADDING 1 POINT FOR WINNING A COMPARISON
+                    if (player1.getHand_().isBetterThan(player2.getHand_()) &gt; 0) {
+                        player1.score++;
+                    }
+                }
+            }
+        }
+
+        playersLeft.sort(Comparator.comparingInt(o -&gt; -o.score));
+
+        int numberOfWinners = 1;
+        int winnerScore = playersLeft.get(0).score;
+        for (int i = 1; i &lt; numberOfPlayersLeft; i++) {
+            if (playersLeft.get(i).score == winnerScore) {
+                numberOfWinners++;
+            } else {
+                break;
+            }
+        }
+
+        int moneyPerWinner = pot / numberOfWinners;
+        int moneyLeft = pot % numberOfWinners;
+
+        for (int i = 0; i &lt; numberOfWinners; i++) {
+            playersLeft.get(i).setBalance_(playersLeft.get(i).getBalance_() + moneyPerWinner);
+            playersLeft.get(i).isWinner_ = true;
+        }
+        return playersLeft.get(0);
+    }
+
+     */
 
 
     boolean isItEndOfBetting() {
-<span class="nc" id="L519">        int numberOfUnfoldedPlayers = 0;</span>
-<span class="nc" id="L520">        boolean everyPlayer = true;</span>
-<span class="nc bnc" id="L521" title="All 2 branches missed.">        for (Player player : players_) {</span>
-<span class="nc" id="L522">            System.out.println(player.getBet_());</span>
-<span class="nc bnc" id="L523" title="All 4 branches missed.">            if (player.getBet_() != currentBet &amp;&amp; !player.isFolded_())</span>
-<span class="nc" id="L524">                everyPlayer = false;</span>
-<span class="nc bnc" id="L525" title="All 2 branches missed.">            if (!player.isFolded_()) {</span>
-<span class="nc" id="L526">                numberOfUnfoldedPlayers++;</span>
+<span class="nc" id="L576">        int numberOfUnfoldedPlayers = 0;</span>
+<span class="nc" id="L577">        boolean everyPlayer = true;</span>
+<span class="nc bnc" id="L578" title="All 2 branches missed.">        for (Player player : players_) {</span>
+<span class="nc" id="L579">            System.out.println(player.getBet_());</span>
+<span class="nc bnc" id="L580" title="All 4 branches missed.">            if (player.getBet_() != currentBet &amp;&amp; !player.isFolded_())</span>
+<span class="nc" id="L581">                everyPlayer = false;</span>
+<span class="nc bnc" id="L582" title="All 2 branches missed.">            if (!player.isFolded_()) {</span>
+<span class="nc" id="L583">                numberOfUnfoldedPlayers++;</span>
             }
-<span class="nc" id="L528">        }</span>
-<span class="nc bnc" id="L529" title="All 2 branches missed.">        if (numberOfUnfoldedPlayers == 1) {</span>
-<span class="nc" id="L530">            return true;</span>
+<span class="nc" id="L585">        }</span>
+<span class="nc bnc" id="L586" title="All 2 branches missed.">        if (numberOfUnfoldedPlayers == 1) {</span>
+<span class="nc" id="L587">            return true;</span>
         }
-<span class="nc" id="L532">        return everyPlayer;</span>
+<span class="nc" id="L589">        return everyPlayer;</span>
 
 
     }
@@ -540,69 +597,69 @@ public class Game {
     /* -------------------------------------------------------------------------- */
 
     void startGame() {
-<span class="nc" id="L543">        deck_.shuffle();</span>
-<span class="nc bnc" id="L544" title="All 2 branches missed.">        for (Player player : playerMap.values()) {</span>
-<span class="nc" id="L545">            deck_.deal(player, 5);</span>
-<span class="nc" id="L546">            player.setBet_(-1);</span>
-<span class="nc" id="L547">        }</span>
-<span class="nc" id="L548">        nextPlayer();</span>
-<span class="nc" id="L549">        gameState = 1;</span>
-<span class="nc" id="L550">    }</span>
+<span class="nc" id="L600">        deck_.shuffle();</span>
+<span class="nc bnc" id="L601" title="All 2 branches missed.">        for (Player player : playerMap.values()) {</span>
+<span class="nc" id="L602">            deck_.deal(player, 5);</span>
+<span class="nc" id="L603">            player.setBet_(-1);</span>
+<span class="nc" id="L604">        }</span>
+<span class="nc" id="L605">        nextPlayer();</span>
+<span class="nc" id="L606">        gameState = 1;</span>
+<span class="nc" id="L607">    }</span>
     boolean endFirstRoundBets() {
-<span class="nc bnc" id="L552" title="All 4 branches missed.">        if (gameState != 1 || !isItEndOfBetting()) {</span>
-<span class="nc" id="L553">            return false;</span>
+<span class="pc bpc" id="L609" title="3 of 4 branches missed.">        if (gameState != 1 || !isItEndOfBetting()) {</span>
+<span class="fc" id="L610">            return false;</span>
         }
 
-<span class="nc" id="L556">        gameState = 2;</span>
-<span class="nc bnc" id="L557" title="All 2 branches missed.">        for (Player player : players_) {</span>
-<span class="nc" id="L558">            player.setBet_(-1);</span>
-<span class="nc" id="L559">        }</span>
-<span class="nc" id="L560">        currentBet = 0;</span>
-<span class="nc" id="L561">        currentPlayerIndex = 0;</span>
+<span class="nc" id="L613">        gameState = 2;</span>
+<span class="nc bnc" id="L614" title="All 2 branches missed.">        for (Player player : players_) {</span>
+<span class="nc" id="L615">            player.setBet_(-1);</span>
+<span class="nc" id="L616">        }</span>
+<span class="nc" id="L617">        currentBet = 0;</span>
+<span class="nc" id="L618">        currentPlayerIndex = 0;</span>
 
-<span class="nc" id="L563">        return true;</span>
+<span class="nc" id="L620">        return true;</span>
     }
     boolean endOfStateWaitingForCardsChangePhase() {
-<span class="nc bnc" id="L566" title="All 2 branches missed.">        if (gameState != 2)</span>
-<span class="nc" id="L567">            return false;</span>
-<span class="nc" id="L568">        boolean everyPlayer = true;</span>
-<span class="nc bnc" id="L569" title="All 2 branches missed.">        for (Player player : players_) {</span>
-<span class="nc bnc" id="L570" title="All 2 branches missed.">            if (!player.wereTheHandsChanged_)</span>
-<span class="nc" id="L571">                return false;</span>
-<span class="nc" id="L572">        }</span>
-<span class="nc" id="L573">        gameState = 3;</span>
-<span class="nc bnc" id="L574" title="All 2 branches missed.">        for (Player player : players_) {</span>
-<span class="nc" id="L575">            player.setBet_(-1);</span>
-<span class="nc" id="L576">        }</span>
+<span class="nc bnc" id="L623" title="All 2 branches missed.">        if (gameState != 2)</span>
+<span class="nc" id="L624">            return false;</span>
+<span class="nc" id="L625">        boolean everyPlayer = true;</span>
+<span class="nc bnc" id="L626" title="All 2 branches missed.">        for (Player player : players_) {</span>
+<span class="nc bnc" id="L627" title="All 2 branches missed.">            if (!player.wereTheHandsChanged_)</span>
+<span class="nc" id="L628">                return false;</span>
+<span class="nc" id="L629">        }</span>
+<span class="nc" id="L630">        gameState = 3;</span>
+<span class="nc bnc" id="L631" title="All 2 branches missed.">        for (Player player : players_) {</span>
+<span class="nc" id="L632">            player.setBet_(-1);</span>
+<span class="nc" id="L633">        }</span>
 
-<span class="nc" id="L578">        currentBet = 0;</span>
-<span class="nc" id="L579">        currentPlayerIndex = 0;</span>
+<span class="nc" id="L635">        currentBet = 0;</span>
+<span class="nc" id="L636">        currentPlayerIndex = 0;</span>
 
-<span class="nc" id="L581">        return true;</span>
+<span class="nc" id="L638">        return true;</span>
     }
     void endOfSecondRoundBets() {
-<span class="nc bnc" id="L584" title="All 4 branches missed.">        if (gameState != 3 || !isItEndOfBetting())</span>
-<span class="nc" id="L585">            return;</span>
-<span class="nc" id="L586">        gameState = 4;</span>
-<span class="nc bnc" id="L587" title="All 2 branches missed.">        for (Player player : players_) {</span>
-<span class="nc" id="L588">            player.setBet_(0);</span>
-<span class="nc" id="L589">        }</span>
-<span class="nc" id="L590">        currentBet = 0;</span>
-<span class="nc" id="L591">        currentPlayerIndex = 0;</span>
-<span class="nc" id="L592">        calculateRoundWinner();</span>
-<span class="nc" id="L593">        showdown();</span>
-<span class="nc" id="L594">    }</span>
+<span class="nc bnc" id="L641" title="All 4 branches missed.">        if (gameState != 3 || !isItEndOfBetting())</span>
+<span class="nc" id="L642">            return;</span>
+<span class="nc" id="L643">        gameState = 4;</span>
+<span class="nc bnc" id="L644" title="All 2 branches missed.">        for (Player player : players_) {</span>
+<span class="nc" id="L645">            player.setBet_(0);</span>
+<span class="nc" id="L646">        }</span>
+<span class="nc" id="L647">        currentBet = 0;</span>
+<span class="nc" id="L648">        currentPlayerIndex = 0;</span>
+<span class="nc" id="L649">        calculateRoundWinner();</span>
+<span class="nc" id="L650">        showdown();</span>
+<span class="nc" id="L651">    }</span>
 
     void endOfStateGameOverStartNextRound() {
-<span class="nc bnc" id="L597" title="All 2 branches missed.">        if (gameState != 5) {</span>
-<span class="nc" id="L598">            return;</span>
+<span class="nc bnc" id="L654" title="All 2 branches missed.">        if (gameState != 5) {</span>
+<span class="nc" id="L655">            return;</span>
         }
-<span class="nc" id="L600">        gameState = 0;</span>
-<span class="nc" id="L601">        pot_ = 0;</span>
-<span class="nc bnc" id="L602" title="All 2 branches missed.">        for (Player player : players_) {</span>
-<span class="nc" id="L603">            player.resetForNextRound();</span>
-<span class="nc" id="L604">        }</span>
-<span class="nc" id="L605">    }</span>
+<span class="nc" id="L657">        gameState = 0;</span>
+
+<span class="nc bnc" id="L659" title="All 2 branches missed.">        for (Player player : players_) {</span>
+<span class="nc" id="L660">            player.resetForNextRound();</span>
+<span class="nc" id="L661">        }</span>
+<span class="nc" id="L662">    }</span>
 }
 
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

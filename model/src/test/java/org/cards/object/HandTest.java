@@ -15,14 +15,13 @@ class HandTest {
         hand.addCard(new Card(Card.suits.CLUBS, Card.ranks.JACK));
         hand.addCard(new Card(Card.suits.CLUBS, Card.ranks._10));
 
-        assertEquals(hand.getCard(0).getRank(), Card.ranks.ACE);
-        assertEquals(hand.getCard(1).getRank(), Card.ranks.KING);
-        assertEquals(hand.getCard(2).getRank(), Card.ranks.QUEEN);
-        assertEquals(hand.getCard(3).getRank(), Card.ranks.JACK);
-        assertEquals(hand.getCard(4).getRank(), Card.ranks._10);
+        assertEquals(Card.ranks.ACE, hand.getCard(0).getRank());
+        assertEquals(Card.ranks.KING, hand.getCard(1).getRank());
+        assertEquals(Card.ranks.QUEEN, hand.getCard(2).getRank());
+        assertEquals(Card.ranks.JACK, hand.getCard(3).getRank());
+        assertEquals(Card.ranks._10, hand.getCard(4).getRank());
     }
     @Test
-
     public void testRemoveCard(){
         Hand hand = new Hand();
         // correct hand
@@ -33,14 +32,13 @@ class HandTest {
         hand.addCard(new Card(Card.suits.CLUBS, Card.ranks._10));
 
         hand.removeCard(0);
-        assertEquals(hand.getCard(0).getRank(), Card.ranks.KING);
-        assertEquals(hand.getCard(1).getRank(), Card.ranks.QUEEN);
-        assertEquals(hand.getCard(2).getRank(), Card.ranks.JACK);
-        assertEquals(hand.getCard(3).getRank(), Card.ranks._10);
+        assertEquals(Card.ranks.KING, hand.getCard(0).getRank());
+        assertEquals(Card.ranks.QUEEN, hand.getCard(1).getRank());
+        assertEquals(Card.ranks.JACK, hand.getCard(2).getRank());
+        assertEquals(Card.ranks._10, hand.getCard(3).getRank());
     }
 
     @Test
-
     public void testGetCard(){
         Hand hand = new Hand();
         // correct hand
@@ -50,15 +48,16 @@ class HandTest {
         hand.addCard(new Card(Card.suits.CLUBS, Card.ranks.JACK));
         hand.addCard(new Card(Card.suits.CLUBS, Card.ranks._10));
 
-        assertEquals(hand.getCard(0).getRank(), Card.ranks.ACE);
-        assertEquals(hand.getCard(1).getRank(), Card.ranks.KING);
-        assertEquals(hand.getCard(2).getRank(), Card.ranks.QUEEN);
-        assertEquals(hand.getCard(3).getRank(), Card.ranks.JACK);
-        assertEquals(hand.getCard(4).getRank(), Card.ranks._10);
+        assertEquals(Card.ranks.ACE, hand.getCard(0).getRank());
+        assertEquals(Card.ranks.KING, hand.getCard(1).getRank());
+        assertEquals(Card.ranks.QUEEN, hand.getCard(2).getRank());
+        assertEquals(Card.ranks.JACK, hand.getCard(3).getRank());
+        assertEquals(Card.ranks._10, hand.getCard(4).getRank());
+
+
     }
 
     @Test
-
     public void testGetNumberOfCards(){
         Hand hand = new Hand();
         // correct hand
@@ -68,10 +67,9 @@ class HandTest {
         hand.addCard(new Card(Card.suits.CLUBS, Card.ranks.JACK));
         hand.addCard(new Card(Card.suits.CLUBS, Card.ranks._10));
 
-        assertEquals(hand.getNumberOfCards(), 5);
+        assertEquals(5, hand.getNumberOfCards());
     }
     @Test
-
     public void testToString(){
         Hand hand = new Hand();
         // correct hand
@@ -84,7 +82,6 @@ class HandTest {
         assertEquals("\n(0)_10 of CLUBS\n(1)JACK of CLUBS\n(2)QUEEN of CLUBS\n(3)KING of CLUBS\n(4)ACE of CLUBS\n", hand.toString());
     }
     @Test
-
     public void testIsBetterThan(){
         Hand hand = new Hand();
         // correct hand
@@ -102,7 +99,7 @@ class HandTest {
         hand2.addCard(new Card(Card.suits.CLUBS, Card.ranks.JACK));
         hand2.addCard(new Card(Card.suits.CLUBS, Card.ranks._10));
 
-        assertEquals(hand.isBetterThan(hand2), 0);
+        assertEquals(0, hand.isBetterThan(hand2));
 
         Hand hand3 = new Hand();
         // correct hand
@@ -112,11 +109,10 @@ class HandTest {
         hand3.addCard(new Card(Card.suits.CLUBS, Card.ranks._8));
         hand3.addCard(new Card(Card.suits.CLUBS, Card.ranks._10));
 
-        assertEquals(hand.isBetterThan(hand3), 1);
+        assertEquals(1, hand.isBetterThan(hand3));
 
     }
     @Test
-
     public void testIsBetterThan2(){
         Hand hand = new Hand();
         // correct hand
@@ -134,7 +130,7 @@ class HandTest {
         hand2.addCard(new Card(Card.suits.CLUBS, Card.ranks.JACK));
         hand2.addCard(new Card(Card.suits.CLUBS, Card.ranks._10));
 
-        assertEquals(hand.isBetterThan(hand2), 0);
+        assertEquals(0, hand.isBetterThan(hand2));
 
         Hand hand3 = new Hand();
         // correct hand
@@ -144,7 +140,7 @@ class HandTest {
         hand3.addCard(new Card(Card.suits.CLUBS, Card.ranks._8));
         hand3.addCard(new Card(Card.suits.CLUBS, Card.ranks._10));
 
-        assertEquals(hand.isBetterThan(hand3), 1);
+        assertEquals(1, hand.isBetterThan(hand3));
 
     }
     @Test
@@ -166,7 +162,7 @@ class HandTest {
         hand2.addCard(new Card(Card.suits.CLUBS, Card.ranks.JACK));
         hand2.addCard(new Card(Card.suits.CLUBS, Card.ranks._10));
 
-        assertEquals(hand.isBetterThan(hand2), 0);
+        assertEquals(0, hand.isBetterThan(hand2));
 
         Hand hand3 = new Hand();
         // correct hand
@@ -176,7 +172,7 @@ class HandTest {
         hand3.addCard(new Card(Card.suits.CLUBS, Card.ranks._8));
         hand3.addCard(new Card(Card.suits.CLUBS, Card.ranks._10));
 
-        assertEquals(hand.isBetterThan(hand3), 1);
+        assertEquals(1, hand.isBetterThan(hand3));
 
     }
 

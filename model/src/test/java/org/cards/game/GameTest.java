@@ -11,7 +11,7 @@ class GameTest {
     void setPot_() {
         Game game = new Game();
         game.setPot_(100);
-        assertEquals(game.getPot_(), 100);
+        assertEquals(100, game.getPot_());
     }
 
     @Test
@@ -28,7 +28,7 @@ class GameTest {
         Game.Pair pair = game.receiveCommands("/ready", new Player("test", 100, null));
 
         //will retur Set username first
-        assertEquals(pair.answer, "Waiting for other players");
+        assertEquals("Waiting for other players", pair.answer);
     }
 
     @Test
@@ -38,7 +38,7 @@ class GameTest {
         Game.Pair pair = game.receiveCommands("/hand", new Player("test", 100, null));
 
         //will retur Set username first
-        assertEquals(pair.answer, "Game hasn't started yet");
+        assertEquals("Game hasn't started yet", pair.answer);
     }
 
 
@@ -49,7 +49,7 @@ class GameTest {
         Game.Pair pair = game.receiveCommands("/check", new Player("test", 100, null));
 
         //will retur Set username first
-        assertEquals(pair.answer, "Game hasn't started yet");
+        assertEquals("Game hasn't started yet", pair.answer);
     }
 
 
@@ -60,7 +60,7 @@ class GameTest {
         Game.Pair pair = game.receiveCommands("/call", new Player("test", 100, null));
 
         //will retur Set username first
-        assertEquals(pair.answer, "Game hasn't started yet");
+        assertEquals("Game hasn't started yet", pair.answer);
     }
 
     @Test
@@ -70,22 +70,55 @@ class GameTest {
         Game.Pair pair = game.receiveCommands("/raise", new Player("test", 100, null));
 
         //will retur Set username first
-        assertEquals(pair.answer, "Game hasn't started yet");
+        assertEquals("Game hasn't started yet", pair.answer);
     }
-
+// AFTER FIRST BETS
     @Test
     void testReceiveCommands6() {
         // given
         Game game = new Game();
+        game.endFirstRoundBets();
         Game.Pair pair = game.receiveCommands("/raise", new Player("test", 100, null));
 
         //will retur Set username first
-        assertEquals(pair.answer, "Game hasn't started yet");
+        assertEquals("Game hasn't started yet", pair.answer);
+    }
+
+    @Test
+    void testReceiveCommands7() {
+        // given
+        Game game = new Game();
+        game.endFirstRoundBets();
+        Game.Pair pair = game.receiveCommands("/call", new Player("test", 100, null));
+
+        //will retur Set username first
+        assertEquals("Game hasn't started yet", pair.answer);
+    }
+    @Test
+    void testReceiveCommands8() {
+        // given
+        Game game = new Game();
+        game.endFirstRoundBets();
+        Game.Pair pair = game.receiveCommands("/check", new Player("test", 100, null));
+
+        //will retur Set username first
+        assertEquals("Game hasn't started yet", pair.answer);
+    }
+    @Test
+    void testReceiveCommands9() {
+        // given
+        Game game = new Game();
+        game.endFirstRoundBets();
+        Game.Pair pair = game.receiveCommands("/hand", new Player("test", 100, null));
+
+        //will retur Set username first
+        assertEquals("Game hasn't started yet", pair.answer);
     }
 
 
-    //@Test
+//    @Test
     void nextPlayer() {
+
 
     }
 
