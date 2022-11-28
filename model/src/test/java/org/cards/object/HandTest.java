@@ -3,9 +3,7 @@ package org.cards.object;
 import static org.junit.jupiter.api.Assertions.*;
 
 class HandTest {
-
-
-    public void testAddCard() {
+        public void testAddCard() {
         Hand hand = new Hand();
         // correct hand
         hand.addCard(new Card(Card.suits.CLUBS, Card.ranks.ACE));

@@ -19,6 +19,8 @@ public class Game {
 
     private int pot_;
 
+
+
     private int gameState = 0;
     // 0 - waiting for players
     // 1 - first round bets
@@ -35,6 +37,7 @@ public class Game {
     //Ready?
     private boolean initialized_;
     private int currentRoundsNumber;
+
 
 
     public static class Pair {
@@ -549,6 +552,7 @@ public class Game {
         }
         currentBet = 0;
         currentPlayerIndex = 0;
+
         return true;
     }
     boolean endOfStateWaitingForCardsChangePhase() {
@@ -566,6 +570,7 @@ public class Game {
 
         currentBet = 0;
         currentPlayerIndex = 0;
+
         return true;
     }
     void endOfSecondRoundBets() {
