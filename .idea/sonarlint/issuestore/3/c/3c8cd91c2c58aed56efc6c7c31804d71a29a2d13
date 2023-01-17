@@ -1,20 +1,0 @@
-
-t
-java:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(œ£òÕùÿÿÿÿ
-n	java:S127‡"XRefactor the code in order to not assign to this loop counter from within the loop body.(ÉèÜ‚
-n	java:S127Æ"XRefactor the code in order to not assign to this loop counter from within the loop body.(ÙÙÄí
-†
-java:S1319!"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(›‚îĞ
-D
-java:S1604«"(Make this anonymous inner class a lambda(‡º¸·şÿÿÿÿ
->
-java:S1604“"(Make this anonymous inner class a lambda(¦åÃn
-j	java:S116"PRename this field "hand_" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(›Ôş¨şÿÿÿÿ
-n	java:S116"YRename this field "numberOfCards_" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ˆâ¶
-c	java:S100!"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(›‚îĞ
-V	java:S1259"<This block of commented-out lines of code should be removed.( –Ïãüÿÿÿÿ
-d	java:S100’"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(”ˆ¶
-C
-java:S1197’",Move the array designators [][] to the type.(”ˆ¶
-o
-java:S1128"TRemove this unnecessary import: same package classes are always implicitly imported.(¿µ¦ùşÿÿÿÿ
