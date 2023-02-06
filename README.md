@@ -1,5 +1,5 @@
 # Poker
-[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=anuraghazra)](https://github.com/lursz/Poker)
+[![lursz's GitHub stats](https://github-readme-stats.vercel.app/api?username=lursz)](https://github.com/lursz/Poker)
 ## Online, real time game of Poker for 2 - 4 players
 
 Useful links:
