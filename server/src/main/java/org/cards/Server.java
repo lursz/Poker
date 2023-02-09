@@ -64,7 +64,7 @@ public class Server {
 
             /* ----------------- Sending / Receiving part ----------------- */
             while (isRunning) {
-                System.out.println("Czekam na połączenie...");
+                System.out.println("Awaiting connections...");
                 selector.select();
                 Set<SelectionKey> serverKeys = selector.selectedKeys();
                 Iterator<SelectionKey> iter = serverKeys.iterator();
@@ -77,7 +77,7 @@ public class Server {
                         SocketChannel client = serverSocket.accept();
                         client.configureBlocking(false);
                         SelectionKey selectionKey2 = client.register(selector, SelectionKey.OP_READ);
-                        System.out.println("Połączenie zaakceptowane: " + client);
+                        System.out.println("Connection established: " + client);
                         //Add player to Playermap
 
                         if (Game.players_.size() < 5) {
@@ -167,7 +167,7 @@ public class Server {
         String result = new String(buffer.array()).trim();
 
         //Process the command
-        System.out.println("Odebrano: " + result);
+        System.out.println("Received: " + result);
         Game.Pair answer = game.receiveCommands(result, Game.playerMap.get(key));
         if (result.equals("/exit")) {
             isRunning = false;
