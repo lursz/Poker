@@ -6,12 +6,12 @@ You can download it:
 - or via chosen package manager (e.g. `sudo apt install openjdk-17-jdk` on Ubuntu)  
 
 Then you can run the game by typing the following command in the terminal:<br>
-`java -jar poker-server-1.0-SNAPSHOT-jar-with-dependencies.jar 1000`  
+`java -jar poker-server-1.0-SNAPSHOT-jar-with-dependencies.jar <amount of $>`  
 and  
 `java -jar poker-client-1.0-SNAPSHOT-jar-with-dependencies.jar`
 
 ## Screenshot
-
+![poker](https://user-images.githubusercontent.com/93160829/217714762-25d72f60-e52b-4967-9ce6-b3ad376613a1.png)
 
 ## Rules of Poker 
 In Draw Poker, each player is dealt five cards, and a round of betting ensues. The remaining players then may attempt to improve their hands by trading as many as three cards for a new three from the deck. 
